@@ -1,5 +1,6 @@
 <?php
 
+
 //Define the constants for the database
 define("DB_HOST", "");
 define("DB_USERNAME", "");
