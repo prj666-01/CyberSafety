@@ -15,6 +15,11 @@ header("Access-Control-Allow-Origin: *");
 header('Access-Control-Allow-Methods: GET, POST');
 header("Access-Control-Allow-Headers: X-Requested-With, Content-Type, Accept");
 
+$request = $_SERVER['REQUEST_URI'];
+
+echo $request; 
+
+
 if (!empty($data->title)) {
   $moduleTitle = $data->title;
   $contentType = $data->contentType;
