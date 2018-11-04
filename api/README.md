@@ -3,8 +3,11 @@
 This documentation details how the API works
 
 ## HTTP Requests
+
+API endpoint
+
 ```
-npm install
+myvmlab.senecacollege.ca:6255/api
 ```
 
 ### Creating a new course
