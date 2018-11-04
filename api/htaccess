@@ -1,5 +1,14 @@
-RewriteEngine On
-RewriteBase api/
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^(.+)$ index.php [QSA,L]
+AuthUserFile /home/student/.htpasswd
+AuthGroupFile   /dev/null
+AuthName        Group01
+AuthType Basic
+<Limit GET>
+     require valid-user
+</Limit>
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /api
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^(.+)$ index.php [QSA,L]
+</IfModule>

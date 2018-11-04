@@ -15,7 +15,7 @@ header("Access-Control-Allow-Headers: X-Requested-With, Content-Type, Accept");
 $mysqli = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
 
 if ($mysqli->connect_error) {
-  die("Database connection established Failed..<br><br>");
+  //die("Database connection established Failed..<br><br>");
 }
 else {
   echo "Connected to " . DB_DATABASE . " database.<br><br>";
@@ -23,7 +23,9 @@ else {
 
 //reads the body of the request
 $data = json_decode(file_get_contents("php://input"));
-
+if(empty($data->title)) {
+    echo "The request does not have a body.<br><br>";
+}
 //reads the URI and creates an array with the command words.
 $request = explode("/", ltrim($_SERVER['REQUEST_URI'], '/'));
 array_shift($request);
