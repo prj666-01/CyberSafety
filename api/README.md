@@ -1,6 +1,6 @@
 # CyberSafety API
 
-Testingcourse
+This documentation details how the API works
 
 ## Project setup
 ```
