@@ -7,7 +7,7 @@ This documentation details how the API works
 API endpoint
 
 ```
-myvmlab.senecacollege.ca:6255/api
+http://myvmlab.senecacollege.ca:6255/api
 ```
 
 ### Creating a new course
