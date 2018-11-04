@@ -2,20 +2,24 @@
 
 This documentation details how the API works
 
-## Project setup
+## HTTP Requests
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+### Creating a new course
 
-### Compiles and minifies for production
 ```
-npm run build
+/api/create/course
 ```
+Requires body
+
+### Creating a new module
+
+```
+/api/create/module
+```
+Requires body
 
 ### Lints and fixes files
 ```
