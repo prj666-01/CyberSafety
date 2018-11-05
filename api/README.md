@@ -30,6 +30,12 @@ Requires body
 api/get/course/{id}
 ```
 
+### Getting courses by UserID
+
+```
+api/get/coursesByUser/{id}
+```
+
 ### Getting module
 
 ```
@@ -37,12 +43,6 @@ api/get/module/{id}
 ```
 
 Optional body
-
-### Getting modules by UserID
-
-```
-api/get/modulesByUser/{id}
-```
 
 ### Getting modules by CourseID
 
