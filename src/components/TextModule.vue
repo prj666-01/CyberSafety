@@ -22,6 +22,7 @@
 
 <script>
     import TextModal from './TextModal.vue';
+    import axios from 'axios';
     export default {
         components: {
             TextModal
@@ -33,7 +34,8 @@
                 moduleID: 0,
                 contentType: '',
                 editorContent: null,
-                submitted: false
+                submitted: false,
+                info: ''
             }
         },
         methods: {
@@ -43,6 +45,7 @@
                 this.moduleID = 9;
                 this.contentType = 'text';
                 this.submitted = true;
+                this.sendToMiddleMan();
                 this.$refs.modal.show()
             },
 
@@ -54,7 +57,19 @@
             clear: function(){
                 this.submitted = false;
                 this.$refs.modal.hide()
-            }
+            },
+            sendToMiddleMan: function(){
+                axios.post('https://myvmlab.senecacollege.ca:6255/home/student/website/api/create/module', {
+                    Module_Id: this.moduleID,
+                    Module_Title: this.moduleTitle,
+                    Course_Id: this.courseID,
+                    Content_Type: this.contentType,
+                    Content: this.editorContent,
+                    Quiz: false
+                }).then(response => {
+                    (this.info = response.data)
+                })
+            },
         },
         mounted: function () {
             this.$nextTick(function () {
