@@ -60,6 +60,23 @@ else {
                     }
                     echo json_encode($array);
             }
+            else if ($requestTarget == 'modules') {
+                $query =  "SELECT * FROM Module";
+                $res = $mysqli->query($query);
+                $array = array();
+                while ($row = $res->fetch_assoc()) {
+                    $module = [
+                    "Module_Id"   => $row[Module_Id],
+                    "Module_Title" => $row[Module_Title],
+                    "Course_Id"=> $row[Course_Id],
+                    "Content_Type"=> $row[Content_Type],
+                    "Content"=> $row[Content],
+                    "Quiz"=> $row[Quiz],
+                    ];
+                    array_push($array, $module);
+                }
+                echo json_encode($array);
+            }
             else if (empty($requestTargetId))
                 echo "This action needs a target ID<br><br>";
             else {
@@ -124,16 +141,17 @@ else {
                     echo json_encode($array);
                 }
                 else if ($requestTarget == 'module') {
-                    echo "You are getting data from a module<br><br>";
-                    $query =  "SELECT * FROM videoModule";
+                    $query =  "SELECT * FROM Module WHERE Module_Id = '" . $requestTargetId . "'";
                     $res = $mysqli->query($query);
                     $array = array();
                     while ($row = $res->fetch_assoc()) {
                         $module = [
-                        "id"   => $row[id],
-                        "title" => $row[title],
-                        "contentType"=> $row[contentType],
-                        "content"=> $row[content],
+                        "Module_Id"   => $row[Module_Id],
+                        "Module_Title" => $row[Module_Title],
+                        "Course_Id"=> $row[Course_Id],
+                        "Content_Type"=> $row[Content_Type],
+                        "Content"=> $row[Content],
+                        "Quiz"=> $row[Quiz],
                         ];
                         array_push($array, $module);
                     }
@@ -195,6 +213,8 @@ else {
                         $query =  "INSERT INTO Course(Course_Title, Course_Author, Course_Teaching_Level, User_Id, Course_Description, Date_Created, Date_Last_Updated, Course_Status, Is_Approved) VALUES ('$Course_Title','$Course_Author', '$Course_Teaching_Level', '$User_Id', '$Course_Description', '$Date_Created', '$Date_Last_Updated', '$Course_Status', '$Is_Approved')";                        
                         $res = $mysqli->query($query);
                         echo "Course '" . $Course_Title . "' created.";
+                    } else {
+                        echo "There is no request body";
                     }
                     break;
                 case 'module' :
@@ -208,6 +228,9 @@ else {
                         $query =  "INSERT INTO Module(Module_Title, Course_Id, Content_Type, Content, Quiz) VALUES ('$Module_Title','$Course_Id', '$Content_Type', '$Content', '$Quiz')";
                         $res = $mysqli->query($query);
                         echo $query . " Module '" . $Module_Title . "' created.";
+                    }
+                    else {
+                        echo "There is no request body";
                     }
                     break;
                 default : 
