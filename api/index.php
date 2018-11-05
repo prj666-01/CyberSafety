@@ -113,15 +113,15 @@ else {
                         $Course_Title = $data->courseTitle;
                         $Course_Author = $data->courseAuthor;
                         $Course_Teaching_Level = $data->courseTeachingLevel;
-                        $User_Id = $data->User_Id;
+                        ($data->User_Id == 0) ? $User_Id = 1 : $User_Id = $data->User_Id;
                         $Course_Description = $data->courseDescription;
-                        $Date_Created = $data->Date_Created;
-                        $Date_Last_Updated = $data->Date_Last_Updated;
+                        $Date_Created = date("Y-m-d H:i:s");
+                        $Date_Last_Updated = date("Y-m-d H:i:s");
                         $Course_Status = $data->Course_Status;
-                        $Is_Approved = $data->Is_Approved;
+                        ($data->Is_Approved == '') ? $Is_Approved = 0 : $Is_Approved = $data->Is_Approved;
                         $query =  "INSERT INTO Course(Course_Title, Course_Author, Course_Teaching_Level, User_Id, Course_Description, Date_Created, Date_Last_Updated, Course_Status, Is_Approved) VALUES ('$Course_Title','$Course_Author', '$Course_Teaching_Level', '$User_Id', '$Course_Description', '$Date_Created', '$Date_Last_Updated', '$Course_Status', '$Is_Approved')";                        
                         $res = $mysqli->query($query);
-                        echo "Course '" . $title . "' created.";
+                        echo "Course '" . $Course_Title . "' created.";
                     }
                     break;
                 case 'module' :
@@ -134,7 +134,7 @@ else {
 
                         $query =  "INSERT INTO Module(Module_Title, Course_Id, Content_Type, Content, Quiz) VALUES ('$Module_Title','$Course_Id', '$Content_Type', '$Content', '$Quiz')";
                         $res = $mysqli->query($query);
-                        echo "Module '" . $Module_Title . "' created.";
+                        echo $query . " Module '" . $Module_Title . "' created.";
                     }
                     break;
                 default : 
