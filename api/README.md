@@ -61,28 +61,28 @@ api/get/modules/
 api/get/modulesByCourse/{id}
 ```
 
-### Modify course
+### Modify course (Not implemented yet)
 
 ```
 api/modify/course/{id}
 ```
 Requires body
 
-### Modify module
+### Modify module (Not implemented yet)
 
 ```
 api/modify/module/{id}
 ```
 Requires body
 
-### Remove course
+### Remove course (Not implemented yet)
 
 ```
 api/remove/course/{id}
 ```
 This removes all dependent modules
 
-### Remove a module
+### Remove a module (Not implemented yet)
 
 ```
 api/remove/module/{id}
