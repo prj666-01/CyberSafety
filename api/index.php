@@ -25,7 +25,7 @@ else {
 $data = json_decode(file_get_contents("php://input"));
 
 if(count($data) == 0) {
-    echo "The request does not have a body.<br><br>";
+    //echo "The request does not have a body.<br><br>";
 }
 //reads the URI and creates an array with the command words.
 $request = explode("/", ltrim($_SERVER['REQUEST_URI'], '/'));
@@ -46,6 +46,26 @@ else {
                 if($requestTarget == 'course') {
                     echo "You are getting data from a course<br><br>";
                 }
+                else if ($requestTarget == 'coursesByUser') {
+                    $query =  "SELECT * FROM Course WHERE User_Id = '" . $requestTargetId . "'";
+                    $res = $mysqli->query($query);
+                    $array = array();
+                    while ($row = $res->fetch_assoc()) {
+                        $module = [
+                        "Course_Id"   => $row[Course_Id],
+                        "Course_Title" => $row[Course_Title],
+                        "Course_Author"=> $row[Course_Author],
+                        "User_Id"=> $row[User_Id],
+                        "Course_Description"=> $row[Course_Description],
+                        "Date_Created"=> $row[Date_Created],
+                        "Date_Last_Updated"=> $row[Date_Last_Updated],
+                        "Course_Status"=> $row[Course_Status],
+                        "Is_Approved"=> $row[Is_Approved],
+                        ];
+                        array_push($array, $module);
+                    }
+                    echo json_encode($array);
+                }
                 else if ($requestTarget == 'module') {
                     echo "You are getting data from a module<br><br>";
                     $query =  "SELECT * FROM videoModule";
@@ -62,6 +82,24 @@ else {
                     }
                     echo json_encode($array);
                 }
+        
+                else if ($requestTarget == 'modulesByCourse') {
+                    $query =  "SELECT * FROM Module WHERE Course_Id = '" . $requestTargetId . "'";
+                    $res = $mysqli->query($query);
+                    $array = array();
+                    while ($row = $res->fetch_assoc()) {
+                        $module = [
+                        "Module_Id"   => $row[Module_Id],
+                        "Module_Title" => $row[Module_Title],
+                        "Course_Id"=> $row[Course_Id],
+                        "Content_Type"=> $row[Content_Type],
+                        "Content"=> $row[Content],
+                        "Quiz"=> $row[Quiz],
+                        ];
+                        array_push($array, $module);
+                    }
+                    echo json_encode($array);
+                }
                 else {
                     echo "This is a bad request<br><br>";
                 }
@@ -71,24 +109,32 @@ else {
         case 'create' :
             switch($requestTarget) {
                 case 'course' :
-                    //echo "You are creating a new courses<br><br>";
-                    //echo "Test";
                     if (count($data) != 0) {
-                        $title = $data->courseTitle;
-                        $author = $data->courseAuthor;
-                        $description = $data->courseDescription;
-                        $query =  "INSERT INTO Course(Course_Title, Course_Description, Course_Status) VALUES ('$title','$description', '$author')";                        
+                        $Course_Title = $data->courseTitle;
+                        $Course_Author = $data->courseAuthor;
+                        $Course_Teaching_Level = $data->courseTeachingLevel;
+                        $User_Id = $data->User_Id;
+                        $Course_Description = $data->courseDescription;
+                        $Date_Created = $data->Date_Created;
+                        $Date_Last_Updated = $data->Date_Last_Updated;
+                        $Course_Status = $data->Course_Status;
+                        $Is_Approved = $data->Is_Approved;
+                        $query =  "INSERT INTO Course(Course_Title, Course_Author, Course_Teaching_Level, User_Id, Course_Description, Date_Created, Date_Last_Updated, Course_Status, Is_Approved) VALUES ('$Course_Title','$Course_Author', '$Course_Teaching_Level', '$User_Id', '$Course_Description', '$Date_Created', '$Date_Last_Updated', '$Course_Status', '$Is_Approved')";                        
                         $res = $mysqli->query($query);
                         echo "Course '" . $title . "' created.";
                     }
                     break;
                 case 'module' :
-                    echo "You are creating a new module<br><br>";
-                    if (!empty($data->title)) {
-                        $moduleTitle = $data->title;
-                        $contentType = $data->contentType;
-                        $content = $data->content;
-                        $query =  "INSERT INTO videoModule(title, contentType, content) VALUES ('$moduleTitle','$contentType', '$content')";
+                    if (count($data) != 0) {
+                        $Module_Title = $data->Module_Title;
+                        $Course_Id = $data->Course_Id;
+                        $Content_Type = $data->Content_Type;
+                        $Content = $data->Content;
+                        $Quiz = $data->Quiz;
+
+                        $query =  "INSERT INTO Module(Module_Title, Course_Id, Content_Type, Content, Quiz) VALUES ('$Module_Title','$Course_Id', '$Content_Type', '$Content', '$Quiz')";
+                        $res = $mysqli->query($query);
+                        echo "Module '" . $Module_Title . "' created.";
                     }
                     break;
                 default : 
