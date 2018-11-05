@@ -8,6 +8,7 @@
 import homePage from "./home.vue";
 import adminPage from "./admin.vue";
 import CreateCourse from "./CreateCourse.vue";
+import TextModule from "./TextModule.vue";
 // import viewPage from "./view.vue";
 // import createPage from "./create.vue";
 
@@ -17,7 +18,8 @@ import CreateCourse from "./CreateCourse.vue";
 const routes = {
   "/": homePage,
   "/admin": adminPage,
-  "/CreateCourse" : CreateCourse,
+  "/CreateCourse": CreateCourse,
+  "/TextModule": TextModule
 
   // <router-link to="/MyCourses">My Courses</router-link>
 //       <router-link to="/CreateCourse">Create Course</router-link>
