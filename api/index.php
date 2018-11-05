@@ -4,7 +4,7 @@
 define("DB_HOST", "localhost");
 define("DB_USERNAME", "user01");
 define("DB_PASSWORD", "Password123!");
-define("DB_DATABASE", "PRJ666");
+define("DB_DATABASE", "Course_Creation");
 
 // Headers required for the API to function
 header("Access-Control-Allow-Origin: *");
@@ -18,12 +18,13 @@ if ($mysqli->connect_error) {
   //die("Database connection established Failed..<br><br>");
 }
 else {
-  echo "Connected to " . DB_DATABASE . " database.<br><br>";
+  //echo "Connected to " . DB_DATABASE . " database.<br><br>";
 }
 
 //reads the body of the request
 $data = json_decode(file_get_contents("php://input"));
-if(empty($data->title)) {
+
+if(count($data) == 0) {
     echo "The request does not have a body.<br><br>";
 }
 //reads the URI and creates an array with the command words.
@@ -34,7 +35,6 @@ array_shift($request);
 $requestAction = $request[0];
 $requestTarget = $request[1];
 $requestTargetId = $request[2];
-$query = "";
 if (empty($requestTarget))
     echo "Please define a target for your action<br><br>";
 else {
@@ -71,7 +71,16 @@ else {
         case 'create' :
             switch($requestTarget) {
                 case 'course' :
-                    echo "You are creating a new course<br><br>";
+                    //echo "You are creating a new courses<br><br>";
+                    //echo "Test";
+                    if (count($data) != 0) {
+                        $title = $data->courseTitle;
+                        $author = $data->courseAuthor;
+                        $description = $data->courseDescription;
+                        $query =  "INSERT INTO Course(Course_Title, Course_Description, Course_Status) VALUES ('$title','$description', '$author')";                        
+                        $res = $mysqli->query($query);
+                        echo "Course '" . $title . "' created.";
+                    }
                     break;
                 case 'module' :
                     echo "You are creating a new module<br><br>";
@@ -85,7 +94,7 @@ else {
                 default : 
                     echo "This is a bad request<br><br>";
             }
-            $res = $mysqli->query($query);
+            //$res = $mysqli->query($query);
             break;
         case 'modify' :
             if (empty($requestTargetId))
@@ -123,14 +132,15 @@ else {
             break;
     }
 }
-
+//echo $query . "-> SQL <br><br>";
 //testing the variables
-echo "<strong>Action: </strong>". $requestAction . "<br>";
-echo "<strong>Target: </strong>". $requestTarget . "<br>";
-echo "<strong>Target Id: </strong>". $requestTargetId . "<br>";
+//echo "<strong>Action: </strong>". $requestAction . "<br>";
+//echo "<strong>Target: </strong>". $requestTarget . "<br>";
+//echo "<strong>Target Id: </strong>". $requestTargetId . "<br>";
 
 
 //closes the DB connection
 mysqli_close($mysqli);
 
 ?>
+

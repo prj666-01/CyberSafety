@@ -51,7 +51,7 @@
     </div><br><br><br>
       <h1>Submit course</h1>
       <div class="mt-2 text-center">
-      <b-button class="mr-2" type="submit" variant="success">Submit</b-button>
+      <b-button @click="addCourse" class="mr-2" type="submit" variant="success">Submit</b-button>
       <b-button type="reset" variant="danger">Reset</b-button>
       </div>
     </b-form>
@@ -82,12 +82,16 @@ export default {
       this.getFromMiddleMan();
   },
   methods: {
+    
     addTextModule: function () {
 
     },
     onSubmit (evt) {
       evt.preventDefault();
-      alert(JSON.stringify(this.form));
+      axios.post('http://myvmlab.senecacollege.ca:6255/api/create/course', 
+                JSON.stringify(this.form)).then(response => {(alert(response.data))
+            });
+      //alert(JSON.stringify(this.form));
       this.$router.push({name: "MyCourses"});
     },
     onReset (evt) {
