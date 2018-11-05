@@ -156,6 +156,22 @@ else {
                         array_push($array, $module);
                     }
                     echo json_encode($array);
+                } else if ($requestTarget == 'users') {
+                    //echo "You are getting users data<br><br>";
+                    $query =  "SELECT * FROM `user`";
+                    $res = $mysqli->query($query);
+                    $array = array();
+                    while ($row = $res->fetch_assoc()){
+						$users = [
+							"id"   => $row['User_Id'],
+							"email" => $row['Email'],
+							"password"=> $row['Password'],
+                            "username"=> $row['username'],
+                            "badgeid" => $row['Badge_Id']
+						];
+						array_push($array, $users);
+					}
+                    echo json_encode($array);
                 }
                 else {
                     echo "This is a bad request<br><br>";

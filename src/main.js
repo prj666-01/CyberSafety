@@ -1,22 +1,57 @@
 import Vue from 'vue'
 import App from './App.vue'
-import VeeValidate from 'vee-validate'
-import 'vue-trix'
-import router from './router'
-import VModal from 'vue-js-modal'
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-
-Vue.use(VModal)
 Vue.use(BootstrapVue);
-Vue.use(VeeValidate);
-Vue.config.productionTip = false
+// var session_url = "http://myvmlab.senecacollege.ca:6255/manali/api.php";
 
-new Vue({
-  router,
-  render: h => h(App),
+var mixin = {
   data: {
-    showModal: false
+		users: [],
+		newUser: {username: "", email: "", mobile: ""},
+	},
+  methods: {
+    foo: function () {
+      console.log('foo')
+    },
+    getAllUsers: function(){
+
+			axios.get("http://myvmlab.senecacollege.ca:6255/api/get/users/1")
+			.then(function(response){
+				if (response.data.error) {
+					vm.errorMessage = response.data.message;
+				}else{
+					vm.users = response.data;
+				}
+			});
+    },
+    // updateSigninCounter: function(username){
+    //   axios.get("http://localhost:8081/api.php?action=updateSigninCounter&username="+ username,{},{
+		// 		// auth:{
+		// 		// 	username: 'Group-01',
+		// 		// 	password : 'gkHQ4574'
+		// 		// }
+		// 	})
+		// 	.then(function(response){
+		// 		if (response.data.error) {
+		// 			vm.errorMessage = response.data.message;
+		// 		}else{
+		// 			console.log("updated");
+		// 		}
+		// 	});
+    // }
   }
-}).$mount('#app')
+}
+
+// new Vue({
+//   el: '#app',
+//   render: h => h(App)
+// })
+
+var vm = new Vue({
+  el: '#app',
+  mixins: [mixin],
+  render: h => h(App)
+})
+global.vm = vm;
