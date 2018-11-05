@@ -10,68 +10,79 @@ API endpoint
 http://myvmlab.senecacollege.ca:6255/api
 ```
 
-### Creating a new course
+### Create new course
 
 ```
 api/create/course
 ```
 Requires body
 
-### Creating a new module
+### Create new module
 
 ```
 api/create/module
 ```
 Requires body
 
-### Getting course
+### Get course
 
 ```
 api/get/course/{id}
 ```
+#### Get courses
 
-### Getting courses by UserID
+```
+api/get/courses/
+```
+
+#### Get courses by UserID
 
 ```
 api/get/coursesByUser/{id}
 ```
 
-### Getting module
+### Get module
 
 ```
 api/get/module/{id}
 ```
-
 Optional body
 
-### Getting modules by CourseID
+#### Get modules
+
+```
+api/get/modules/
+```
+
+
+#### Get modules by CourseID
 
 ```
 api/get/modulesByCourse/{id}
 ```
 
-### Modifying a course
+### Modify course
 
 ```
 api/modify/course/{id}
 ```
 Requires body
 
-### Modifying a module
+### Modify module
 
 ```
 api/modify/module/{id}
 ```
 Requires body
 
-### Removing a course
+### Remove course
 
 ```
 api/remove/course/{id}
 ```
 This removes all dependent modules
 
-### Removing a module
+### Remove a module
 
 ```
 api/remove/module/{id}
