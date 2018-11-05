@@ -40,11 +40,68 @@ if (empty($requestTarget))
 else {
     switch($requestAction) {
         case 'get' :
-            if (empty($requestTargetId))
+            if($requestTarget == 'courses') {
+                $query =  "SELECT * FROM Course";
+                    $res = $mysqli->query($query);
+                    $array = array();
+                    while ($row = $res->fetch_assoc()) {
+                        $module = [
+                        "Course_Id" => $row[Course_Id],
+                        "Course_Title" => $row[Course_Title],
+                        "Course_Author"=> $row[Course_Author],
+                        "User_Id" => $row[User_Id],
+                        "Course_Description" => $row[Course_Description],
+                        "Date_Created" => $row[Date_Created],
+                        "Date_Last_Updated" => $row[Date_Last_Updated],
+                        "Course_Status" => $row[Course_Status],
+                        "Is_Approved" => $row[Is_Approved],
+                        ];
+                        array_push($array, $module);
+                    }
+                    echo json_encode($array);
+            }
+            else if (empty($requestTargetId))
                 echo "This action needs a target ID<br><br>";
             else {
+                if($requestTarget == 'courses') {
+                    $query =  "SELECT * FROM Course";
+                    $res = $mysqli->query($query);
+                    $array = array();
+                    while ($row = $res->fetch_assoc()) {
+                        $module = [
+                        "Course_Id"   => $row[Course_Id],
+                        "Course_Title" => $row[Course_Title],
+                        "Course_Author"=> $row[Course_Author],
+                        "User_Id"=> $row[User_Id],
+                        "Course_Description"=> $row[Course_Description],
+                        "Date_Created"=> $row[Date_Created],
+                        "Date_Last_Updated"=> $row[Date_Last_Updated],
+                        "Course_Status"=> $row[Course_Status],
+                        "Is_Approved"=> $row[Is_Approved],
+                        ];
+                        array_push($array, $module);
+                    }
+                    echo json_encode($array);
+                }
                 if($requestTarget == 'course') {
-                    echo "You are getting data from a course<br><br>";
+                    $query =  "SELECT * FROM Course WHERE Course_Id = '" . $requestTargetId . "'";
+                    $res = $mysqli->query($query);
+                    $array = array();
+                    while ($row = $res->fetch_assoc()) {
+                        $module = [
+                        "Course_Id"   => $row[Course_Id],
+                        "Course_Title" => $row[Course_Title],
+                        "Course_Author"=> $row[Course_Author],
+                        "User_Id"=> $row[User_Id],
+                        "Course_Description"=> $row[Course_Description],
+                        "Date_Created"=> $row[Date_Created],
+                        "Date_Last_Updated"=> $row[Date_Last_Updated],
+                        "Course_Status"=> $row[Course_Status],
+                        "Is_Approved"=> $row[Is_Approved],
+                        ];
+                        array_push($array, $module);
+                    }
+                    echo json_encode($array);
                 }
                 else if ($requestTarget == 'coursesByUser') {
                     $query =  "SELECT * FROM Course WHERE User_Id = '" . $requestTargetId . "'";
