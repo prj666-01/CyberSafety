@@ -12,7 +12,7 @@
                       placeholder="Enter Title">
         </b-form-input>
       </b-form-group>
-      <b-form-group id="author"
+      <!-- <b-form-group id="author"
                     label="Author Name:"
                     label-for="author">
         <b-form-input id="authorId"
@@ -21,7 +21,7 @@
                       required
                       placeholder="Enter name">
         </b-form-input>
-      </b-form-group>
+      </b-form-group> -->
       <b-form-group id="description"
                     label="Course Description:"
                     label-for="description">
@@ -41,26 +41,32 @@
                       v-model="form.courseTeachingLevel">
         </b-form-select>
       </b-form-group>
-      <h1>Add modules</h1>
-      <div class="text-center">
-      <b-button @click="addTextModule" class="mr-2" variant="primary">Text</b-button>
-      <b-button class="mr-2" variant="primary">Video</b-button>
-      <b-button class="mr-2" variant="primary">Quiz</b-button>
-      <b-button class="mr-2" variant="primary">Audio</b-button>
-      <b-button class="mr-2" variant="primary">Presentation</b-button>
-    </div><br><br><br>
-      <h1>Submit course</h1>
+      <div v-show="hideSubmitInfo">
+      <h1>Submit Information</h1>
       <div class="mt-2 text-center">
       <b-button @click="addCourse" class="mr-2" type="submit" variant="success">Submit</b-button>
-      <b-button type="reset" variant="danger">Reset</b-button>
+      <b-button type="reset" variant="danger">Clear</b-button>
+      </div>
       </div>
     </b-form>
+
+    <div v-show="!hideModuleAdd">
+    <h1>Add modules to course {{ this.courseTitle }}</h1>
+    <div class="text-center">
+    <b-button @click="addTextModule" class="mr-2" variant="primary">Text</b-button>
+    <!-- <b-button class="mr-2" variant="primary">Video</b-button>
+    <b-button class="mr-2" variant="primary">Quiz</b-button>
+    <b-button class="mr-2" variant="primary">Audio</b-button>
+    <b-button class="mr-2" variant="primary">Presentation</b-button> -->
+    </div>
+    <b-button @click="refresh">Clear and Refresh</b-button>
+    <b-button @click="submitModules">Submit Modules</b-button>
+  </div>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
-
 export default {
   data () {
     return {
@@ -75,24 +81,31 @@ export default {
         { text: 'Select One', value: null },
         'Grade 1', 'Grade 2', 'Grade 3', 'Grade 4'
       ],
-      show: true
+      show: true,
+      hideModuleAdd: true,
+      hideSubmitInfo: true
     }
   },
   mounted() {
       this.getFromMiddleMan();
   },
   methods: {
-    
     addTextModule: function () {
-
+      alert("Nothing here yet");
+    },
+    refresh: function () {
+      window.location.reload();
     },
     onSubmit (evt) {
       evt.preventDefault();
-      axios.post('http://myvmlab.senecacollege.ca:6255/api/create/course', 
+      axios.post('http://myvmlab.senecacollege.ca:6255/api/create/course',
                 JSON.stringify(this.form)).then(response => {(alert(response.data))
             });
+      this.hideModuleAdd = false;
+      this.hideSubmitInfo = false;
+      this.courseTitle = this.form.courseTitle;
       //alert(JSON.stringify(this.form));
-      this.$router.push({name: "MyCourses"});
+      //this.$router.push({name: "MyCourses"});
     },
     onReset (evt) {
       evt.preventDefault();
@@ -123,4 +136,3 @@ export default {
     }
   }
 }
-</script>
