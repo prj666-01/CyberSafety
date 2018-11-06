@@ -24,7 +24,7 @@ export default {
         }).then(response => {
           (this.usrinfo = response.data)
         })
-        axios.post('http://myvmlab.senecacollege.ca:6255/api/get/courses', {
+        axios.post('http://myvmlab.senecacollege.ca:6255/api/get/coursesByUser/1', {
         }).then(response => {
           (this.corinfo = response.data)
         })

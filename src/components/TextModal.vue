@@ -34,7 +34,7 @@
             add(){
                 this.modules.push(this.moduleTitle);
                 this.saveModules();
-                this.$router.push({name: "CreateCourse"});
+                this.$router.push({name: "CreateCourse", query: {courseID: "courseID"}});
             },
             saveModules() {
                 const parsed = JSON.stringify(this.modules);

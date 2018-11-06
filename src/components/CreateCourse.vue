@@ -87,11 +87,15 @@ export default {
     }
   },
   mounted() {
+    if(this.$route.query.courseID){
+      this.hideModuleAdd = false;
+      this.hideSubmitInfo = false;
+    }
       this.getFromMiddleMan();
   },
   methods: {
     addTextModule: function () {
-      alert("Nothing here yet");
+      this.$router.push({name: "TextModule"});
     },
     refresh: function () {
       window.location.reload();
@@ -106,6 +110,9 @@ export default {
       this.courseTitle = this.form.courseTitle;
       //alert(JSON.stringify(this.form));
       //this.$router.push({name: "MyCourses"});
+    },
+    submitModules: function(){
+      this.$router.push({name: "CreateCourse"});
     },
     onReset (evt) {
       evt.preventDefault();
@@ -136,3 +143,4 @@ export default {
     }
   }
 }
+</script>
