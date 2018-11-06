@@ -1,64 +1,22 @@
 import Vue from 'vue'
 import App from './App.vue'
+import VeeValidate from 'vee-validate'
+import 'vue-trix'
+import router from './router'
+import VModal from 'vue-js-modal'
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-import HorizontalStepper from 'vue-stepper';
-import axios from 'axios';
-import VModal from 'vue-js-modal';
-import 'vue-trix'
 
-Vue.use(HorizontalStepper);
+Vue.use(VModal)
 Vue.use(BootstrapVue);
-Vue.use(VModal);
-// var session_url = "http://myvmlab.senecacollege.ca:6255/manali/api.php";
+Vue.use(VeeValidate);
+Vue.config.productionTip = false
 
-var mixin = {
+new Vue({
+  router,
+  render: h => h(App),
   data: {
-		users: [],
-		newUser: {username: "", email: "", mobile: ""},
-	},
-  methods: {
-    foo: function () {
-      // console.log('foo')
-    }
-    // getAllUsers: function(){
-    //
-		// 	axios.get("http://myvmlab.senecacollege.ca:6255/api/get/users/1")
-		// 	.then(function(response){
-		// 		if (response.data.error) {
-		// 			vm.errorMessage = response.data.message;
-		// 		}else{
-		// 			vm.users = response.data;
-		// 		}
-		// 	});
-    // },
-    // updateSigninCounter: function(username){
-    //   axios.get("http://localhost:8081/api.php?action=updateSigninCounter&username="+ username,{},{
-		// 		// auth:{
-		// 		// 	username: 'Group-01',
-		// 		// 	password : 'gkHQ4574'
-		// 		// }
-		// 	})
-		// 	.then(function(response){
-		// 		if (response.data.error) {
-		// 			vm.errorMessage = response.data.message;
-		// 		}else{
-		// 			console.log("updated");
-		// 		}
-		// 	});
-    // }
+    showModal: false
   }
-}
-
-// new Vue({
-//   el: '#app',
-//   render: h => h(App)
-// })
-
-var vm = new Vue({
-  el: '#app',
-  mixins: [mixin],
-  render: h => h(App)
-})
-global.vm = vm;
+}).$mount('#app')
