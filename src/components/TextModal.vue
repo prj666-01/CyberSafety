@@ -7,7 +7,7 @@
             <div v-html="editorContent"></div>
         </body>
         <footer>
-           <v-btn @click= "add">Finished</v-btn>
+           <button @click= "add">Finished</button>
         </footer>
     </modal>
 </template>

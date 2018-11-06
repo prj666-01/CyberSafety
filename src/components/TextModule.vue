@@ -3,7 +3,7 @@
         <h1>Text Module Creation</h1>
         <form id="textStuff" @submit.prevent= "addText">
             <label for="ttl">Enter a title for your module: </label>
-            <input type="text" id= "ttl"  v-model= "moduleTitle" />
+            <input type="text" id= "ttl"  v-model= "module.Module_Title" />
             <br/>
             <br/>
             <br/>
@@ -11,12 +11,12 @@
             <br/>
             <br/>
             <input id="editor1" type="hidden" name="content" >
-            <VueTrix inputId="editor1" v-model= "editorContent"/>
+            <VueTrix inputId="editor1" v-model= "module.Content"/>
             <br/>
             <br/>
             <input type="submit" value= "Submit">
         </form>
-        <TextModal ref="modal" v-on:hidden= "clear" v-bind:moduleTitle= "moduleTitle" v-bind:editorContent= "editorContent" v-bind:courseID= "courseID" v-bind:moduleID= "moduleID" v-bind:contentType= "contentType" ></TextModal>
+        <TextModal ref="modal" v-on:hidden= "clear" v-bind:moduleTitle= "module.Module_Title" v-bind:editorContent= "module.Content" v-bind:courseID= "module.Course_Id" v-bind:moduleID= "module.moduleID" v-bind:contentType= "module.Content_Type" ></TextModal>
     </main>
 </template>
 
@@ -29,46 +29,47 @@
         },
         data() {
             return {
-                moduleTitle: '',
-                courseID: 0,
-                moduleID: 0,
-                contentType: '',
-                editorContent: null,
+                module: {
+                    Module_Title: '',
+                    Course_Id: 0,
+                    Content_Type: '',
+                    Content: null,
+                    Quiz: 0
+                },
                 submitted: false,
+                moduleID: 5,
                 info: ''
             }
         },
         methods: {
 
             addText: function(){
-                this.courseID = 5;
-                this.moduleID = 9;
-                this.contentType = 'text';
+                this.module.Course_Id = 1;
+                this.module.Content_Type = 'text';
                 this.submitted = true;
+                console.log('addText call');
                 this.sendToMiddleMan();
-                this.$refs.modal.show()
+                this.$refs.modal.show();
             },
 
             showDemo: function(){
                 this.submitted = true;
-                this.$refs.modal.show()
+                this.$refs.modal.show();
             },
 
             clear: function(){
                 this.submitted = false;
-                this.$refs.modal.hide()
+                this.$refs.modal.hide();
             },
             sendToMiddleMan: function(){
-                axios.post('https://myvmlab.senecacollege.ca:6255/home/student/website/api/create/module', {
-                    Module_Id: this.moduleID,
-                    Module_Title: this.moduleTitle,
-                    Course_Id: this.courseID,
-                    Content_Type: this.contentType,
-                    Content: this.editorContent,
-                    Quiz: false
-                }).then(response => {
-                    (this.info = response.data)
+                console.log('sendToMiddleMan call');
+                alert(JSON.stringify(this.module));
+                axios.post('http://myvmlab.senecacollege.ca:6255/api/create/module', 
+                JSON.stringify(this.module)).then(response => {
+                    (this.info = response.data);
+                    console.log(this.info);
                 })
+                
             },
         },
         mounted: function () {
