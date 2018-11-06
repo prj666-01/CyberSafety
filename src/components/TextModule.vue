@@ -44,7 +44,7 @@
         methods: {
 
             addText: function(){
-                this.module.Course_Id = 1;
+                this.module.Course_Id = 59;
                 this.module.Content_Type = 'text';
                 this.submitted = true;
                 console.log('addText call');
