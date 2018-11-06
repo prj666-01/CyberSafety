@@ -4,9 +4,13 @@ import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import HorizontalStepper from 'vue-stepper';
+import axios from 'axios';
+import VModal from 'vue-js-modal';
+import 'vue-trix'
 
 Vue.use(HorizontalStepper);
 Vue.use(BootstrapVue);
+Vue.use(VModal);
 // var session_url = "http://myvmlab.senecacollege.ca:6255/manali/api.php";
 
 var mixin = {
