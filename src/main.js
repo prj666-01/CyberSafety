@@ -1,8 +1,13 @@
 import Vue from 'vue'
 import App from './App.vue'
+import VeeValidate from 'vee-validate'
+import 'vue-trix'
+import router from './router'
+import VModal from 'vue-js-modal'
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+<<<<<<< HEAD
 import HorizontalStepper from 'vue-stepper';
 import axios from 'axios';
 import VModal from 'vue-js-modal';
@@ -12,9 +17,19 @@ Vue.use(HorizontalStepper);
 Vue.use(BootstrapVue);
 Vue.use(VModal);
 // var session_url = "http://myvmlab.senecacollege.ca:6255/manali/api.php";
+=======
 
-var mixin = {
+Vue.use(VModal)
+Vue.use(BootstrapVue);
+Vue.use(VeeValidate);
+Vue.config.productionTip = false
+>>>>>>> parent of 3f03ded0... Latest Merge - login added
+
+new Vue({
+  router,
+  render: h => h(App),
   data: {
+<<<<<<< HEAD
 		users: [],
 		newUser: {username: "", email: "", mobile: ""},
 	},
@@ -62,3 +77,8 @@ var vm = new Vue({
   render: h => h(App)
 })
 global.vm = vm;
+=======
+    showModal: false
+  }
+}).$mount('#app')
+>>>>>>> parent of 3f03ded0... Latest Merge - login added
