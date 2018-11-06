@@ -92,7 +92,7 @@ export default {
   },
   methods: {
     addTextModule: function () {
-      alert("Nothing here yet!");
+      alert("Nothing here yet");
     },
     refresh: function () {
       window.location.reload();
