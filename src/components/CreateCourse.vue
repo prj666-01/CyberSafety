@@ -83,6 +83,7 @@ export default {
       ],
       show: true,
       hideModuleAdd: true,
+      courseID: 0,
       hideSubmitInfo: true
     }
   },
@@ -95,7 +96,7 @@ export default {
   },
   methods: {
     addTextModule: function () {
-      this.$router.push({name: "TextModule"});
+      this.$router.push({name: "TextModule", query:{courseID: this.courseID}});
     },
     refresh: function () {
       window.location.reload();
