@@ -1,5 +1,5 @@
 <template>
-     <modal v-show="submitted" name= "textM" height="auto" :scrollable="true" :adaptive="true">
+     <modal v-show="submitted" name= "textM" height="auto" :click-to-close="false" :scrollable="true" :adaptive="true">
         <header>
             <h2>{{moduleTitle}}</h2>
         </header>

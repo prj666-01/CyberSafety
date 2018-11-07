@@ -3,7 +3,7 @@
         <h1>Text Module Creation</h1>
         <form id="textStuff" @submit.prevent= "addText">
             <label for="ttl">Enter a title for your module: </label>
-            <input type="text" id= "ttl"  v-model= "module.Module_Title" />
+            <input type="text" id= "ttl" :maxlength= "maxTitle"  v-model= "module.Module_Title" />
             <br/>
             <br/>
             <br/>
@@ -37,7 +37,8 @@
                     Quiz: 0
                 },
                 submitted: false,
-                moduleID: 5,
+                moduleID: 0,
+                maxTitle: 50,
                 info: ''
             }
         },
@@ -48,6 +49,7 @@
                 this.submitted = true;
                 this.sendToMiddleMan();
                 this.$refs.modal.show();
+                localStorage["editorState"] = JSON.stringify('');
             },
 
             showDemo: function(){
@@ -59,9 +61,10 @@
                 this.submitted = false;
                 this.$refs.modal.hide();
             },
+
             sendToMiddleMan: function(){
                 alert(JSON.stringify(this.module));
-                axios.post('http://myvmlab.senecacollege.ca:6255/api/create/module', 
+                axios.post('http://myvmlab.senecacollege.ca:6255/api/modules', 
                 JSON.stringify(this.module)).then(response => {
                     (this.info = response.data);
                 })
