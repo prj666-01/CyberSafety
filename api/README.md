@@ -10,7 +10,7 @@ API endpoint
 http://myvmlab.senecacollege.ca:6255/api
 ```
 
-### Create new course
+### Create Course
 
 ```
 POST: api/courses
@@ -37,7 +37,7 @@ Sample body:
 }
 ```
 
-### Create new module
+### Create Module
 
 ```
 POST: api/modules
@@ -48,7 +48,7 @@ Request body: Required
 
 Return: JSON object of the newly created module
 
-### Create new user
+### Create User
 
 ```
 POST: api/users
