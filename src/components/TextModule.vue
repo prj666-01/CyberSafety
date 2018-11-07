@@ -49,7 +49,6 @@
                 this.submitted = true;
                 this.sendToMiddleMan();
                 this.$refs.modal.show();
-                localStorage["editorState"] = JSON.stringify('');
             },
 
             showDemo: function(){
@@ -67,13 +66,14 @@
                 axios.post('http://myvmlab.senecacollege.ca:6255/api/modules', 
                 JSON.stringify(this.module)).then(response => {
                     (this.info = response.data);
+                    alert(JSON.stringify(this.info));
                 })
                 
             },
         },
         mounted: function () {
             this.$nextTick(function () {
-                this.module.Course_Id = this.$route.query.courseID;
+                this.module.Course_Id = 59;//this.$route.query.courseID;
                 this.$modal.show('textM');
             })
         }
