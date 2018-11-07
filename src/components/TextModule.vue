@@ -44,10 +44,8 @@
         methods: {
 
             addText: function(){
-                this.module.Course_Id = 59;
                 this.module.Content_Type = 'text';
                 this.submitted = true;
-                console.log('addText call');
                 this.sendToMiddleMan();
                 this.$refs.modal.show();
             },
@@ -62,18 +60,17 @@
                 this.$refs.modal.hide();
             },
             sendToMiddleMan: function(){
-                console.log('sendToMiddleMan call');
                 alert(JSON.stringify(this.module));
                 axios.post('http://myvmlab.senecacollege.ca:6255/api/create/module', 
                 JSON.stringify(this.module)).then(response => {
                     (this.info = response.data);
-                    console.log(this.info);
                 })
                 
             },
         },
         mounted: function () {
             this.$nextTick(function () {
+                this.module.Course_Id = this.$route.query.courseID;
                 this.$modal.show('textM');
             })
         }

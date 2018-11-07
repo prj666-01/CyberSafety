@@ -12,16 +12,6 @@
                       placeholder="Enter Title">
         </b-form-input>
       </b-form-group>
-      <!-- <b-form-group id="author"
-                    label="Author Name:"
-                    label-for="author">
-        <b-form-input id="authorId"
-                      type="text"
-                      v-model="form.courseAuthor"
-                      required
-                      placeholder="Enter name">
-        </b-form-input>
-      </b-form-group> -->
       <b-form-group id="description"
                     label="Course Description:"
                     label-for="description">
@@ -54,10 +44,10 @@
     <h1>Add modules to course {{ this.courseTitle }}</h1>
     <div class="text-center">
     <b-button @click="addTextModule" class="mr-2" variant="primary">Text</b-button>
-    <!-- <b-button class="mr-2" variant="primary">Video</b-button>
+    <b-button class="mr-2" variant="primary">Video</b-button>
     <b-button class="mr-2" variant="primary">Quiz</b-button>
     <b-button class="mr-2" variant="primary">Audio</b-button>
-    <b-button class="mr-2" variant="primary">Presentation</b-button> -->
+    <b-button class="mr-2" variant="primary">Presentation</b-button>
     </div>
     <b-button @click="refresh">Clear and Refresh</b-button>
     <b-button @click="submitModules">Submit Modules</b-button>
@@ -103,14 +93,12 @@ export default {
     },
     onSubmit (evt) {
       evt.preventDefault();
-      axios.post('http://myvmlab.senecacollege.ca:6255/api/create/course',
+      axios.post('http://myvmlab.senecacollege.ca:6255/api/courses',
                 JSON.stringify(this.form)).then(response => {(alert(response.data))
             });
       this.hideModuleAdd = false;
       this.hideSubmitInfo = false;
       this.courseTitle = this.form.courseTitle;
-      //alert(JSON.stringify(this.form));
-      //this.$router.push({name: "MyCourses"});
     },
     submitModules: function(){
       this.$router.push({name: "CreateCourse"});
@@ -126,7 +114,7 @@ export default {
       this.$nextTick(() => { this.show = true });
     },
     sendToMiddleMan: function(){
-        axios.post('http://ruihui.me/create-course/middle-man.php', {
+        axios.post('http://myvmlab.senecacollege.ca:6255/api/courses', {
             Course_Title: this.courseTitle,
             Course_Author: this.courseAuthor,
             Course_Description: this.courseDescription,
@@ -136,12 +124,6 @@ export default {
             (this.info = response.data)
         })
     },
-    getFromMiddleMan: function() {
-        axios.post('http://ruihui.me/create-course/middle-man.php', {
-        }).then(response => {
-            (this.info = response.data)
-        })
-    }
   }
 }
 </script>
