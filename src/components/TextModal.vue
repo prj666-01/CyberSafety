@@ -38,7 +38,6 @@
             },
             saveModules() {
                 const parsed = JSON.stringify(this.modules);
-                localStorage.setItem('modules', parsed);
             },
             hide () {
                 this.$modal.hide('textM');
@@ -49,13 +48,6 @@
         mounted: function () {
             this.$nextTick(function () {
                 this.$modal.show('textM');
-                if (localStorage.getItem('modules')) {
-                    try {
-                        this.modules = JSON.parse(localStorage.getItem('modules'));
-                    } catch(e) {
-                        localStorage.removeItem('modules');
-                    }
-                }
             })
         }
     }

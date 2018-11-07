@@ -3,7 +3,7 @@
         <h1>Text Module Creation</h1>
         <form id="textStuff" @submit.prevent= "addText">
             <label for="ttl">Enter a title for your module: </label>
-            <input type="text" id= "ttl" :maxlength= "maxTitle"  v-model= "module.Module_Title" />
+            <input type="text" id= "ttl" :maxlength= "maxTitle" required v-model= "module.Module_Title" />
             <br/>
             <br/>
             <br/>
