@@ -17,7 +17,9 @@ POST: api/courses
 ```
 Method: POST
 
-Requires request body
+Request body: Required
+
+Return: JSON object of the newly created course
 
 Sample body:
 
@@ -30,7 +32,7 @@ Sample body:
   "Course_Description": String,
   "Date_Created": date,
   "Date_Last_Updated": date,
-  "Course_Status": Integer,
+  "Course_Status": String,
   "Is_Approved": Integer,
 }
 ```
@@ -38,69 +40,90 @@ Sample body:
 ### Create new module
 
 ```
-api/create/module
+POST: api/modules
 ```
-Requires body
+Method: POST
 
-### Get course
+Request body: Required
 
-```
-api/get/course/{id}
-```
-#### Get courses
+Return: JSON object of the newly created module
 
-```
-api/get/courses/
-```
-
-#### Get courses by UserID
+### Create new user
 
 ```
-api/get/coursesByUser/{id}
+POST: api/users
 ```
+Method: POST
 
-### Get module
+Request body: Required
 
-```
-api/get/module/{id}
-```
-Optional body
+Return: JSON object of the newly created user
 
-#### Get modules
+### Get All Courses
 
 ```
-api/get/modules/
+GET: api/courses/
 ```
+Method: GET
 
-
-#### Get modules by CourseID
+### Get One Course
 
 ```
-api/get/modulesByCourse/{id}
+GET: api/courses/{id}
 ```
+Method: GET
 
-### Modify course (Not implemented yet)
+### Get Courses By User ID
+
+```
+GET: api/users/{id}/courses
+```
+Method: GET
+
+
+### Get All Modules
+
+```
+GET: api/modules/
+```
+Method: GET
+
+### Get One Module
+
+```
+GET: api/modules/{id}
+```
+Method: GET
+
+### Get Modules By Course ID
+
+```
+GET: api/courses/{id}/modules
+```
+Method: GET
+
+### Modify Course (Not implemented yet)
 
 ```
 api/modify/course/{id}
 ```
 Requires body
 
-### Modify module (Not implemented yet)
+### Modify Module (Not implemented yet)
 
 ```
 api/modify/module/{id}
 ```
 Requires body
 
-### Remove course (Not implemented yet)
+### Remove Course (Not implemented yet)
 
 ```
 api/remove/course/{id}
 ```
 This removes all dependent modules
 
-### Remove a module (Not implemented yet)
+### Remove Module (Not implemented yet)
 
 ```
 api/remove/module/{id}
