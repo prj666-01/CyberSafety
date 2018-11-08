@@ -75,7 +75,7 @@
 						<div v-show="createCourse">
 						<!-- <span class="icon fa-car" ></span> -->
             <img src="/dist/images/icon1.png" alt="icon 01" />
-            <a href="#" class="button" style="display:block;margin-top:20px;">Course Builder</a>
+            <a href="#" class="button" style="display:block;margin-top:20px;" @click="gotoCreateCourse()">Course Builder</a>
 						</div>
 
 						<div v-show="viewCourse">
@@ -217,6 +217,9 @@ export default {
       console.log(path);
       this.goTo(path);
     },
+    gotoCreateCourse: function(){
+        this.$router.push({name: "CreateCourse", query: {userID: this.signedinUserId}});
+    },
     signin: function (event) {
        if (this.username == undefined || this.password  == undefined ){
           EventBus.$emit('error', 'test');
@@ -254,7 +257,7 @@ export default {
                     this.presentCourse = true;
                     this.showSigninButton= false;
                     this.showSignupButton = false;
-                    this.showSignoutButton = true; 
+                    this.showSignoutButton = true;
                   }
                 } 
               }else {
@@ -290,13 +293,7 @@ export default {
             })
        
         }
-      
     },
-   
-  
-    goTo(route) {
-      window.location = route;
-    }
   }
 }
 </script>
