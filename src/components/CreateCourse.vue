@@ -141,15 +141,19 @@ export default {
       this.$router.push({name: "MyCourses"});
     },
     getModules: function () {
-      axios.post('http://myvmlab.senecacollege.ca:6255/api/modules/', '')
-      .then(response => {
-        (this.moduleData = response.data)
+      axios.get('http://myvmlab.senecacollege.ca:6255/api/modules/', {    
+          auth: {
+          username: 'Group-01',
+          password: 'gkHQ4574'
+          }
       })
     },
     getUserName: function () {
-      axios.post('http://myvmlab.senecacollege.ca:6255/api/users/', '')
-      .then(response => {
-        (this.userData = response.data)
+      axios.get('http://myvmlab.senecacollege.ca:6255/api/users/', {    
+          auth: {
+          username: 'Group-01',
+          password: 'gkHQ4574'
+          }
       })
     },
     onReset (evt) {
