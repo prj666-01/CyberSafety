@@ -12,6 +12,8 @@ import MergeCourse from './components/MergeCourse.vue'
 import AudioModule from './components/AudioModule.vue'
 import PresModule from './components/PresModule.vue'
 import VideoModule from './components/VideoModule.vue'
+import Home from './components/Home.vue'
+import Admin from './components/Admin.vue'
 
 Vue.use(Router)
 
@@ -71,6 +73,16 @@ export default new Router({
       path: '/PresModule',
       name: 'PresModule',
       component: PresModule
+    },
+    {
+      path: '/Home',
+      name: 'Home',
+      component: Home
+    },
+    {
+      path: '/Admin',
+      name: 'Admin',
+      component: Admin
     },
     {
       path: '/AudioModule',
