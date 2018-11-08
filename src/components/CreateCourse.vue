@@ -49,8 +49,6 @@
     <b-button class="mr-2" variant="primary">Audio</b-button>
     <b-button class="mr-2" variant="primary">Presentation</b-button>
     </div>
-    <b-button @click="refresh">Clear and Refresh</b-button>
-    <b-button @click="submitModules">Submit Modules</b-button>
   </div>
   </div>
 </template>
