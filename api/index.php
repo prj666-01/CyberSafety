@@ -1,13 +1,8 @@
 <?php
+header('Content-Type: application/json');
 
-// Import Request class
 require("Request.php");
 
-// Headers for the request
-header("Access-Control-Allow-Origin: *");
-header('Access-Control-Allow-Methods: GET, POST');
-header("Access-Control-Allow-Headers: X-Requested-With, Content-Type, Accept");
-header('Content-Type: application/json');
 $data = json_decode(file_get_contents("php://input"));
 // Read the URI and creates an array with the command words.
 // Trim the leading slash and separate the words into elements of a array, using slash as separator.
@@ -29,7 +24,7 @@ $badRequest = false;
 //echo $requestTarget;
 if ($requestTarget != '' && $requestTarget != 'courses' && $requestTarget != 'modules' && $requestTarget != 'users') {
     $badRequest = true;
-} 
+}
 
 // Check if is bad request
 if ($badRequest) {

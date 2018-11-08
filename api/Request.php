@@ -1,12 +1,10 @@
 <?php
-
 // Defines the constants to access DB
 define("DB_HOST", "localhost");
 define("DB_USERNAME", "user01");
 define("DB_PASSWORD", "Password123!");
 define("DB_DATABASE", "Course_Creation");
 
-header("Access-Control-Allow-Origin: *");
 class Request {
     public $connection = NULL;
 
@@ -73,11 +71,18 @@ class Request {
                 $array = array();
                 while ($row = $res->fetch_assoc()){
                     $users = [
-                        "id"   => $row['User_Id'],
-                        "email" => $row['Email'],
-                        "password"=> $row['Password'],
-                        "username"=> $row['username'],
-                        "badgeid" => $row['Badge_Id']
+                        "User_Id"   => $row['User_Id'],
+                        "Username"=> $row['Username'],
+                        "Email" => $row['Email'],
+                        "Password"=> $row['Password'],
+                        "First_Name" => $row['First_Name'],
+                        "Last_Name" => $row['Last_Name'],
+                        "Is_Authenticated" => $row['Is_Authenticated'],
+                        "Teaching_Level" => $row['Teaching_Level'],
+                        "Date_Joined" => $row['Date_Joined'],
+                        "Last_Login" => $row['Last_Login'],
+                        "Badge_Id" => $row['Badge_Id'],
+                        "Is_Administrator" => $row['Is_Administrator']
                     ];
                     array_push($array, $users);
                 }
@@ -145,7 +150,7 @@ class Request {
                     $row = $res->fetch_assoc();
                     $user = [
                         "User_Id"   => $row['User_Id'],
-                        "Username"=> $row['username'],
+                        "Username"=> $row['Username'],
                         "Email" => $row['Email'],
                         "Password"=> $row['Password'],
                         "First_Name" => $row['First_Name'],
@@ -250,6 +255,8 @@ class Request {
                         "Is_Approved"=> $row[Is_Approved],
                     ];                
                     echo json_encode($course, JSON_PRETTY_PRINT);
+                
+                
                 break;
 
             // POST: api/modules
@@ -277,7 +284,7 @@ class Request {
                 ];
                     
                 echo json_encode($module, JSON_PRETTY_PRINT);
-
+                
                 break;
 
             // POST: api/users
@@ -316,7 +323,7 @@ class Request {
                     "Is_Administrator" => $row['Is_Administrator'],
                 ];                
                 echo json_encode($user, JSON_PRETTY_PRINT);
-                
+            
                 break;
         }
             
