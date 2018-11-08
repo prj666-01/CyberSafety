@@ -5,6 +5,7 @@
 <h1>Module Info</h1>
 {{modinfo}}
 <h1>User Info</h1>
+{{userinfo}}
 </div>
 </template>
 
@@ -13,24 +14,36 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      usrinfo: [],
-      corinfo: [],
-      modinfo: [],
+      userinfo: null,
+      corinfo: null,
+      modinfo: null,
     }
   },
   methods: {
     getFromMiddleMan: function() {
-      axios.post('http://myvmlab.senecacollege.ca:6255/api/get/users', {
+      axios.get('http://myvmlab.senecacollege.ca:6255/api/users/', {
+          auth: {
+          username: 'Group-01',
+          password: 'gkHQ4574'
+          }
         }).then(response => {
-          (this.usrinfo = response.data)
+            (this.userinfo = response.data)
         })
-        axios.post('http://myvmlab.senecacollege.ca:6255/api/get/coursesByUser/1', {
+        axios.get('http://myvmlab.senecacollege.ca:6255/api/courses/', {
+            auth: {
+            username: 'Group-01',
+            password: 'gkHQ4574'
+            }
+          }).then(response => {
+              (this.corinfo = response.data)
+          })
+          axios.get('http://myvmlab.senecacollege.ca:6255/api/modules/', {
+          auth: {
+          username: 'Group-01',
+          password: 'gkHQ4574'
+          }
         }).then(response => {
-          (this.corinfo = response.data)
-        })
-        axios.post('http://myvmlab.senecacollege.ca:6255/api/get/modules', {
-        }).then(response => {
-          (this.modinfo = response.data)
+            (this.modinfo = response.data)
         })
       }
   },

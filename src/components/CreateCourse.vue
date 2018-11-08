@@ -130,9 +130,9 @@ export default {
     },
     onSubmit (evt) {
       evt.preventDefault();
-      axios.post('http://myvmlab.senecacollege.ca:6255/api/courses',
-                JSON.stringify(this.form)).then(response => {(alert(response.data))
-            });
+     // axios.post('http://myvmlab.senecacollege.ca:6255/api/courses',
+      //          JSON.stringify(this.form)).then(response => {(alert(response.data))
+       //     });
       this.hideModuleAdd = false;
       this.hideSubmitInfo = false;
       this.courseTitle = this.form.courseTitle;
@@ -141,20 +141,24 @@ export default {
       this.$router.push({name: "MyCourses"});
     },
     getModules: function () {
-      axios.get('http://myvmlab.senecacollege.ca:6255/api/modules/', {    
+      axios.get('http://myvmlab.senecacollege.ca:6255/api/modules/', {
           auth: {
           username: 'Group-01',
           password: 'gkHQ4574'
           }
-      })
+        }).then(response => {
+            (this.moduleData = response.data)
+        })
     },
     getUserName: function () {
-      axios.get('http://myvmlab.senecacollege.ca:6255/api/users/', {    
+      axios.get('http://myvmlab.senecacollege.ca:6255/api/users/', {
           auth: {
           username: 'Group-01',
           password: 'gkHQ4574'
           }
-      })
+        }).then(response => {
+            (this.userData = response.data)
+        })
     },
     onReset (evt) {
       evt.preventDefault();

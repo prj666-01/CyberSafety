@@ -12,11 +12,13 @@
       <b-nav-item-dropdown text="Options" right>
         <b-dropdown-item href="#/MyCourses">My Courses</b-dropdown-item>
         <b-dropdown-item href="#/CreateCourse">Create Course</b-dropdown-item>
-        <b-dropdown-item href="#/ModifyCourse">Modify Course</b-dropdown-item>
-        <b-dropdown-item href="#/DeactivateCourse">Deactivate Course</b-dropdown-item>
-        <b-dropdown-item href="#/CloneCourse">Clone Course</b-dropdown-item>
-        <b-dropdown-item href="#/CourseStatus">Course Status</b-dropdown-item>
-        <b-dropdown-item href="#/MergeCourse">Merge Course</b-dropdown-item>
+        <b-dropdown-item href="#">Modify Course</b-dropdown-item>
+        <b-dropdown-item href="#">Deactivate Course</b-dropdown-item>
+        <b-dropdown-item href="#">Clone Course</b-dropdown-item>
+        <b-dropdown-item href="#">Course Status</b-dropdown-item>
+        <b-dropdown-item href="#">Merge Course</b-dropdown-item>
+        <b-dropdown-item href="#">Present Course</b-dropdown-item>
+        <b-dropdown-item href="#">View Course</b-dropdown-item>
       </b-nav-item-dropdown>
 
       <b-nav-item-dropdown right>
@@ -68,9 +70,7 @@ h1 {
   text-align: center;
 }
 nav {
-
 }
 nav a {
-
 }
 </style>
