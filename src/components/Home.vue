@@ -3,31 +3,31 @@
     <Navbar @userInfo="savUser" @logout="signOut"></Navbar>
       <section id="banner">
 				<div class="inner">
-					<header style="color:#42b983; margin-bottom:40px;">
+					<header style="color:#42b983; margin-bottom:50px; padding-top:10px;">
 						<h2>Welcome to Cyberseafty Education Platform</h2>
             <h2> The Virtual Learning Portal </h2>
             <h2> Taking the "e" out of eLearning</h2>
 					</header>
 
-					<div class="flex">
+					<div class="flex" >
 
 						<div v-show="oneBadge">
 						<!-- <span class="icon fa-car" ></span> -->
             <img src="../../dist/images/icon1.png" alt="icon 01" />
-            <a class="button icon-link" style="display:block;margin-top:20px;"  @click= "sendId()">Course Builder</a>
+            <a class="button icon-link" style="display:block;margin-top:20px; color:white;"  @click= "sendId()">Course Builder</a>
 						</div>
 
 						<div v-show="noBadge">
 							<!-- <span class="icon fa-camera"></span> -->
               <img src="../../dist/images/icon2.png" alt="Pic 02" />
-              <a href="#" class="button icon-link"  style="display:block;margin-top:20px">View Available Courses</a>
+              <a href="#" class="button icon-link"  style="display:block;margin-top:20px; color:white;">View Available Courses</a>
               <!-- <a href="#" class="button">View Available Courses</a> -->
 						</div>
 
 						<div v-show="oneBadge">
 							<!-- <span class="icon fa-bug"></span> -->
               <img src="../../dist/images/icon3.png" alt="Pic 03" />
-							<a href="#" class="button icon-link"  style="display:block;margin-top:20px">Present A Course</a>
+							<a href="#" class="button icon-link"  style="display:block;margin-top:20px; color:white;">Present A Course</a>
 						</div>
 
 					</div>

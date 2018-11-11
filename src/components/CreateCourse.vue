@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Navbar></Navbar>
+    <Navbar style="padding-bottom:100px; color:white; background:  #42b983;"></Navbar>
     <br><p>
     Authored By:
     {{userData.First_Name}}

@@ -2,15 +2,16 @@
   <div id="na">
     <header id="header">
 				<div class="inner">
-					<a href="#" class="logo" style="font-size:2em; margin-left:40px;">Knowledgeflow</a>
+				
 						<b-navbar toggleable="md">
               <b-navbar-toggle target="nav_collapse">
               </b-navbar-toggle>
               <b-collapse is-nav id="nav_collapse" >
                 <b-navbar-nav class="ml-auto">
-                  <b-nav-item @click="showLogin" v-show= "signIn" class="nav-links">Sign In</b-nav-item>
-                  <b-nav-item @click="showSignUp" v-show= "signUp" class="nav-links">Sign Up</b-nav-item>
-                  <b-nav-item @click="signOutFunction" v-show= "signOut" class="nav-links">Sign Out</b-nav-item>
+                  	<a href="#" class="logo" style="font-size:2em; margin-left:40px;">Knowledgeflow</a>
+                  <b-nav-item @click="showLogin" v-show= "signIn" class="nav-links"><a style="color:white;">Sign In</a></b-nav-item>
+                  <b-nav-item @click="showSignUp" v-show= "signUp" class="nav-links"><a style="color:white;">Sign Up</a></b-nav-item>
+                  <b-nav-item @click="signOutFunction" v-show= "signOut" class="nav-links"><a style="color:white;">Sign Out</a></b-nav-item>
                 </b-navbar-nav>
               </b-collapse>
             </b-navbar>
@@ -41,32 +42,47 @@
         <span v-if ="error" style="text-color:red;">Please check your username or password</span>
       </div>
     </modal>
-
-    <modal name="signup" style="z-index:10050;">
-    <h1>Sign Up</h1>
-    <b-form-input v-model="userName" type="text" placeholder="Username"></b-form-input>
-    <b-form-input v-model="password" type="password" placeholder="Password"></b-form-input>
-    <b-button @click="hideSignUp">
-      Close
-    </b-button>
+<!--  // Sing up Modal -->
+     <modal name="signup" style="z-index:10050;">
+      <div class="imgcontainer">
+        <div><h2 style="display: inline; text-align:center">Sign In</h2></div>
+      </div>
+      <div  class="container">
+				<div class="loginmodal-container">
+          <b-form-group>
+            <b-form-input v-model="userName" type="text" placeholder="Enter Username" style="cursor:pointer;"></b-form-input>
+          </b-form-group>
+           <b-form-group>
+            <b-form-input v-model="userName" type="email" placeholder="Enter Email" style="cursor:pointer;"></b-form-input>
+          </b-form-group>
+          <b-form-group>
+            <b-form-input v-model="password" type="password" placeholder="Enter Password" style="cursor:pointer;"></b-form-input>
+          </b-form-group>
+          <div class="btn-toolbar">
+            <b-button variant="primary" >Sign In</b-button>
+            <b-button @click="hideSignUp" variant="primary" style="margin-left:20px;">Close</b-button>
+          </div>
+        </div><br/>
+      </div>
     </modal>
 
-<!-- // Reset Password -->
-    <modal name="forgetPwd" style="z-index:10050;">
-    <h1>Reset Password</h1>
+     <modal name="forgetPwd" style="z-index:10050;">
+      <div class="imgcontainer">
+        <div><h2 style="display: inline; text-align:center">Forgot Password</h2></div>
+      </div>
+      <div  class="container">
+				<div class="loginmodal-container">
+          <b-form-group>
+            <b-form-input v-model="password" type="email" placeholder="Enter Password" style="cursor:pointer;"></b-form-input>
+          </b-form-group>
+          <div class="btn-toolbar">
+            <b-button variant="primary" @click="resetPwd">Reset Password</b-button>
+            <b-button @click="hideLogin" variant="primary" style="margin-left:20px;">Close</b-button>
+          </div>
+        </div>
+      </div>
+    </modal> 
 
-    <!-- <b-form-input v-model="userName" type="text" placeholder="Username"></b-form-input> -->
-    <b-form-input v-model="emailForReset" type="email" placeholder="email"></b-form-input>
-    <b-button @click="hideLogin">
-      Close
-    </b-button>
-    <b-button @click="resetPwd">
-      Reset
-    </b-button>
-    <!-- <b-link>Forgot Password?</b-link> -->
-
-    <span v-if ="error">Please check your username or password</span>
-    </modal>
   </div>
 </template>
 
@@ -173,7 +189,7 @@ body {
   display: grid;
   grid-template-rows: auto;
   justify-items: center;
-  /* padding-top: 50px; */
+  padding-bottom: 100px;
 }
 body, html {
   margin: 0;
@@ -189,8 +205,8 @@ h1 {
 }
 
 .imgcontainer {
-    /* background:  #42b983; */
-    background: #007bff;
+    background:  #42b983;
+    /* background: #007bff; */
     text-align: center;
     margin-bottom: 20px;
     padding: 20px;
@@ -209,6 +225,7 @@ h1 {
 		top: 2em;
 		width: 100%;
 		z-index: 10001;
+    /* background: #42b983 */
 	}
 
 		#header .inner {
@@ -223,8 +240,6 @@ h1 {
 			height: inherit;
 			left: 0;
 			line-height: inherit;
-			margin: 0;
-			padding: 0;
 			position: absolute;
 			top: 0;
 			font-size: 1em;
@@ -258,7 +273,7 @@ h1 {
 		padding: 0.5em 1.25em;
 		z-index: 10010;
 	}
-b-nav-item.nav-links{
-  color: #fff !important;
+.nav-links  a , .nav-links a :visited {
+  color: whitesmoke;
 }
 </style>
