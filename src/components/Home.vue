@@ -1,428 +1,331 @@
 <template>
-  <div id="try">
-    <modal v-show="signupModal">
-      <div  slot="header" class="imgcontainer">
-        <span class="close" title="Close Modal" @click="closeModal" style=" color: whitesmoke;">&times;</span>
-        <div><h2 style="display: inline; text-align:center">Sign Up</h2></div>
-         </div >
-			<div slot="body">
-            <div class="modal-dialog">
-              <div class="loginmodal-container">
-                 <input type="text" name="user"  v-model="signupObject.username" placeholder="Username" autofocus required="required">
-                 <input type="text" name="email"  v-model="signupObject.email" placeholder="Email" required="required">
-                <input type="password" name="pass" v-model="signupObject.password" placeholder="Password" required="required">
-                <input type="button" name="login" @click="signup" id = "buttonBtn" class="login loginmodal-button" value="SignUp"> 
-                <!-- <div class="login-help">
-                  <a href="#">Register</a> - <a href="#">Forgot Password</a>
-                </div> -->
-              </div>
-            </div>
-			</div>
-      <div slot="footer">
-        <div class="loginmodal-container" style="color: red;">
-           Enter a valid input
-        </div>
-      </div>
-		</modal>
-    <modal v-show="signinModal">
-       <div  slot="header" class="imgcontainer">
-        <span class="close" title="Close Modal" @click="closeModal" style=" color: whitesmoke;">&times;</span>
-        <div><h2 style="display: inline; text-align:center">Sign In</h2></div>
-         </div >
-      <!-- <div style="display: inline; float:right; font-size: 20px; cursor:pointer;" @click="closeModal"><span aria-hidden="true">&times;</span></div></h2> -->
-			<div slot="body">
-        <div class="modal-dialog">
-				  <div class="loginmodal-container">
-            <input type="text" name="user"  v-model="username" placeholder="Username" autofocus required="required">
-            <input type="password" name="pass" v-model="password" placeholder="Password" required="required">
-            <input type="button" name="login" @click="signin" id = "buttonBtn" class="login loginmodal-button" value="SignIn" style=" pointer-events: auto;" >
-				    <div class="login-help">
-					     <a   style="display: block; pointer-events: auto;" >Forgot Password</a>
-				    </div>
-				  </div>
-			  </div>
-			</div>
-      <div slot="footer">
-        <div class="loginmodal-container" style="color: red;">
-          Username/Password Invalid
-        </div>
-      </div>
-		</modal>
-    <!-- Header -->
-			<header id="header">
+  <div id="home">
+    <Navbar @userInfo="savUser" @logout="signOut"></Navbar>
+      <section id="banner">
 				<div class="inner">
-					<a href="index.html" class="logo" style="font-size:2em">Knowledgeflow</a>
-					<nav id="nav">
-						<a @click="showModal('signup')" v-show="showSignupButton" style = "cursor:pointer">Sign Up</a>
-            <a @click="showModal('signin')" v-show="showSigninButton" style = "cursor:pointer">Sign in</a>
-            <a  v-show="showSignoutButton" @click="showNav()" style = "cursor:pointer">Sign Out</a>
-					</nav>
-					<a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
-				</div>
-			</header>
-      
-		<!-- Banner -->
-			<section id="banner">
-				<div class="inner">
-					<header style="color:#42b983; margin-bottom:40px;">
+					<header style="color:#42b983; margin-bottom:50px; padding-top:10px;">
 						<h2>Welcome to Cyberseafty Education Platform</h2>
             <h2> The Virtual Learning Portal </h2>
             <h2> Taking the "e" out of eLearning</h2>
 					</header>
 
-					<div class="flex">
+					<div class="flex" >
 
-						<div v-show="createCourse">
+						<div v-show="oneBadge">
 						<!-- <span class="icon fa-car" ></span> -->
-            <img src="/dist/images/icon1.png" alt="icon 01" />
-            <a href="#" class="button" style="display:block;margin-top:20px;" @click="gotoCreateCourse()">Course Builder</a>
+            <img src="../../dist/images/icon1.png" alt="icon 01" />
+            <a class="button icon-link" style="display:block;margin-top:20px; color:white;"  @click= "sendId()">Course Builder</a>
 						</div>
 
-						<div v-show="viewCourse">
+						<div v-show="noBadge">
 							<!-- <span class="icon fa-camera"></span> -->
-              <img src="/dist/images/icon2.png" alt="Pic 02" />
-              <a href="#" class="button"  style="display:block;margin-top:20px" @click="gotoViewCourse()">View Available Courses</a>
+              <img src="../../dist/images/icon2.png" alt="Pic 02" />
+              <a href="#" class="button icon-link"  style="display:block;margin-top:20px; color:white;">View Available Courses</a>
               <!-- <a href="#" class="button">View Available Courses</a> -->
 						</div>
 
-						<div v-show="presentCourse">
+						<div v-show="oneBadge">
 							<!-- <span class="icon fa-bug"></span> -->
-              <img src="/dist/images/icon3.png" alt="Pic 03" />
-							<a href="#" class="button"  style="display:block;margin-top:20px">Present A Course</a>
+              <img src="../../dist/images/icon3.png" alt="Pic 03" />
+							<a href="#" class="button icon-link"  style="display:block;margin-top:20px; color:white;">Present A Course</a>
 						</div>
 
 					</div>
 
 				</div>
 			</section>
-
-
-		<!-- Three -->
-			<section id="three" class="wrapper align-center">
-				<div class="inner">
-					<div class="flex flex-2">
-						<article>
-							<div >
-								<img src="/dist/images/pic01.png" alt="Pic 01" style="width:150px;height:150px;"/>
-							</div>
-							<header>
-								<h3>About Knowledge FLow</h3>
-							</header>
-							<p>Virtual Learning Portal <br />Taking the "e" out of eLearning</p>
-							<footer>
-								<a href="#" class="button">Learn More</a>
-							</footer>
-						</article>
-						<article>
-							<div>
-								<img src="/dist/images/pic02.png" alt="Pic 02" style="width:150px;height:150px;" />
-							</div>
-							<header>
-								<h3>Our Goal</h3>
-							</header>
-							<p>we are going to eliminate cyberbullying, privacy abuses, trolling <br>
-              and cyberharassment in schools and in the workplace.</p>
-							<footer>
-								<a href="#" class="button">Learn More</a>
-							</footer>
-						</article>
-					</div>
-				</div>
-			</section>
-
-		<!-- Footer -->
-			<footer id="footer">
-				<div class="inner">
-
-					<h3>Get in touch</h3>
-
-					<form action="#" method="post">
-
-						<div class="field half first">
-							<label for="name">Name</label>
-							<input name="name" id="name" type="text" placeholder="Name">
-						</div>
-						<div class="field half">
-							<label for="email">Email</label>
-							<input name="email" id="email" type="email" placeholder="Email">
-						</div>
-						<div class="field">
-							<label for="message">Message</label>
-							<textarea name="message" id="message" rows="6" placeholder="Message"></textarea>
-						</div>
-						<ul class="actions">
-							<li><input value="Send Message" class="button alt" type="button"></li>
-						</ul>
-					</form>
-				</div>
-			</footer>
+  <!-- <b-button variant="info"   v-show= "oneBadge" @click= "sendId">
+    Create a new course
+  </b-button>
+  <b-button  block variant="info" v-show= "noBadge">
+    View available courses
+  </b-button>
+  <b-button  block variant="info" v-show= "oneBadge">
+    Present a course
+  </b-button> -->
+  <!-- </div> -->
   </div>
 </template>
 <script>
-import modal from './Modal.vue';
-import { EventBus } from '../scripts/event.js';
-import axios from 'axios';
-//import func from './vue-temp/vue-editor-bridge';  
-
+import Navbar from "./Navbar.vue";
 export default {
-  name: 'try',
+  name: "home",
   components: {
-      modal
+    Navbar
   },
   data () {
     return {
-      signinModal: false,
-      signupModal: false,
-      firstTimeModal: false,
-      signupObject:{},
-      users:[],
-      showOneButton: false,
-      showThreeButtons: true,
-			username: '',
-      password:'',
-      viewCourse: false,
-      createCourse: false,
-      presentCourse: false,
-      showSigninButton: true,
-      showSignupButton: true,
-      showSignoutButton: false,
-      signedinUserId: 0
+      oneBadge: false,
+      noBadge : false,
+       signedinUserId : '',
+       badgeId : ''
     }
   },
-  methods:{
-    showNav : function(event) {
-      // alert("sining out")
-      this.showSigninButton=true;
-      this.showSignupButton = true;
-      this.showSignoutButton = false;
-      this.viewCourse = false;
-      this.createCourse =false;
-      this.presentCourse = false;
-    },
-    showModal: function(modalName) {
-      if(modalName == 'signin'){
-        this.signinModal = true;
-      } else if(modalName == 'signup'){
-        this.signupModal = true;
+  props: {
+    userID: Number
+  },
+  mounted(){
+    if(localStorage.SignedIn == "true"){
+      if(parseInt(JSON.parse(localStorage.SignedInUser).Badge_Id) == 0 ){
+          this.oneBadge =  false;
+         this.noBadge  = true;
+      } else {
+        this.oneBadge =  true,
+        this.noBadge  = true
       }
-     
-    },
-    closeModal: function() {
-      this.signinModal = false;
-      this.signupModal = false;
-      this.firstTimeModal = false;
-    },
-    gotoViewCourse: function(){
-      var path = "view/"+this.signedinUserId;
-      console.log(path);
-      this.goTo(path);
-    },
-    gotoCreateCourse: function(){
-        this.$router.push({name: "CreateCourse", query: {userID: this.signedinUserId}});
-    },
-    signin: function (event) {
-       if (this.username == undefined || this.password  == undefined ){
-          EventBus.$emit('error', 'test');
-        }
-        else{
-          alert("signin");
-          axios.get('http://myvmlab.senecacollege.ca:6255/api/users/', {
-            
-          auth: {
-          username: 'Group-01',
-          password: 'gkHQ4574'
-          }
-        }).then(response => {
-          this.users = response.data;
-           console.log(this.users)
-             
-            for(var i=0; i < this.users.length; i++){
-              if(this.username.toLowerCase() == this.users[i].Username.toLowerCase() && this.password == this.users[i].Password){
-                this.signedinUserId = this.users[i].id;
-                if(this.username.toLowerCase() == "colin"){
-                  this.goTo("/admin");
-                } else {
-                  //  console.log(this.users[i])
-                    this.closeModal();
-                    this.viewCourse = true;  
-                    this.showSigninButton= false;
-                    this.showSignupButton = false;
-                    this.showSignoutButton = true; 
-                  if(this.users[i].Badge_Id == "0"){
-                     alert("not completed required courses");
-                  } else {
-                    this.closeModal();
-                    this.viewCourse = true;
-                    this.createCourse = true;
-                    this.presentCourse = true;
-                    this.showSigninButton= false;
-                    this.showSignupButton = false;
-                    this.showSignoutButton = true;
-                  }
-                } 
-              }else {
-                  EventBus.$emit('error', 'test');
-              }
-             }
-         
-           });
-       }
-    },
-    signup: function () {
-        if (this.signupObject.username == undefined || this.signupObject.email == undefined || this.signupObject.password  == undefined ){
-          EventBus.$emit('error', 'test');
-        }
-        else{
-            axios.post('http://myvmlab.senecacollege.ca:6255/api/users/', {
-            auth: {
-              username: 'Group-01',
-              password: 'gkHQ4574'
-              },
-     
-            username: this.signupObject.Username,
-            email: this.signupObject.Email,
-            password: this.signupObject.Password,
-            }).then(response => {
-                this.info = response.data;
-                console.log(this.info);
-                // this.closeModal();
-                // this.viewCourse = true;  
-                // this.showSigninButton= false;
-                // this.showSignupButton = false;
-                // this.showSignoutButton = true;  
-            })
+    }
+  },
+  methods: {
+    sendId: function() {
+      // console.log("Made it to send id");
+      this.$router.push({
+        name: "CreateCourse",
+        query: { userId: parseInt(JSON.parse(localStorage.SignedInUser).User_Id) }
        
-        }
+      });
     },
+    savUser: function (event) {
+      this.signedinUserId =event.id;
+      this.badgeId = event.badge_id;
+      if (this.badgeId == 0){
+         this.oneBadge =  false,
+         this.noBadge  = true
+      }
+      else {
+        this.oneBadge =  true,
+        this.noBadge  = true
+      }
+    },
+    signOut : function(){
+      this.oneBadge =  false,
+      this.noBadge  = false
+    }
   }
-}
+};
 </script>
+<style>
+/* #head {
+   margin-top:120px;
+} */
 
-<style scoped lang="scss">
-.imgcontainer {
-    background:  #42b983;
-    text-align: center;
-    margin-top: 30px;
-    padding: 20px;
-    color: whitesmoke;
-    position: relative;
-    
-}
-.close {
- 
-    position: absolute;
-    right: 25px;
-    top: 0;
-    color: #000;
-    font-size: 35px;
-    font-weight: bold;
-}
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+	#banner {
+		padding: 8em 0 9em 0;
+		background-image: url(../../dist/images/banner.jpg);
+		background-size: cover;
+		background-position: bottom;
+		background-attachment: fixed;
+		background-repeat: no-repeat;
+		text-align: center;
+		position: relative;
+	}
 
-h1, h2 {
-  font-weight: normal;
-}
+		#banner:before {
+			content: '';
+			background: rgba(75, 75, 93, 0.85);
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			top: 0;
+			left: 0;
+		}
 
-ul {
-  list-style-type: none;
-  padding: 0;
-}
+		#banner .inner {
+			border-top: 2px solid rgba(255, 255, 255, 0.2);
+			position: relative;
+			z-index: 10005;
+			padding-top: 8em;
+		}
 
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
+		#banner h1 {
+			font-size: 3.5em;
+			font-weight: 400;
+			color: #fff;
+			line-height: 1em;
+			margin: 0 0 1em 0;
+			padding: 0;
+		}
 
-a {
-  color: #42b983;
-}
+		#banner h3 {
+			font-weight: 400;
+			color: #fff;
+			margin: 0;
+			font-size: 1.5em;
+		}
 
-/****** LOGIN MODAL ******/
-.loginmodal-container {
-  margin-top: 20px;
-  margin-bottom: 40px;
-  padding:33px;
-  max-width:450px;
-  width: 100% !important;
-  height: 100%;
-  background-color: #F7F7F7;
-  margin: 0 auto;
-  border-radius: 2px;
-  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-  overflow: hidden;
-  font-family: roboto;
-  color:#2c3e50;
- pointer-events: auto;
-}
+		#banner .icon {
+			color: #6cc091;
+			font-size: 2em;
+		}
 
-.loginmodal-container h1 {
-  text-align: center;
-  font-size: 1em;
-  font-family: roboto;
-}
+		#banner p {
+			font-size: 1em;
+			color: rgba(255, 255, 255, 0.55);
+			margin-bottom: 1.75em;
+		}
 
-.loginmodal-container input[type=button] {
-  width: 100%;
-  margin-top: 20px;
-  display: block;
-  margin-bottom: 10px;
-  position: relative;
-}
+		#banner .flex {
+			-ms-flex-pack: center;
+			-moz-justify-content: center;
+			-webkit-justify-content: center;
+			-ms-justify-content: center;
+			justify-content: center;
+			text-align: center;
+			margin: 0 auto 4em auto;
+		}
 
-.loginmodal-container input[type=text], input[type=password] {
-  height: 44px;
-  font-size: 16px;
-  width: 100%;
-  margin-bottom: 10px;
-  -webkit-appearance: none;
-  background: #fff;
-  border: 1px solid #d9d9d9;
-  border-top: 1px solid #c0c0c0;
-  /* border-radius: 2px; */
-  padding: 0 8px;
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  color: #2c3e50;
-}
+			#banner .flex div {
+				border-right: 2px solid rgba(255, 255, 255, 0.2);
+				padding: 0 8em;
+			}
 
-.loginmodal-container input[type=text]:focus, input[type=password]:focus {
-  border: 1px solid #b9b9b9;
-  border-top: 1px solid #a0a0a0;
-  -moz-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
-  -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
-  box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
-  color: #2c3e50;
-}
+				#banner .flex div:last-child {
+					border: none;
+					padding-right: 0;
+				}
 
-.loginmodal {
-  text-align: center;
-  font-size: 14px;
-  font-family: 'Arial', sans-serif;
-  font-weight: 700;
-  height: 36px;
-  padding: 0 8px;
- border-radius: 3px; 
- -webkit-user-select: none;
-  user-select: none; 
-}
+				#banner .flex div:first-child {
+					padding-left: 0;
+				}
 
-.loginmodal-button {
-  cursor: pointer;
-}
+				#banner .flex div p {
+					margin: 0;
+				}
 
+		@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) {
 
-.login-help{
-  font-size: 12px;
-  cursor: pointer;
-  text-align: center;
-}
+			#banner {
+				background-attachment: scroll;
+			}
 
+		}
 
+		@media screen and (max-width: 1680px) {
+
+			#banner .flex div {
+				padding: 0 6em;
+			}
+
+		}
+
+		@media screen and (max-width: 1280px) {
+
+			#banner {
+				padding: 7em 0 6em 0;
+			}
+
+				#banner .inner {
+					padding-top: 6em;
+				}
+
+				#banner h1 {
+					font-size: 3em;
+				}
+
+				#banner h3 {
+					font-size: 1.25em;
+				}
+
+				#banner .flex div {
+					padding: 0 3em;
+				}
+
+		}
+
+		@media screen and (max-width: 980px) {
+
+			#banner {
+				background-attachment: scroll;
+				padding: 5em 0 4em 0;
+			}
+
+				#banner .inner {
+					padding-top: 4em;
+				}
+
+				#banner h1 {
+					font-size: 2.5em;
+				}
+
+				#banner h3 {
+					font-size: 1.25em;
+				}
+
+				#banner .flex div {
+					font-size: .85em;
+					padding: 0 1.5em;
+				}
+
+		}
+
+		@media screen and (max-width: 736px) {
+
+			#banner {
+				padding: 4em 0 3em 0;
+			}
+
+				#banner .inner {
+					padding-top: 3em;
+				}
+
+				#banner h1 {
+					font-size: 2em;
+				}
+
+				#banner h3 {
+					font-size: 1.25em;
+				}
+
+				#banner .flex {
+					-moz-flex-direction: column;
+					-webkit-flex-direction: column;
+					-ms-flex-direction: column;
+					flex-direction: column;
+					margin: 0 auto 2em auto;
+				}
+
+					#banner .flex div {
+						font-size: .85em;
+						padding: 0;
+						border: none;
+						margin-bottom: 1em;
+					}
+
+		}
+
+		@media screen and (max-width: 480px) {
+
+			#banner h1 {
+				font-size: 1.5em;
+			}
+
+		}
+.flex {
+		display: -ms-flexbox;
+		-ms-flex-wrap: wrap;
+		-ms-flex-pack: justify;
+		-moz-justify-content: space-between;
+		-webkit-justify-content: space-between;
+		-ms-justify-content: space-between;
+		justify-content: space-between;
+		display: -moz-flex;
+		display: -webkit-flex;
+		display: -ms-flex;
+		display: flex;
+		-moz-flex-wrap: wrap;
+		-webkit-flex-wrap: wrap;
+		-ms-flex-wrap: wrap;
+		flex-wrap: wrap;
+		width: 100%;
+	}
+	.icon-link {
+		text-decoration: none;
+		color: #fff;
+		cursor: pointer;
+	}
+	.icon-link:visited{
+		text-decoration: none;
+		color: #fff;
+		cursor: pointer;
+	}
 </style>
+

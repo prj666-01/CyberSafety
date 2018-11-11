@@ -75,7 +75,7 @@ export default new Router({
       component: PresModule
     },
     {
-      path: '/Home',
+      path: '/',
       name: 'Home',
       component: Home
     },
