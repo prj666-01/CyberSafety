@@ -17,6 +17,7 @@
 <!-- // Modal  -->
     <modal name="login">
     <h1>Login</h1>
+
     <b-form-input v-model="userName" type="text" placeholder="Username"></b-form-input>
     <b-form-input v-model="password" type="password" placeholder="Password"></b-form-input>
     <b-button @click="hideLogin">
@@ -25,6 +26,8 @@
     <b-button @click="login">
       Login
     </b-button>
+    <b-link @click="showforgetPwd">Forgot Password?</b-link>
+
     <span v-if ="error">Please check your username or password</span>
     </modal>
 
@@ -35,6 +38,23 @@
     <b-button @click="hideSignUp">
       Close
     </b-button>
+    </modal>
+
+<!-- // Reset Password -->
+    <modal name="forgetPwd">
+    <h1>Reset Password</h1>
+
+    <!-- <b-form-input v-model="userName" type="text" placeholder="Username"></b-form-input> -->
+    <b-form-input v-model="emailForReset" type="email" placeholder="email"></b-form-input>
+    <b-button @click="hideLogin">
+      Close
+    </b-button>
+    <b-button @click="resetPwd">
+      Reset
+    </b-button>
+    <!-- <b-link>Forgot Password?</b-link> -->
+
+    <span v-if ="error">Please check your username or password</span>
     </modal>
   </div>
 </template>
@@ -64,7 +84,8 @@ export default {
       badgeNo : 0,
       signIn : true ,
       signUp : true ,
-      signOut: false
+      signOut: false,
+      emailForReset: ''
       
     }
   },
@@ -121,6 +142,13 @@ export default {
     this.password = '';
     this.signedinUserId= 0;
     this.error = false;
+   },
+   showforgetPwd: function(){
+     this.hideLogin();
+     this.$modal.show('forgetPwd');
+   },
+   resetPwd: function(){
+     alert("Email will be sent to " + this.emailForReset+ " with reset instructions");
    }
   }
 }
