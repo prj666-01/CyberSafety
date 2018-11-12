@@ -21,7 +21,7 @@ Request body: Required
 
 Return: JSON object of the newly created course
 
-Sample body:
+Sample Request Body:
 
 ```
 {
@@ -59,6 +59,24 @@ Request body: Required
 
 Return: JSON object of the newly created user
 
+Sample Request Body:
+
+```
+{
+	"Username": String,
+  "Email": String,
+  "Password" : String,
+  "First_Name" : String,
+  "Last_Name" : String,
+	"Is_Authenticated": Integer,
+  "Teaching_Level" : Integer,
+  "Date_Joined" : date,
+  "Last_Login" : date,
+  "Badge_Id" : Integer,
+  "Is_Administrator" : Integer
+}
+```
+
 ### Get All Courses
 
 ```
@@ -70,6 +88,13 @@ Method: GET
 
 ```
 GET: api/courses/{id}
+```
+Method: GET
+
+### Get Last Course
+
+```
+GET: api/courses/last
 ```
 Method: GET
 
@@ -95,10 +120,38 @@ GET: api/modules/{id}
 ```
 Method: GET
 
+### Get Last Module
+
+```
+GET: api/modules/last
+```
+Method: GET
+
 ### Get Modules By Course ID
 
 ```
 GET: api/courses/{id}/modules
+```
+Method: GET
+
+### Get All Users
+
+```
+GET: api/users/
+```
+Method: GET
+
+### Get One User
+
+```
+GET: api/users/{id}
+```
+Method: GET
+
+### Get Last User
+
+```
+GET: api/users/last
 ```
 Method: GET
 
