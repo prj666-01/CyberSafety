@@ -248,11 +248,11 @@ export default {
       e.preventDefault();
     },
     validTitle: function (description) {
-      var re = /^[a-zA-Z]{0,30}$/;
+      var re = /^[a-zA-Z0-9_ ]{0,30}$/;
       return re.test(description);
     },
     validDescription: function (description) {
-      var re = /^[a-zA-Z]{0,300}$/;
+      var re = /^[a-zA-Z0-9_ ]{0,300}$/;
       return re.test(description);
     },
     //Shows the text modal
