@@ -21,7 +21,7 @@
 			</header>
 
 <!-- // Modal  -->
-    <modal name="login" style="z-index:10050;">
+    <modal name="login" style="z-index:10050;  overflow-y: auto;">
       <div class="imgcontainer">
         <div><h2 style="display: inline; text-align:center">Sign In</h2></div>
       </div>
@@ -39,27 +39,33 @@
           </div>
         </div>
         <b-link @click="showforgetPwd">Forgot Password?</b-link>
-        <span v-if ="error" style="text-color:red;">Please check your username or password</span>
+        <span v-if ="error" style="text-color:red;">Incorrect Username/Password</span>
       </div>
     </modal>
 <!--  // Sing up Modal -->
-     <modal name="signup" style="z-index:10050;">
+     <modal name="signup" style="z-index:10050;  overflow-y: auto;">
       <div class="imgcontainer">
         <div><h2 style="display: inline; text-align:center">Sign Up</h2></div>
       </div>
       <div  class="container">
 				<div class="loginmodal-container">
           <b-form-group>
+          <b-form-input v-model="firstName" type="text" placeholder="Enter First Name" style="cursor:pointer;" required></b-form-input>
+          </b-form-group>
+          <b-form-group>
+          <b-form-input v-model="lastName" type="text" placeholder="Enter Last Name" style="cursor:pointer;" required></b-form-input>
+          </b-form-group>
+          <b-form-group>
             <b-form-input v-model="userName" type="text" placeholder="Enter Username" style="cursor:pointer;" required></b-form-input>
           </b-form-group>
            <b-form-group>
-            <b-form-input v-model="userName" type="email" placeholder="Enter Email" style="cursor:pointer;" required></b-form-input>
+            <b-form-input v-model="email" type="email" placeholder="Enter Email" style="cursor:pointer;" required></b-form-input>
           </b-form-group>
           <b-form-group>
             <b-form-input v-model="password" type="password" placeholder="Enter Password" style="cursor:pointer;" required></b-form-input>
           </b-form-group>
           <div class="btn-toolbar">
-            <b-button variant="primary" >Sign Up</b-button>
+            <b-button variant="primary" @click="signup" >Sign Up</b-button>
             <b-button @click="hideSignUp" variant="primary" style="margin-left:20px;">Close</b-button>
           </div>
         </div><br/>
@@ -118,12 +124,14 @@ export default {
   },
   methods: {
   showLogin () {
+    this.reset();
     this.$modal.show('login');
   },
   hideLogin () {
     this.$modal.hide('login');
   },
   showSignUp () {
+    this.reset();
     this.$modal.show('signup');
   },
   hideSignUp () {
@@ -148,13 +156,14 @@ export default {
                 this.signUp = false ;
                 this. signOut = true ;
               }
-             else {
+              else {
                 this.error = true;
-             }
+              }
             }
 
           });
    },
+
    signOutFunction: function(){
     this.signIn = true ;
     this.signUp = true ;
