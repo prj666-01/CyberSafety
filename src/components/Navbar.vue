@@ -28,10 +28,10 @@
       <div  class="container">
 				<div class="loginmodal-container">
           <b-form-group>
-            <b-form-input v-model="userName" type="text" placeholder="Enter Username" style="cursor:pointer;"></b-form-input>
+            <b-form-input v-model="userName" type="text" placeholder="Enter Username" style="cursor:pointer;"  required></b-form-input>
           </b-form-group>
           <b-form-group>
-            <b-form-input v-model="password" type="password" placeholder="Enter Password" style="cursor:pointer;"></b-form-input>
+            <b-form-input v-model="password" type="password" placeholder="Enter Password" style="cursor:pointer;"  required></b-form-input>
           </b-form-group>
           <div class="btn-toolbar">
             <b-button variant="primary" @click="login">Sign In</b-button>
@@ -45,21 +45,21 @@
 <!--  // Sing up Modal -->
      <modal name="signup" style="z-index:10050;">
       <div class="imgcontainer">
-        <div><h2 style="display: inline; text-align:center">Sign In</h2></div>
+        <div><h2 style="display: inline; text-align:center">Sign Up</h2></div>
       </div>
       <div  class="container">
 				<div class="loginmodal-container">
           <b-form-group>
-            <b-form-input v-model="userName" type="text" placeholder="Enter Username" style="cursor:pointer;"></b-form-input>
+            <b-form-input v-model="userName" type="text" placeholder="Enter Username" style="cursor:pointer;" required></b-form-input>
           </b-form-group>
            <b-form-group>
-            <b-form-input v-model="userName" type="email" placeholder="Enter Email" style="cursor:pointer;"></b-form-input>
+            <b-form-input v-model="userName" type="email" placeholder="Enter Email" style="cursor:pointer;" required></b-form-input>
           </b-form-group>
           <b-form-group>
-            <b-form-input v-model="password" type="password" placeholder="Enter Password" style="cursor:pointer;"></b-form-input>
+            <b-form-input v-model="password" type="password" placeholder="Enter Password" style="cursor:pointer;" required></b-form-input>
           </b-form-group>
           <div class="btn-toolbar">
-            <b-button variant="primary" >Sign In</b-button>
+            <b-button variant="primary" >Sign Up</b-button>
             <b-button @click="hideSignUp" variant="primary" style="margin-left:20px;">Close</b-button>
           </div>
         </div><br/>
