@@ -42,8 +42,18 @@ if ($badRequest) {
                     echo $request->get($requestTarget, $requestTargetId, $requestSpecifier);
                 }
                 else if(empty($requestSpecifier) && !empty($requestTargetId)) {
+
+                    // create a new instance of Request
                     $request = new Request();
-                    echo $request->getOne($requestTarget, $requestTargetId);
+
+                    // check if the requestTargetId is "last"
+                    // Example: api/courses/last
+                    if($requestTargetId == 'last') {
+                        echo $request->getLast($requestTarget);
+                    }
+                    else {
+                        echo $request->getOne($requestTarget, $requestTargetId);
+                    }
                 } else {
                     $request = new Request();
                     echo $request->getAll($requestTarget);
