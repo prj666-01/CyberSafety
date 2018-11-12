@@ -142,26 +142,8 @@
     <modal name="textModule"
            id="textModule"
            :width="800"
-           :height="800">
-           <input
-           class="mb-2"
-           v-model="module.Module_Title"
-           placeholder="Enter title for module">
-
-           <vue-editor
-           id="textEditor"
-           v-model="module.Content">
-           </vue-editor>
-
-           <b-button
-           block variant="success"
-           @click="addTextModule">Save content
-           </b-button>
-
-           <b-button
-           block variant="danger"
-           @click="hide">Close
-           </b-button>
+           :height="700">
+           <TextModule @closeModal="close" v-bind:Course_Id="courseID"></TextModule>
     </modal>
   </div>
 </template>
@@ -169,11 +151,12 @@
 <script>
 import axios from 'axios';
 import { VueEditor } from 'vue2-editor';
-
+import TextModule from './TextModule';
 
 export default {
   components: {
-    VueEditor
+    VueEditor,
+    TextModule
   },
   data () {
     return {
@@ -204,7 +187,7 @@ export default {
       hideSubmitInfo: true,
       //
       user_Id: 0,
-      courseID: null,
+      courseID: 0,
       moduleData: null,
       userData: null,
       attemptSubmit: false,
@@ -214,7 +197,6 @@ export default {
   mounted() {
     this.getModules();
     this.getUserName();
-    this.getCourseId();
     this.user_Id = this.$route.query.userId;
   },
   methods: {
@@ -243,6 +225,7 @@ export default {
         this.courseAuthor = this.form.courseAuthor;
         this.courseDescription = this.form.courseDescription;
         this.teachingLevel = this.form.teachingLevel;
+        this.getCourseId();
       }
 
       e.preventDefault();
@@ -258,6 +241,10 @@ export default {
     //Shows the text modal
     show () {
       this.$modal.show('textModule')
+    },
+    close (){
+      this.$modal.hide('textModule');
+      this.getModules();
     },
     //Hides the text modal
     hide () {
