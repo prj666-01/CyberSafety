@@ -268,7 +268,7 @@ export default {
       this.getModules();
     },
     submitModules: function(){
-      this.$router.push({name: "MyCourses"});
+      this.$router.push({ name: "MyCourses", query: { userId: this.user_Id }});
     },
     getModules: function () {
       axios.get('http://myvmlab.senecacollege.ca:6255/api/courses/' + this.courseID + '/modules', {
