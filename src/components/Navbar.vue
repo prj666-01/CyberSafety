@@ -93,12 +93,13 @@
 
      <modal name="forgetPwd" style="z-index:10050;  overflow-y: auto; height:330px;">
       <div class="imgcontainer">
+        <span class="close" title="Close Modal" @click="hideLogin" style=" color: whitesmoke;">&times;</span>
         <div><h2 style="display: inline; text-align:center">Forgot Password</h2></div>
       </div>
       <div  class="container">
 				<div class="loginmodal-container">
           <b-form-group>
-            <b-form-input v-model="password" type="email" placeholder="Enter Password" style="cursor:pointer;"></b-form-input>
+            <b-form-input v-model="password" type="email" placeholder="Enter Email Address" style="cursor:pointer;"></b-form-input>
           </b-form-group>
           <div class="btn-toolbar">
             <b-button variant="primary" @click="resetPwd"  style="margin:10px auto;">Reset Password</b-button>
@@ -161,6 +162,7 @@ export default {
   login: function () {
     if (this.userName == undefined ||  this.password == undefined){
            this.error1 = true;
+           this.error = false;
     }else{
       axios.get('http://myvmlab.senecacollege.ca:6255/api/users/', {
         auth: {
@@ -182,6 +184,7 @@ export default {
                 }
                 else {
                   this.error = true;
+                  this.error1=false;
                 }
               }
 
@@ -189,7 +192,7 @@ export default {
          }
    },
    signup : function(){
-     alert(this.signupObject.Email)
+    //  alert(this.signupObject.Email)
     if (this.signupObject.Username == undefined || this.signupObject.Email == "" || this.signupObject.Password  == ""  || this.signupObject.Last_Name == undefined|| this.signupObject.First_Name == undefined){
            this.error = true;
         }
