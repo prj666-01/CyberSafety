@@ -76,13 +76,31 @@ if ($badRequest) {
                 break;
             // PUT: /api/courses
             case 'PUT':
-                echo "You are PUTting";
-
+                if(empty($requestTargetId) || empty($requestTarget)) {
+                    header("HTTP/1.1 400 Bad Request");
+                } else {
+                    if (count($data) != 0) {
+                        $request = new Request();
+                        echo $request->edit($requestTarget, $requestTargetId, $data);
+                    } else {
+                        header("HTTP/1.1 400 Bad Request");
+                    }
+                }
                 break;
+                
+        
             // DELETE: /api/courses
             case 'DELETE':
-                echo "You are DELETEing";
-
+                if(empty($requestTargetId) || empty($requestTarget)) {
+                    header("HTTP/1.1 400 Bad Request");
+                } else {
+                    if (count($data) == 0) {
+                        $request = new Request();
+                        echo $request->delete($requestTarget, $requestTargetId);
+                    } else {
+                        header("HTTP/1.1 400 Bad Request");
+                    }
+                }
                 break;
         }
     }

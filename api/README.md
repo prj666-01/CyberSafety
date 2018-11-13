@@ -155,29 +155,89 @@ GET: api/users/last
 ```
 Method: GET
 
-### Modify Course (Not implemented yet)
+### Modify Course
 
 ```
-api/modify/course/{id}
+PUT: api/courses/{id}
+```
+
+Requires body
+
+Sample Request Body:
+
+```
+{
+    "courseTitle": String,
+    "courseAuthor": String,
+    "User_Id": Integer,
+    "courseTeachingLevel": Integer,
+    "courseDescription": String,
+    "courseDataCreated": date,
+    "courseDataLastUpdated": date,
+    "Course_Status": Integer,
+    "Is_Approved": Integer
+}
+```
+
+### Modify Module
+
+```
+PUT: api/modules/{id}
+```
+
+Requires body
+
+Sample Request Body:
+
+```
+{
+    "Module_Title": String,
+    "Course_Id": Integer,
+    "Content_Type": String,
+    "Content": Blob,
+    "Quiz": Integer
+}
+```
+
+### Modify User
+
+```
+PUT: api/users/{id}
 ```
 Requires body
 
-### Modify Module (Not implemented yet)
+Sample Request Body:
 
 ```
-api/modify/module/{id}
+{
+    "Username": String,
+    "Email": String,
+    "Password": "String,
+    "First_Name": String,
+    "Last_Name": String,
+    "Is_Authenticated": Integer,
+    "Teaching_Level": Integer,
+    "Date_Joined": date,
+    "Last_Login": date,
+    "Badge_Id": Integer,
+    "Is_Administrator": Integer
+}
 ```
-Requires body
 
-### Remove Course (Not implemented yet)
+### Remove Course
 
 ```
-api/remove/course/{id}
+DELETE: api/courses/{id}
 ```
 This removes all dependent modules
 
-### Remove Module (Not implemented yet)
+### Remove Module
 
 ```
-api/remove/module/{id}
+api/modules/{id}
+```
+### Remove User
+
+```
+api/users/{id}
 ```
