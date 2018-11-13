@@ -23,50 +23,63 @@
 <!-- // Modal  -->
     <modal name="login" style="z-index:10050;  overflow-y: auto;">
       <div class="imgcontainer">
+        <span class="close" title="Close Modal" @click="hideLogin" style=" color: whitesmoke;">&times;</span>
         <div><h2 style="display: inline; text-align:center">Sign In</h2></div>
+      
       </div>
       <div  class="container">
 				<div class="loginmodal-container">
           <b-form-group>
-            <b-form-input v-model="userName" type="text" placeholder="Enter Username" style="cursor:pointer;"  required></b-form-input>
+            <b-form-input v-model="userName" type="text" placeholder="Enter Username" style="cursor:pointer;" :maxlength="30"></b-form-input>
           </b-form-group>
           <b-form-group>
-            <b-form-input v-model="password" type="password" placeholder="Enter Password" style="cursor:pointer;"  required></b-form-input>
+            <b-form-input v-model="password" type="password" placeholder="Enter Password" style="cursor:pointer;" :maxlength="30"></b-form-input>
           </b-form-group>
           <div class="btn-toolbar">
             <b-button variant="primary" @click="login">Sign In</b-button>
-            <b-button @click="hideLogin" variant="primary" style="margin-left:20px;">Close</b-button>
+            <!-- <b-button @click="hideLogin" variant="primary" style="margin-left:20px;">Close</b-button> -->
           </div>
         </div>
-        <b-link @click="showforgetPwd">Forgot Password?</b-link>
-        <span v-if ="error" style="text-color:red;">Incorrect Username/Password</span>
+        
+        <b-link @click="showforgetPwd" class="text-right">Forgot Password?</b-link>
+        <div><span v-if ="error" style="text-color:red;">Incorrect Username/Password</span></div>
       </div>
     </modal>
 <!--  // Sing up Modal -->
-     <modal name="signup" style="z-index:10050;  overflow-y: auto;">
+     <modal name="signup" style="z-index:10050; ">
       <div class="imgcontainer">
-        <div><h2 style="display: inline; text-align:center">Sign Up</h2></div>
-      </div>
-      <div  class="container">
+         <span class="close" title="Close Modal" @click="hideSignUp" style=" color: whitesmoke;">&times;</span>
+         <div><h2 style="display: inline; text-align:center">Sign Up</h2></div>
+ </div>
+      <div  class="container"  >
 				<div class="loginmodal-container">
+        <b-row>
+          <b-col sm="6">
+              <b-form-input v-model="signupObject.First_Name" type="text" placeholder="Enter First Name" style="cursor:pointer;" required :maxlength="30"></b-form-input>
+          </b-col>
+          <b-col sm="6">
+              <b-form-input v-model="signupObject.Last_Name" type="text" placeholder="Enter Last Name" style="cursor:pointer;" required :maxlength="30"></b-form-input>
+          </b-col>
+        </b-row>
           <b-form-group>
-          <b-form-input v-model="firstName" type="text" placeholder="Enter First Name" style="cursor:pointer;" required></b-form-input>
-          </b-form-group>
-          <b-form-group>
-          <b-form-input v-model="lastName" type="text" placeholder="Enter Last Name" style="cursor:pointer;" required></b-form-input>
-          </b-form-group>
-          <b-form-group>
-            <b-form-input v-model="userName" type="text" placeholder="Enter Username" style="cursor:pointer;" required></b-form-input>
+            <b-form-input v-model="signupObject.Username" type="text" placeholder="Enter Username" style="cursor:pointer;" required :maxlength="30"></b-form-input>
           </b-form-group>
            <b-form-group>
-            <b-form-input v-model="email" type="email" placeholder="Enter Email" style="cursor:pointer;" required></b-form-input>
+            <b-form-input v-model="signupObject.Email" type="email" placeholder="Enter Email" style="cursor:pointer;" required :maxlength="30"></b-form-input>
           </b-form-group>
           <b-form-group>
-            <b-form-input v-model="password" type="password" placeholder="Enter Password" style="cursor:pointer;" required></b-form-input>
+            <b-form-input v-model="signupObject.Password" type="password" placeholder="Enter Password" style="cursor:pointer;" required :maxlength="30"></b-form-input>
           </b-form-group>
-          <div class="btn-toolbar">
-            <b-button variant="primary" @click="signup" >Sign Up</b-button>
-            <b-button @click="hideSignUp" variant="primary" style="margin-left:20px;">Close</b-button>
+          <b-form-checkbox id="checkbox1"
+                     v-model="status"
+                     value="accepted"
+                     unchecked-value="not_accepted">
+                    I accept and agree to the Terms of Service
+          </b-form-checkbox>
+          <div class="btn-toolbar" style="margin:20px auto;">
+            <b-button variant="primary" @click="signup" style="margin:20px auto;">Sign Up</b-button>
+            <div><span v-if ="error" style="text-color:red;">Please enter a valid user information</span></div>
+            <!-- <b-button @click="hideSignUp" variant="primary" style="margin:10px auto;">Close</b-button> -->
           </div>
         </div><br/>
       </div>
@@ -83,7 +96,7 @@
           </b-form-group>
           <div class="btn-toolbar">
             <b-button variant="primary" @click="resetPwd">Reset Password</b-button>
-            <b-button @click="hideLogin" variant="primary" style="margin-left:20px;">Close</b-button>
+            <!-- <b-button @click="hideLogin" variant="primary" style="margin-left:20px;">Close</b-button> -->
           </div>
         </div>
       </div>
@@ -118,7 +131,8 @@ export default {
       signIn : true ,
       signUp : true ,
       signOut: false,
-      emailForReset: ''
+      emailForReset: '',
+      signupObject:{}
       
     }
   },
@@ -138,32 +152,63 @@ export default {
     this.$modal.hide('signup');
   },
   login: function () {
-    axios.get('http://myvmlab.senecacollege.ca:6255/api/users/', {
-      auth: {
-        username: 'Group-01',
-        password: 'gkHQ4574'
-      }
-      }).then(response => {
-         this.users = response.data;
-           for(var i=0; i < this.users.length; i++){
-             if(this.userName.toLowerCase() == this.users[i].Username.toLowerCase() && this.password == this.users[i].Password){
-               this.signedinUserId = this.users[i].User_Id;
-                this.$emit('userInfo',{'id': this.signedinUserId,'badge_id':this.users[i].Badge_Id});
-                this.hideLogin();
-                localStorage.setItem("SignedIn", true);
-                localStorage.setItem("SignedInUser", JSON.stringify(this.users[i]));
-                this.signIn = false ;
-                this.signUp = false ;
-                this. signOut = true ;
+    if (this.userName == undefined ||  this.password == undefined){
+           this.error = true;
+    }else{
+      axios.get('http://myvmlab.senecacollege.ca:6255/api/users/', {
+        auth: {
+          username: 'Group-01',
+          password: 'gkHQ4574'
+        }
+        }).then(response => {
+          this.users = response.data;
+            for(var i=0; i < this.users.length; i++){
+              if(this.userName.toLowerCase() == this.users[i].Username.toLowerCase() && this.password == this.users[i].Password){
+                  this.signedinUserId = this.users[i].User_Id;
+                  this.$emit('userInfo',{'id': this.signedinUserId,'badge_id':this.users[i].Badge_Id});
+                  this.hideLogin();
+                  localStorage.setItem("SignedIn", true);
+                  localStorage.setItem("SignedInUser", JSON.stringify(this.users[i]));
+                  this.signIn = false ;
+                  this.signUp = false ;
+                  this. signOut = true ;
+                }
+                else {
+                  this.error = true;
+                }
               }
-              else {
-                this.error = true;
-              }
-            }
 
-          });
+            });
+         }
    },
+   signup : function(){
+    if (this.signupObject.Username == undefined || this.signupObject.Email == undefined || this.signupObject.Password  == undefined  || this.signupObject.Last_Name == undefined|| this.signupObject.First_Name == undefined){
+           this.error = true;
+        }
+        else{
+          this.signupObject.Is_Authenticated = "0";
+          this.signupObject.Teaching_Level = "0";
+          var myDate = new Date();
+          this.signupObject.Last_Login = myDate.getMonth()+ '-' +myDate.getDate()+ '-' +myDate.getFullYear()+ ' ' + myDate.getHours() + ':'+myDate.getMinutes()+':'+myDate.getSeconds();
+          this.signupObject.Last_Login = "2018-11-10 18:22:25";
+          this.signupObject.Badge_Id = "0";
+          this.signupObject.Is_Administrator = "1";
+          console.log(this.signupObject);
 
+          axios.post('http://myvmlab.senecacollege.ca:6255/api/users/',
+              JSON.stringify(this.signupObject))
+              .then(response => {
+                console.log(response);
+                localStorage.setItem("SignedIn", true);
+                localStorage.setItem("SignedInUser", JSON.stringify(response.data));
+                this.hideSignUp();
+                 this.showLogin ();
+           });
+        }
+      
+    },
+   
+  
    signOutFunction: function(){
     this.signIn = true ;
     this.signUp = true ;
@@ -190,7 +235,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,700');
 body {
   background-color: #EEEEEE;
@@ -284,5 +329,9 @@ h1 {
 	}
 .nav-links  a , .nav-links a :visited {
   color: whitesmoke;
+}
+.v--modal{
+ min-height: 450px !important;
+  top: 85px !important;
 }
 </style>
