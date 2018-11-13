@@ -138,7 +138,6 @@ class Request {
                     
                     echo json_encode($module, JSON_PRETTY_PRINT);
                 }
-                
                 break;
             // GET api/users/42
             case 'users' :
@@ -171,7 +170,6 @@ class Request {
 
         switch($target) {
             case 'courses' : 
-
                 // GET: api/courses/42/modules
                 if ($specifier == 'modules') {
                     $query =  "SELECT * FROM Module WHERE Course_Id = '" . $targetId . "'";
@@ -217,9 +215,81 @@ class Request {
                 break;
         }
     }
-    /*
-    A
-    */
+
+    public function getLast($target){
+       
+        switch($target) {
+            // GET api/courses/last
+            case 'courses' : 
+                $query =  "SELECT * FROM Course ORDER BY Course_Id DESC LIMIT 1";
+                $res = $this->$mysqli->query($query);
+                if ($res->num_rows == 0) {
+                    break;
+                } else {
+                    $row = $res->fetch_assoc();
+                    $module = [
+                    "Course_Id"   => $row[Course_Id],
+                    "Course_Title" => $row[Course_Title],
+                    "Course_Author"=> $row[Course_Author],
+                    "User_Id"=> $row[User_Id],
+                    "Course_Description"=> $row[Course_Description],
+                    "Date_Created"=> $row[Date_Created],
+                    "Date_Last_Updated"=> $row[Date_Last_Updated],
+                    "Course_Status"=> $row[Course_Status],
+                    "Is_Approved"=> $row[Is_Approved],
+                ];                
+                echo json_encode($module, JSON_PRETTY_PRINT);
+            }
+                
+            break;
+            // GET api/modules/last
+            case 'modules' :
+                $query =  "SELECT * FROM Module ORDER BY Module_Id DESC LIMIT 1";
+                $res = $this->$mysqli->query($query);
+                if ($res->num_rows == 0) {
+                    break;
+                } else {
+                    $row = $res->fetch_assoc();
+                    $module = [
+                        "Module_Id"   => $row[Module_Id],
+                        "Module_Title" => $row[Module_Title],
+                        "Course_Id"=> $row[Course_Id],
+                        "Content_Type"=> $row[Content_Type],
+                        "Content"=> $row[Content],
+                        "Quiz"=> $row[Quiz],
+                    ];
+                    
+                    echo json_encode($module, JSON_PRETTY_PRINT);
+                }
+                break;
+            // GET api/users/last
+            case 'users' :
+            $query =  "SELECT * FROM User ORDER BY User_Id DESC LIMIT 1";
+            $res = $this->$mysqli->query($query);
+                if ($res->num_rows == 0) {
+                    break;
+                } else {
+                    $row = $res->fetch_assoc();
+                    $user = [
+                        "User_Id"   => $row['User_Id'],
+                        "Username"=> $row['Username'],
+                        "Email" => $row['Email'],
+                        "Password"=> $row['Password'],
+                        "First_Name" => $row['First_Name'],
+                        "Last_Name" => $row['Last_Name'],
+                        "Is_Authenticated" => $row['Is_Authenticated'],
+                        "Teaching_Level" => $row['Teaching_Level'],
+                        "Date_Joined" => $row['Date_Joined'],
+                        "Last_Login" => $row['Last_Login'],
+                        "Badge_Id" => $row['Badge_Id'],
+                        "Is_Administrator" => $row['Is_Administrator'],
+                    ];                
+                echo json_encode($user, JSON_PRETTY_PRINT);
+                }
+                break;
+        }
+    }
+
     function add($target, $data) {
 
         switch($target) {
@@ -300,7 +370,8 @@ class Request {
                 $Last_Login = $data->Last_Login;
                 ($data->Badge_Id == '') ? $Badge_Id = 0 : $Badge_Id = $data->Badge_Id;
                 ($data->Is_Administrator == '') ? $Is_Administrator = 0 : $Is_Administrator = $data->Is_Administrator;
-                $query =  "INSERT INTO user(Username, Email , Password, First_Name, Last_Name, Is_Authenticated, Teaching_Level, Date_Joined, Last_Login, Badge_Id, Is_Administrator) VALUES ('$Username', '$Email', '$Password','$First_Name','$Last_Name', '$Is_Authenticated', '$Teaching_Level', '$Date_Joined','$Last_Login','$Badge_Id', '$Is_Administrator')";
+                $query =  "INSERT INTO User(Username, Email , Password, First_Name, Last_Name, Is_Authenticated, Teaching_Level, Date_Joined, Last_Login, Badge_Id, Is_Administrator) VALUES ('$Username', '$Email', '$Password','$First_Name','$Last_Name', '$Is_Authenticated', '$Teaching_Level', '$Date_Joined','$Last_Login','$Badge_Id', '$Is_Administrator')";
+                echo $query;
                 $res = $this->$mysqli->query($query);
 
                 $last_id = $this->$mysqli->insert_id;
@@ -310,7 +381,7 @@ class Request {
                 $row = $res->fetch_assoc();
                 $user = [
                     "User_Id"   => $row['User_Id'],
-                    "Username"=> $row['username'],
+                    "Username"=> $row['Username'],
                     "Email" => $row['Email'],
                     "Password"=> $row['Password'],
                     "First_Name" => $row['First_Name'],
@@ -329,4 +400,5 @@ class Request {
             
     }
 }
+
 ?>

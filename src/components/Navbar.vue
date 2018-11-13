@@ -93,7 +93,7 @@
 
      <modal name="forgetPwd" style="z-index:10050;  overflow-y: auto; height:330px;">
       <div class="imgcontainer">
-        <span class="close" title="Close Modal" @click="hideLogin" style=" color: whitesmoke;">&times;</span>
+        <span class="close" title="Close Modal" @click="hideforgetPwd" style=" color: whitesmoke;">&times;</span>
         <div><h2 style="display: inline; text-align:center">Forgot Password</h2></div>
       </div>
       <div  class="container">
@@ -246,6 +246,9 @@ export default {
    showforgetPwd: function(){
      this.hideLogin();
      this.$modal.show('forgetPwd');
+   },
+   hideforgetPwd: function(){
+     this.$modal.hide('forgetPwd');
    },
    resetPwd: function(){
      alert("Email will be sent to " + this.emailForReset+ " with reset instructions");

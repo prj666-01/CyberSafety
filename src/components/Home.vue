@@ -81,7 +81,15 @@ export default {
       this.$router.push({
         name: "CreateCourse",
         query: { userId: parseInt(JSON.parse(localStorage.SignedInUser).User_Id) }
-       
+
+      });
+    },
+    sendIdMyCourses: function() {
+      // console.log("Made it to send id");
+      this.$router.push({
+        name: "MyCourses",
+        query: { userId: parseInt(JSON.parse(localStorage.SignedInUser).User_Id) }
+
       });
     },
     savUser: function (event) {
