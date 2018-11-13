@@ -3,95 +3,100 @@
         <h1>Audio Module Creation</h1>
         <form id="audioStuff" @submit.prevent= "addAudio">
             <label for="ttl">Enter a title for your module: </label>
-            <input type="text" id= "ttl"  v-model= "moduleTitle" />
+            <input type="text" id= "ttl" :maxlength= "maxTitle" required v-model= "module.Module_Title" />
             <br/>
             <br/>
             <br/>
-            <label for="f"><strong>Upload an audio file:</strong></label>
+            <label for="audio"><strong>Enter an embed link for your audio file:</strong></label>
             <br/>
             <br/>
-            <input type="file" id="f" ref="file" v-on:change="handleFileUpload()"/>
+            <input type="text" id="audio" ref="audio" v-model= "module.Content"/>
             <br/>
             <br/>
             <input type="submit" value= "Submit">
         </form>
-        <AudioModal ref="modal" v-on:hidden= "clear" v-bind:moduleTitle= "moduleTitle" v-bind:audioFile= "audioFile" v-bind:courseID= "courseID" v-bind:moduleID= "moduleID" v-bind:contentType= "contentType" ></AudioModal>
+        <modal v-show="submitted" name= "audioM" height="auto" :click-to-close="false" :scrollable="true" :adaptive="true">
+            <header>
+                <h2>{{module.moduleTitle}}</h2>
+            </header>
+            <body>
+                <div v-html="module.Content"></div>
+            </body>
+            <footer>
+                <button @click= "add">Finished</button>
+            </footer>
+        </modal>
     </main>
 </template>
 
 <script>
-    import axios from 'axios';
-    import AudioModal from './AudioModal.vue';
-    export default {
-        components: {
-            AudioModal
-        },
-        data() {
-            return {
-                moduleTitle: '',
-                courseID: 0,
-                moduleID: 0,
-                contentType: '',
-                audioFile: null,
-                submitted: false
-            }
-        },
-        methods: {
-           
-            addAudio: function(){
-                this.courseID = 5;
-                this.moduleID = 9;
-                this.contentType = 'audio';
-                this.submitted = true;
-                this.$refs.modal.show()
-            },
+import axios from "axios";
+export default {
+  data() {
+    return {
+      module: {
+        Module_Title: "",
+        Course_Id: 0,
+        Content_Type: "",
+        Content: null,
+        Quiz: 0
+      },
+      submitted: false,
+      moduleID: 0,
+      maxTitle: 50,
+      info: ""
+    };
+  },
+  props: {
+    Course_Id: String
+  },
+  methods: {
+    addText: function() {
+      this.module.Content_Type = "audio";
+      this.submitted = true;
+      this.sendToMiddleMan();
+      this.$modal.show("audioM");
+    },
 
-            handleFileUpload(){
-                this.audioFile = this.$refs.file.files[0];
-            },
+    showDemo: function() {
+      this.submitted = true;
+      this.$modal.show("audioM");
+    },
 
-            addVideo: function() {
-            this.sendToMiddleMan();
-            this.getFromMiddleMan();
-            },
+    clear: function() {
+      this.submitted = false;
+      this.$modal.hide("audioM");
+    },
 
-            sendToMiddleMan: function(){
-                axios.post('http://ruihui.me/create-course/middle-man.php', {
-                    title: this.moduleTitle,
-                    contentType: this.contentType,
-                    content: this.audioFile
-                }).then(response => {
-                    (this.info = response.data)
-                })
-            },
-
-            getFromMiddleMan: function() {
-                axios.post('http://ruihui.me/create-course/middle-man.php', {
-                }).then(response => {
-                    (this.info = response.data)
-                })
-            },
-
-            showDemo: function(){
-                this.moduleTitle = this.$route.query.moduleTitle;
-                this.moduleID = this.$route.query.moduleID;
-                this.courseID = this.$route.query.courseID;
-                this.contentType = this.$route.query.contentType;
-                this.module.editorContent = this.$route.query.editorContent;
-                this.submitted = true;
-                this.$refs.modal.show()
-            },
-
-            clear: function(){
-                this.submitted = false;
-                this.$refs.modal.hide()
-            }
-        },
-        mounted: function () {
-            if(this.$route.query.moduleTitle && this.$route.query.moduleID && this.$route.query.moduleTitle 
-                 && this.$route.query.moduleTitle && this.$route.query.moduleTitle){
-                     this.showDemo();
-            }
-        }
-    }   
+    sendToMiddleMan: function() {
+      this.module.Course_Id = parseInt(this.Course_Id, 10);
+      alert(JSON.stringify(this.module));
+      axios
+        .post(
+          "http://myvmlab.senecacollege.ca:6255/api/modules",
+          JSON.stringify(this.module)
+        )
+        .then(response => {
+          this.info = response.data;
+          alert(JSON.stringify(this.info));
+        });
+    },
+    show() {
+      this.submitted = true;
+      this.$modal.show("audioM");
+    },
+    add() {
+      this.saveModules();
+      this.$emit("closeModal", { close: true });
+      this.$modal.hide("audioM");
+    },
+    saveModules() {
+      const parsed = JSON.stringify(this.modules);
+    },
+    hide() {
+      this.$modal.hide("audioM");
+      this.submitted = false;
+    }
+  }
+};
 </script>
