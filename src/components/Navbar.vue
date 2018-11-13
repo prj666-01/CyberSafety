@@ -198,10 +198,8 @@ export default {
         }
         
         else{
-        //    if ( this.signupObject.Email !=""){
-        //       validEmail(this.signupObject.Email)   
-        // }
-        // else{
+            var isValid = this.validEmail(this.signupObject.Email);
+        if(isValid){
           this.signupObject.Is_Authenticated = "0";
           this.signupObject.Teaching_Level = "0";
           var myDate = new Date();
@@ -220,7 +218,11 @@ export default {
                 this.hideSignUp();
                  this.showLogin ();
            });
-          //  }
+          }
+          else{
+            this.error = false;
+            this.error1 = true;
+          }
         }
       
     },
