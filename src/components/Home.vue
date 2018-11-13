@@ -14,13 +14,13 @@
 						<div v-show="oneBadge">
 						<!-- <span class="icon fa-car" ></span> -->
             <img src="../../assets/images/icon1.png" alt="icon 01" />
-            <a class="button icon-link" style="display:block;margin-top:20px; color:white;"  @click= "sendId()">Course Builder</a>
+            <a class="button icon-link" style="display:block;margin-top:20px; color:white;"  @click="sendIdCreateCourse()">Course Builder</a>
 						</div>
 
 						<div v-show="noBadge">
 							<!-- <span class="icon fa-camera"></span> -->
               <img src="../../assets/images/icon2.png" alt="Pic 02" />
-              <a href="#" class="button icon-link"  style="display:block;margin-top:20px; color:white;">View Available Courses</a>
+              <a class="button icon-link"  style="display:block;margin-top:20px; color:white;" @click="sendIdMyCourses()">View Available Courses</a>
               <!-- <a href="#" class="button">View Available Courses</a> -->
 						</div>
 
@@ -76,12 +76,20 @@ export default {
     }
   },
   methods: {
-    sendId: function() {
+    sendIdCreateCourse: function() {
       // console.log("Made it to send id");
       this.$router.push({
         name: "CreateCourse",
         query: { userId: parseInt(JSON.parse(localStorage.SignedInUser).User_Id) }
-       
+
+      });
+    },
+    sendIdMyCourses: function() {
+      // console.log("Made it to send id");
+      this.$router.push({
+        name: "MyCourses",
+        query: { userId: parseInt(JSON.parse(localStorage.SignedInUser).User_Id) }
+
       });
     },
     savUser: function (event) {
@@ -328,4 +336,3 @@ export default {
 		cursor: pointer;
 	}
 </style>
-
