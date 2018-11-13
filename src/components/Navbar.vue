@@ -8,7 +8,7 @@
               </b-navbar-toggle>
               <b-collapse is-nav id="nav_collapse" >
                 <b-navbar-nav class="ml-auto">
-                  	<a href="#" class="logo" style="font-size:2em; margin-left:40px;">Knowledgeflow</a>
+                  <a href="#" class="logo" style="font-size:2em; margin-left:40px;">Knowledgeflow</a>
                   <b-nav-item @click="showLogin" v-show= "signIn" class="nav-links"><a style="color:white;">Sign In</a></b-nav-item>
                   <b-nav-item @click="showSignUp" v-show= "signUp" class="nav-links"><a style="color:white;">Sign Up</a></b-nav-item>
                   <b-nav-item @click="signOutFunction" v-show= "signOut" class="nav-links"><a style="color:white;">Sign Out</a></b-nav-item>
@@ -21,7 +21,7 @@
 			</header>
 
 <!-- // Modal  -->
-    <modal name="login" style="z-index:10050;  overflow-y: auto;">
+    <modal name="login" style="z-index:10050;  overflow-y: auto; height:430px;">
       <div class="imgcontainer">
         <span class="close" title="Close Modal" @click="hideLogin" style=" color: whitesmoke;">&times;</span>
         <div><h2 style="display: inline; text-align:center">Sign In</h2></div>
@@ -35,14 +35,15 @@
           <b-form-group>
             <b-form-input v-model="password" type="password" placeholder="Enter Password" style="cursor:pointer;" :maxlength="30"></b-form-input>
           </b-form-group>
+         <div><span v-if ="error" style="color:red;clear: right;">Incorrect Username/Password</span></div>
+          <div><span v-if ="error1" style="color:red;clear: right;">Please enter Username/Password</span></div>
           <div class="btn-toolbar">
-            <b-button variant="primary" @click="login">Sign In</b-button>
+            <b-button variant="primary" @click="login" style="margin:10px auto;" >Sign In</b-button>
             <!-- <b-button @click="hideLogin" variant="primary" style="margin-left:20px;">Close</b-button> -->
           </div>
         </div>
         
-        <b-link @click="showforgetPwd" class="text-right">Forgot Password?</b-link>
-        <div><span v-if ="error" style="text-color:red;">Incorrect Username/Password</span></div>
+        <b-link @click="showforgetPwd" style="float:right;">Forgot Password?</b-link>
       </div>
     </modal>
 <!--  // Sing up Modal -->
@@ -61,11 +62,11 @@
               <b-form-input v-model="signupObject.Last_Name" type="text" placeholder="Enter Last Name" style="cursor:pointer;" required :maxlength="30"></b-form-input>
           </b-col>
         </b-row>
-          <b-form-group>
+          <b-form-group style="margin-top:20px;" >
             <b-form-input v-model="signupObject.Username" type="text" placeholder="Enter Username" style="cursor:pointer;" required :maxlength="30"></b-form-input>
           </b-form-group>
            <b-form-group>
-            <b-form-input v-model="signupObject.Email" type="email" placeholder="Enter Email" style="cursor:pointer;" required :maxlength="30"></b-form-input>
+            <b-form-input v-model="signupObject.Email"  type="email" name="email" placeholder="Enter Email Address" style="cursor:pointer;" required :maxlength="30"></b-form-input>
           </b-form-group>
           <b-form-group>
             <b-form-input v-model="signupObject.Password" type="password" placeholder="Enter Password" style="cursor:pointer;" required :maxlength="30"></b-form-input>
@@ -76,16 +77,21 @@
                      unchecked-value="not_accepted">
                     I accept and agree to the Terms of Service
           </b-form-checkbox>
+          <div><span v-if ="error" style="color:red;">Please enter a valid user information</span></div>
+          <div><span v-if ="error1" style="color:red;">Please enter a valid email address</span></div>
           <div class="btn-toolbar" style="margin:20px auto;">
-            <b-button variant="primary" @click="signup" style="margin:20px auto;">Sign Up</b-button>
-            <div><span v-if ="error" style="text-color:red;">Please enter a valid user information</span></div>
+             <!-- <b-button-group style="margin:10px auto;"> -->
+            <b-button  size="lg" variant="primary" @click="signup" style="margin:10px auto;">Sign Up</b-button>
+             <!-- </b-button-group> -->
+             </div>
+            
             <!-- <b-button @click="hideSignUp" variant="primary" style="margin:10px auto;">Close</b-button> -->
-          </div>
+          
         </div><br/>
       </div>
     </modal>
 
-     <modal name="forgetPwd" style="z-index:10050;">
+     <modal name="forgetPwd" style="z-index:10050;  overflow-y: auto; height:330px;">
       <div class="imgcontainer">
         <div><h2 style="display: inline; text-align:center">Forgot Password</h2></div>
       </div>
@@ -95,7 +101,7 @@
             <b-form-input v-model="password" type="email" placeholder="Enter Password" style="cursor:pointer;"></b-form-input>
           </b-form-group>
           <div class="btn-toolbar">
-            <b-button variant="primary" @click="resetPwd">Reset Password</b-button>
+            <b-button variant="primary" @click="resetPwd"  style="margin:10px auto;">Reset Password</b-button>
             <!-- <b-button @click="hideLogin" variant="primary" style="margin-left:20px;">Close</b-button> -->
           </div>
         </div>
@@ -127,6 +133,7 @@ export default {
       password : '',
       signedinUserId: 0,
       error : false,
+      error1 : false,
       badgeNo : 0,
       signIn : true ,
       signUp : true ,
@@ -153,7 +160,7 @@ export default {
   },
   login: function () {
     if (this.userName == undefined ||  this.password == undefined){
-           this.error = true;
+           this.error1 = true;
     }else{
       axios.get('http://myvmlab.senecacollege.ca:6255/api/users/', {
         auth: {
@@ -182,28 +189,35 @@ export default {
          }
    },
    signup : function(){
-    if (this.signupObject.Username == undefined || this.signupObject.Email == undefined || this.signupObject.Password  == undefined  || this.signupObject.Last_Name == undefined|| this.signupObject.First_Name == undefined){
+     alert(this.signupObject.Email)
+    if (this.signupObject.Username == undefined || this.signupObject.Email == "" || this.signupObject.Password  == ""  || this.signupObject.Last_Name == undefined|| this.signupObject.First_Name == undefined){
            this.error = true;
         }
+        
         else{
+        //    if ( this.signupObject.Email !=""){
+        //       validEmail(this.signupObject.Email)   
+        // }
+        // else{
           this.signupObject.Is_Authenticated = "0";
           this.signupObject.Teaching_Level = "0";
           var myDate = new Date();
-          this.signupObject.Last_Login = myDate.getMonth()+ '-' +myDate.getDate()+ '-' +myDate.getFullYear()+ ' ' + myDate.getHours() + ':'+myDate.getMinutes()+':'+myDate.getSeconds();
+          // this.signupObject.Last_Login = myDate.getMonth()+ '-' +myDate.getDate()+ '-' +myDate.getFullYear()+ ' ' + myDate.getHours() + ':'+myDate.getMinutes()+':'+myDate.getSeconds();
           this.signupObject.Last_Login = "2018-11-10 18:22:25";
           this.signupObject.Badge_Id = "0";
           this.signupObject.Is_Administrator = "1";
-          console.log(this.signupObject);
+          // console.log(this.signupObject);
 
           axios.post('http://myvmlab.senecacollege.ca:6255/api/users/',
               JSON.stringify(this.signupObject))
               .then(response => {
-                console.log(response);
+                // console.log(response);
                 localStorage.setItem("SignedIn", true);
                 localStorage.setItem("SignedInUser", JSON.stringify(response.data));
                 this.hideSignUp();
                  this.showLogin ();
            });
+          //  }
         }
       
     },
@@ -230,7 +244,11 @@ export default {
    },
    resetPwd: function(){
      alert("Email will be sent to " + this.emailForReset+ " with reset instructions");
-   }
+   },
+   validEmail: function (email) {
+      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(email);
+    }
   }
 }
 </script>
@@ -331,7 +349,7 @@ h1 {
   color: whitesmoke;
 }
 .v--modal{
- min-height: 450px !important;
+ min-height: 450px ;
   top: 85px !important;
 }
 </style>
