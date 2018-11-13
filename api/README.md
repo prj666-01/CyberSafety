@@ -234,10 +234,10 @@ This removes all dependent modules
 ### Remove Module
 
 ```
-api/modules/{id}
+DELETE api/modules/{id}
 ```
 ### Remove User
 
 ```
-api/users/{id}
+DELETE api/users/{id}
 ```
