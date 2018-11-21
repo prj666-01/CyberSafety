@@ -51,7 +51,7 @@ class Request {
             case 'modules' :
 
                 $query =  "SELECT * FROM Modules";
-                $res = $this->$mysqli->query($query);
+                $res = $this->mysqli->query($query);
                 $array = array();
                 while ($row = $res->fetch_assoc()) {
                     $module = [
@@ -192,7 +192,7 @@ class Request {
             // GET api/modules/42
             case 'modules' :
                 $query =  "SELECT * FROM Modules WHERE Module_ID = '" . $targetId . "'";
-                $res = $this->$mysqli->query($query);
+                $res = $this->mysqli->query($query);
                 if ($res->num_rows == 0) {
                     break;
                 } else {
@@ -213,7 +213,7 @@ class Request {
             // GET api/users/42
             case 'users' :
                 $query =  "SELECT * FROM Users WHERE User_ID = '" . $targetId . "'";
-                $res = $this->$mysqli->query($query);
+                $res = $this->mysqli->query($query);
                 if ($res->num_rows == 0) {
                     break;
                 } else {
@@ -244,7 +244,7 @@ class Request {
                 // GET: api/courses/42/modules
                 if ($specifier == 'modules') {
                     $query =  "SELECT * FROM Modules WHERE Course_ID = '" . $targetId . "'";
-                    $res = $this->$mysqli->query($query);
+                    $res = $this->mysqli->query($query);
                     $array = array();
                     while ($row = $res->fetch_assoc()) {
                         $module = [
@@ -268,7 +268,7 @@ class Request {
             case 'users' :
                 if ($specifier == 'courses') {
                     $query =  "SELECT * FROM Courses WHERE User_ID = '" . $targetId . "'";
-                    $res = $this->$mysqli->query($query);
+                    $res = $this->mysqli->query($query);
                     $array = array();
                     while ($row = $res->fetch_assoc()) {
                         $module = [
@@ -298,7 +298,7 @@ class Request {
             // GET api/courses/last
             case 'courses' :
                 $query =  "SELECT * FROM Courses ORDER BY Course_ID DESC LIMIT 1";
-                $res = $this->$mysqli->query($query);
+                $res = $this->mysqli->query($query);
                 if ($res->num_rows == 0) {
                     break;
                 } else {
@@ -322,7 +322,7 @@ class Request {
             // GET api/modules/last
             case 'modules' :
                 $query =  "SELECT * FROM Modules ORDER BY Module_ID DESC LIMIT 1";
-                $res = $this->$mysqli->query($query);
+                $res = $this->mysqli->query($query);
                 if ($res->num_rows == 0) {
                     break;
                 } else {
@@ -344,7 +344,7 @@ class Request {
             // GET api/users/last
             case 'users' :
             $query =  "SELECT * FROM Users ORDER BY User_ID DESC LIMIT 1";
-            $res = $this->$mysqli->query($query);
+            $res = $this->mysqli->query($query);
                 if ($res->num_rows == 0) {
                     break;
                 } else {
@@ -414,12 +414,12 @@ class Request {
                 $Content = $data->Content;
                 ($data->$Quiz == '') ? $Quiz = 0 : $Quiz = $data->Quiz;
                 $query =  "INSERT INTO Module(Module_Title, Course_Id, Content_Type, Content, Quiz) VALUES ('$Module_Title','$Course_Id', '$Content_Type', '$Content', '$Quiz')";
-                $res = $this->$mysqli->query($query);
+                $res = $this->mysqli->query($query);
 
                 $last_id = $this->$mysqli->insert_id;
 
                 $query =  "SELECT * FROM Module WHERE Module_Id = '" . $last_id . "'";
-                $res = $this->$mysqli->query($query);
+                $res = $this->mysqli->query($query);
                 $row = $res->fetch_assoc();
                 $module = [
                   "moduleId" => $row[Module_ID],
@@ -448,12 +448,12 @@ class Request {
                 ($data->Is_Administrator == '') ? $Is_Administrator = 0 : $Is_Administrator = $data->Is_Administrator;
                 $query =  "INSERT INTO User(Username, Email , Password, First_Name, Last_Name, Is_Authenticated, Teaching_Level, Date_Joined, Last_Login, Badge_Id, Is_Administrator) VALUES ('$Username', '$Email', '$Password','$First_Name','$Last_Name', '$Is_Authenticated', '$Teaching_Level', '$Date_Joined','$Last_Login','$Badge_Id', '$Is_Administrator')";
                 echo $query;
-                $res = $this->$mysqli->query($query);
+                $res = $this->mysqli->query($query);
 
                 $last_id = $this->$mysqli->insert_id;
 
                 $query =  "SELECT * FROM User WHERE User_Id = '" . $last_id . "'";
-                $res = $this->$mysqli->query($query);
+                $res = $this->mysqli->query($query);
                 $row = $res->fetch_assoc();
                 $user = [
                   "userId"   => $row['User_ID'],
@@ -493,7 +493,7 @@ class Request {
                 $res = $this->$mysqli->query($query);
 
                 $query =  "SELECT * FROM Course WHERE Course_Id = '" . $targetId . "'";
-                $res = $this->$mysqli->query($query);
+                $res = $this->mysqli->query($query);
                 $row = $res->fetch_assoc();
                 $course = [
                         "Course_Id"   => $row[Course_Id],
@@ -520,10 +520,10 @@ class Request {
                 $Quiz = $data->Quiz;
 
                 $query =  "UPDATE Module SET Module_Title = '$Module_Title', Course_Id = '$Course_Id', Content_Type = '$Content_Type', Content = '$Content', Quiz = '$Quiz' WHERE Module_Id = '$targetId'";
-                $res = $this->$mysqli->query($query);
-                $last_id = $this->$mysqli->insert_id;
+                $res = $this->mysqli->query($query);
+                $last_id = $this->mysqli->insert_id;
                 $query =  "SELECT * FROM Module WHERE Module_Id = '" . $targetId . "'";
-                $res = $this->$mysqli->query($query);
+                $res = $this->mysqli->query($query);
                 $row = $res->fetch_assoc();
 
                 $module = [
@@ -553,10 +553,10 @@ class Request {
 
                 $query =  "UPDATE User SET Username = '$Username', Email = '$Email', Password = '$Password', First_Name = '$First_Name', Last_Name = '$Last_Name', Is_Authenticated = '$Is_Authenticated', Teaching_Level = '$Teaching_Level', Date_Joined = '$Date_Joined', Last_Login = '$Last_Login', Badge_Id = '$Badge_Id', Is_Administrator = '$Is_Administrator'  WHERE User_Id = '$targetId'";
 
-                $res = $this->$mysqli->query($query);
+                $res = $this->mysqli->query($query);
 
                 $query =  "SELECT * FROM User WHERE User_Id = '" . $targetId . "'";
-                $res = $this->$mysqli->query($query);
+                $res = $this->mysqli->query($query);
                 $row = $res->fetch_assoc();
                 $user = [
                     "User_Id"   => $row['User_Id'],
@@ -585,28 +585,31 @@ class Request {
             // DELETE: api/courses/42
             case 'courses' :
                 $query =  "DELETE FROM Course WHERE Course_Id = '" . $targetId . "'";
-                $res = $this->$mysqli->query($query);
+                $res = $this->mysqli->query($query);
                 break;
 
             // DELETE: api/modules/42
             case 'modules' :
                 $query =  "DELETE FROM Module WHERE  Module_Id = '" . $targetId . "'";
-                $res = $this->$mysqli->query($query);
+                $res = $this->mysqli->query($query);
                 break;
 
             // DELETE: api/users/42
             case 'users' :
                 $query =  "DELETE FROM User WHERE User_Id = '" . $targetId . "'";
-                $res = $this->$mysqli->query($query);
+                $res = $this->mysqli->query($query);
                 break;
 
         }
     }
+    // Check if the passed $username exists
     public function userExists($username) {
       $query =  "SELECT * FROM Users WHERE Username = '" . $username . "'";
       $res = $this->mysqli->query($query);
       return (mysqli_num_rows($res) != 0) ? true : false;
     }
+
+    // Check if the passed $email exists
     public function emailExists($email) {
       $query =  "SELECT * FROM Users WHERE Email = '" . $email . "'";
       $res = $this->mysqli->query($query);
