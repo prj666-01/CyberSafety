@@ -9,30 +9,21 @@
       $request = new Request();
       if ($request->userExists($username) || $request->emailExists($username)) {
          $dbUserPassword = $request->getPassword($username);
-         if(password_verify($password,$dbUserPassword)){
+         if(password_verify($password, $dbUserPassword)){
+            $signedinuser = $request->getOne("userbyusername", $username);
             session_start();
-            $_SESSION["username"] = $username;
+            $_SESSION["signedinuser"]["isapproved"] = $signedinuser["approved"];
+            $_SESSION["signedinuser"]["badgeid"] = $signedinuser["badge"];
+            $_SESSION["signedinuser"]["username"] = $signedinuser["username"];
             header('Location: index.php');
          }else {
             $error_message = "Invalid username/password ";
          }
-         // if(password_verify($password,$dbUserPassword)){
-         //    session_start();
-         //    $_SESSION["username"] = $username;
-         //    header('Location: index.php');
-            
-         // } else{
-         //    echo "<script type='text/javascript'>alert('unmatched');</script>";
-         //    $error_message = "Invalid username/password ";
-         // }
+        
       }else{
-         echo "<script type='text/javascript'>alert('notexist');')</script>";
-
          $error_message = "Invalid username/password ";
       }
    }
-      //  $auth ?  $error_message  = "" : ;
-   // }  
    require("includes/header.php");
 ?>
 </head>

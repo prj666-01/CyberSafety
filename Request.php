@@ -211,6 +211,28 @@ class Request {
                 return $user;
                 }
                 break;
+            case 'userbyusername' :
+                $query =  "SELECT * FROM Users WHERE Username = '" . $targetId . "'";
+                $res = $this->mysqli->query($query);
+                if ($res->num_rows == 0) {
+                    break;
+                } else {
+                    $row = $res->fetch_assoc();
+                    $user = [
+                      "userId"   => $row['User_ID'],
+                      "username"=> $row['Username'],
+                      "password"=> $row['Password'],
+                      "email" => $row['Email'],
+                      "firstName" => $row['First_Name'],
+                      "lastName" => $row['Last_Name'],
+                      "lastLogin" => $row['Last_Login'],
+                      "dateJoined" => $row['Date_Joined'],
+                      "approved" => $row['Approved'],
+                      "badge" => $row['Badge'],
+                    ];
+                return $user;
+                }
+                break;
         }
     }
     // This function gets objects from database using a target and a target id and a specifier
@@ -589,5 +611,12 @@ class Request {
       $row = $res->fetch_assoc();
       return $row['Password'];
     }
+
+    public function getBadge($login) {
+        $query =  "SELECT Badge FROM Users WHERE Username = '" . $login . "' OR Email = '" . $login . "'";
+        $res = $this->mysqli->query($query);
+        $row = $res->fetch_assoc();
+        return $row['Password'];
+      }
 }
 ?>

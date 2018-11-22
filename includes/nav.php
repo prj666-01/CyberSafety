@@ -1,7 +1,7 @@
 <?php 
     $isLoggedIn = false;
     // session_start();
-    if(!empty($_SESSION['username'])) {
+    if(!empty($_SESSION["signedinuser"]["username"])) {
         $isLoggedIn = true;
     }
 ?>

@@ -2,7 +2,11 @@
  require("includes/header.php");
  $isLoggedIn = false;
  session_start();
- if(!empty($_SESSION['username'])) {
+ $badge = "";
+ $approve = "";
+ if(!empty($_SESSION["signedinuser"]["username"])) {
+  $badge = $_SESSION["signedinuser"]["badgeid"];
+  $approve =  $_SESSION["signedinuser"]["isapproved"];
      $isLoggedIn = true;
  }
   if($isLoggedIn) {
@@ -14,18 +18,55 @@
       });
      </script>
   <?php
- }
+  if ($badge == 1 && $approve == 0){
+  ?>
+        <script type="text/javascript">
+          $('document').ready(function(){
+            if($('#infoTag').is(':visible') ){
+              $("#fullCourseTag").hide();
+              $("#basicCourseTag").hide();
+            }
+          
+          });
+     </script>
+    <?php
+  }
+  if ($badge == 0 && $approve == 1){
+    ?>
+    <script type="text/javascript">
+      $('document').ready(function(){
+        if($('#infoTag').is(':visible') ){
+          $("#fullapprovalTag").hide();
+          $("#basicapprovalTag").hide();
+          if ($("#fullCourseTag").is(':hidden')){
+            $("#fullCourseTag").show();
+          }
+          if ($("#basicCourseTag").is(':hidden')){
+            $("#basicCourseTag").show();
+          }
+        }
+      
+      });
+ </script>
+<?php
+}
+  }
+  
  else
  {
    ?>
     <script type="text/javascript">
       $('document').ready(function(){
-        $('#welcometag').show();
+        if ($('#welcometag').is(':hidden')){
+           $('#welcometag').show();
+         
+        }  
         $('#infoTag').hide();
        });
      </script>
     <?php
  }
+ 
 ?>
 </head>
 <body>
@@ -108,10 +149,14 @@ require("includes/nav.php");
                       <ul>
                         <li>Interested in becoming a Cybersafety Educator
                           <ol>
+                          <div id="fullapprovalTag" >
                           <li>Complete and submit the <a href="fullProfile.php">full profile section</a>.</li>
                           <li>The system administrator will review your profile information.</li>
+                          </div>
+                          <div id="fullCourseTag">
                           <li>You will be either granted full access or additional information maybe requested.</li>
-                          <li>View &amp; complete the <a href="basiCerti.php">basic Certificate Course</a>.</li>
+                          <li>View &amp; complete the <a href="basiProfileAccess.php">basic Certificate Course</a>.</li>
+                          </div>
                           </ol>
                       </li></ul>
                 </div>
@@ -123,10 +168,14 @@ require("includes/nav.php");
                       <ul>
                         <li>How to get access to the public Cybersafety Educational courses
                           <ol>
+                          <div id="basicapprovalTag">
                           <li>Complete and submit the <a href="basicProfile.php">basic profile section</a>.</li>
                           <li>The system administrator will review your profile information.</li>
+                          </div>
+                          <div id="basicCourseTag">
                           <li>You will be either granted access to view public courses or additional information maybe requested.</li>
-                          <li>View &amp; complete the <a href="basiCerti.php">basic Certificate Course</a>.</li>
+                          <li>View &amp; complete the <a href="basiProfileAccess.php">basic Certificate Course</a>.</li>
+                          </div>
                           </ol>
                       </li></ul>
                 </div>

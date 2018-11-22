@@ -1,13 +1,5 @@
 <?php
    require('./Request.php');
-   // $error_message = "";
-   // $password_error = "";
-   // if($_SERVER["REQUEST_METHOD"] == "POST"){
-   //    $auth = false;
-   //    $username = $_POST['usrname'];
-   //    $password = $_POST['pass'];
-   //    $request = new Request();
-   // }
    $username_error = "";
    $email_error = "";
    $pass_error = "";
