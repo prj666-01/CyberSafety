@@ -602,6 +602,53 @@ class Request {
 
         }
     }
+
+
+    public function addBasicProfile($data) {
+      $userId = $data['userId'];
+      $city = $data['city'];
+      $province = $data['province'];
+      $country = $data['country'];
+      $occupation = $data['occupation'];
+      $birthday = $data['birthday'];
+      $gender = $data['gender'];
+      $query =  "INSERT INTO Basic_Profiles (User_ID, City , Province, Country, Occupation, Birth_Date, Gender) VALUES ('$userId', '$city', '$province','$country','$occupation', '$birthday', '$gender')";
+      //echo $query;
+      $res = $this->mysqli->query($query);
+      if ($this->mysqli->affected_rows > 0) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    public function addFullProfile($data) {
+      $userId = $data['userId'];
+      $educationLevel = $data['educationLevel'];
+      $interest = $data['interest'];
+      $newsletter = $data['newsletter'];
+      $postalCode = $data['postalCode'];
+      $specialization = $data['specialization'];
+      $experience = $data['experience'];
+      $district = $data['district'];
+      $eduBoard = $data['eduBoard'];
+      $profEmail = $data['profEmail'];
+      $phone = $data['phone'];
+      $accreditations = $data['accreditations'];
+      $linkedin = $data['linkedin'];
+      $audLocation = $data['audLocation'];
+      $targetAge = $data['targetAge'];
+      $audSize = $data['audSize'];
+      $currEduLevel = $data['currEduLevel'];
+      $importantAreas = $data['importantAreas'];
+      $query =  "INSERT INTO User(User_ID, Education_Level , Interest, Newsletter, Postal_Code, Specialization, Experience, District, Edu_Board, Prof_Email, Phone, Accreditations, LinkedIN, Aud_Location, Target_Age, Aud_Size, Curr_Edu_Level, Important_Areas) VALUES ('$userId', '$educationLevel', '$interest','$newsletter','$postalCode', '$specialization', '$experience', '$district', '$eduBoard', '$profEmail', '$phone', '$accreditations', '$linkedin', '$audLocation', '$targetAge', '$audSize', '$currEduLevel','$importantAreas')";
+      echo $query;
+      $res = $this->mysqli->query($query);
+      if ($this->mysqli->affected_rows > 0) {
+        return true;
+      } else {
+        return false;
+      }
+    }
     // Check if the passed $username exists
     public function userExists($username) {
       $query =  "SELECT * FROM Users WHERE Username = '" . $username . "'";
