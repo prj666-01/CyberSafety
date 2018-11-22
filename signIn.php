@@ -7,25 +7,27 @@
       $username = $_POST['usrname']; 
       $password = $_POST['pass'];
       $request = new Request();
-      echo "<script type='text/javascript'>alert('.$username.');</script>";
-
       if ($request->userExists($username) || $request->emailExists($username)) {
-         echo "<script type='text/javascript'>alert('user exist');</script>";
-
          $dbUserPassword = $request->getPassword($username);
-         echo "<script type='text/javascript'>alert('.$dbUserPassword.');</script>";
-
-         if(password_verify($password, $dbUserPassword)){
-            $auth = true;
+         if(password_verify($password,$dbUserPassword)){
             session_start();
             $_SESSION["username"] = $username;
             header('Location: index.php');
-            
-         } else{
-            echo "<script type='text/javascript'>alert('unmatched');</script>";
+         }else {
             $error_message = "Invalid username/password ";
          }
+         // if(password_verify($password,$dbUserPassword)){
+         //    session_start();
+         //    $_SESSION["username"] = $username;
+         //    header('Location: index.php');
+            
+         // } else{
+         //    echo "<script type='text/javascript'>alert('unmatched');</script>";
+         //    $error_message = "Invalid username/password ";
+         // }
       }else{
+         echo "<script type='text/javascript'>alert('notexist');')</script>";
+
          $error_message = "Invalid username/password ";
       }
    }
