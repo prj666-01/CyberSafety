@@ -434,41 +434,7 @@ class Request {
                 break;
 
             // POST: api/users
-            case 'users' :
-                $Username = $data->Username;
-                $Email = $data->Email;
-                $Password = $data->Password;
-                $First_Name = $data->First_Name;
-                $Last_Name = $data->Last_Name;
-                ($data->Is_Authenticated == '') ? $Is_Authenticated = 0 : $Is_Authenticated = $data->Is_Authenticated;
-                $Teaching_Level = $data->Teaching_Level;
-                $Date_Joined = date("Y-m-d H:i:s");
-                $Last_Login = $data->Last_Login;
-                ($data->Badge_Id == '') ? $Badge_Id = 0 : $Badge_Id = $data->Badge_Id;
-                ($data->Is_Administrator == '') ? $Is_Administrator = 0 : $Is_Administrator = $data->Is_Administrator;
-                $query =  "INSERT INTO User(Username, Email , Password, First_Name, Last_Name, Is_Authenticated, Teaching_Level, Date_Joined, Last_Login, Badge_Id, Is_Administrator) VALUES ('$Username', '$Email', '$Password','$First_Name','$Last_Name', '$Is_Authenticated', '$Teaching_Level', '$Date_Joined','$Last_Login','$Badge_Id', '$Is_Administrator')";
-                echo $query;
-                $res = $this->mysqli->query($query);
 
-                $last_id = $this->$mysqli->insert_id;
-
-                $query =  "SELECT * FROM User WHERE User_Id = '" . $last_id . "'";
-                $res = $this->mysqli->query($query);
-                $row = $res->fetch_assoc();
-                $user = [
-                  "userId"   => $row['User_ID'],
-                  "username"=> $row['Username'],
-                  "password"=> $row['Password'],
-                  "email" => $row['Email'],
-                  "firstName" => $row['First_Name'],
-                  "lastName" => $row['Last_Name'],
-                  "lastLogin" => $row['Last_Login'],
-                  "dateJoined" => $row['Date_Joined'],
-                  "approved" => $row['Approved'],
-                  "badge" => $row['Badge'],
-                ];
-                return $user;
-                break;
         }
 
     }
@@ -603,7 +569,26 @@ class Request {
         }
     }
 
+    public function addUser($data) {
+      $username = $data['username'];
+      $password = $data['password'];
+      $email = $data['email'];
+      $firstName = $data['firstName'];
+      $lastName = $data['lastName'];
+      $lastLogin = $data['lastLogin'];
+      $dateJoined = $data['dateJoined'];
+      $approved = $data['approved'];
+      $badge = $data['badge'];
 
+      $query =  "INSERT INTO Users (Username, Password, Email, First_Name, Last_Name, Last_Login, Date_Joined, Approved, Badge) VALUES ('$username', '$password', '$email','$firstName','$lastName', '$lastLogin', '$dateJoined', '$approved', '$badge')";
+      echo $query;
+      $res = $this->mysqli->query($query);
+      if ($this->mysqli->affected_rows > 0) {
+        return true;
+      } else {
+        return false;
+      }
+    }
     public function addBasicProfile($data) {
       $userId = $data['userId'];
       $city = $data['city'];
