@@ -616,6 +616,13 @@ class Request {
       return (mysqli_num_rows($res) != 0) ? true : false;
     }
 
+    public function getPassword($login) {
+      $query =  "SELECT Password FROM Users WHERE Username = '" . $login . "' OR Email = '" . $login . "'";
+      $res = $this->mysqli->query($query);
+      $row = $res->fetch_assoc();
+      return $row['Password'];
+    }
+
 }
 
 ?>
