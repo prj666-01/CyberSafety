@@ -147,7 +147,7 @@ function getOtherlan(id) {
 }
 
 window.onload = function () {
-    let panelOne = document.getElementById('panelOne'),
+    /*let panelOne = document.getElementById('panelOne'),
         panelTwo = document.getElementById('panelTwo'),
         panelThree = document.getElementById('panelThree'),
         panelFour = document.getElementById('panelFour');
@@ -167,7 +167,7 @@ window.onload = function () {
     panelFour.addEventListener('click', () => {
         var chart = new Highcharts.Chart('container', options);
         $('#modalGraph').modal('show');
-    });
+    });*/
 }
 
 var options = {
