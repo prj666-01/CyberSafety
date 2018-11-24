@@ -231,8 +231,8 @@ class Request {
                       "approved" => $row['Approved'],
                       "badge" => $row['Badge'],
                       "status" => $row['User_Status'],
-                      "auth_code" => $row['Is_Auntenticated'],
-                      "is_auth" => $row['Authentication_code']
+                      "is_auth" => $row['Is_Authenticated'],
+                      "auth_code" => $row['Authentication_code']
                     ];
                 return $user;
                 }
@@ -511,6 +511,8 @@ class Request {
                 ];
                 echo json_encode($user, JSON_PRETTY_PRINT);
                 break;
+            
+                   
         }
     }
     // This function deletes one object to database using a target and a target id
@@ -543,9 +545,9 @@ class Request {
       $dateJoined = $data['dateJoined'];
       $approved = $data['approved'];
       $badge = $data['badge'];
-      $is_auth = $dara['Is_Auntenticated'];
+      $is_auth = $dara['Is_Authenticated'];
       $Auth_code = $data['Authentication_code'];
-      $query =  "INSERT INTO Users (Username, Password, Email, First_Name, Last_Name, Last_Login, Date_Joined, Approved, Badge,Is_Auntenticated,Authentication_code) VALUES ('$username', '$password', '$email','$firstName','$lastName', '$lastLogin', '$dateJoined', '$approved', '$badge','$is_auth','$Auth_code')";
+      $query =  "INSERT INTO Users (Username, Password, Email, First_Name, Last_Name, Last_Login, Date_Joined, Approved, Badge,Is_Authenticated,Authentication_code) VALUES ('$username', '$password', '$email','$firstName','$lastName', '$lastLogin', '$dateJoined', '$approved', '$badge','$is_auth','$Auth_code')";
       //echo $query;
       $res = $this->mysqli->query($query);
       if ($this->mysqli->affected_rows > 0) {
@@ -617,5 +619,18 @@ class Request {
       $row = $res->fetch_assoc();
       return $row['Password'];
     }
+
+    public function updateAuth($username,$fieldname,$data){
+        $auth = $data['value'];
+        $query =  "UPDATE Users set $fieldname = $auth  WHERE Username = '$username'";
+        echo $query;
+        $res = $this->mysqli->query($query);
+        if ($this->mysqli->affected_rows > 0) {
+           return true;
+        } else {
+           return false;
+        }
+    }
+
 }
 ?>

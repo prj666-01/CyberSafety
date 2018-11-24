@@ -28,16 +28,16 @@
         "dateJoined" => date("Y-m-d H:i:s"),
         "approved" => 0,
         "badge" => 0,
-        "Is_Auntenticated" =>0,
+        "Is_Authenticated" =>0,
         "Authentication_code" => $ver
       ];
      
       $txt ='<a href="http://localhost:8081/CyberSafety/signIn.php?v=' . $ver.'"><button>Verify Account</button></a></center>';
       if (empty($username_error) && empty( $email_error) && empty($pass_error)) {
+         $user = $request->addUser($data);
          sendMail( $email,$firstname,$ver,$txt);
          $login_success = 'An email will be sent to you shortly with a verification link. Simply click on the link to verify your email. Should you not see the 
-         verification email in your Inbox, please check your email “Junk” folder.';
-         $user = $request->addUser($data);
+         verification email in your Inbox, please check your email “Junk” folder.';    
          session_start();
          $_SESSION['signup_success']= $login_success;
          header('Location: index.php');
