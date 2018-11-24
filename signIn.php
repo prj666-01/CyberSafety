@@ -48,13 +48,13 @@ require("includes/nav.php");
                    <div class="form-group">
 								   <label for="usrname">Username</label>
                    <input type="text" class="form-control" id="usrname" name="usrname" placeholder="Enter Username" oninvalid="this.setCustomValidity('Please enter a username')"
-                        oninput="this.setCustomValidity('')" required autofocus \>
+                        oninput="this.setCustomValidity('')" required autofocus  maxlength="30"\>
                    <span class="text-danger" style="display:none;"></span>
 								</div>
 								<div class="form-group">
 								   <label for="pass"> Password</label>
                    <input type="password" class="form-control" id="pass" name ="pass" placeholder="Enter password" oninvalid="this.setCustomValidity('Please enter a password')"
-                        oninput="this.setCustomValidity('')" required >
+                        oninput="this.setCustomValidity('')" required  minlength="8" maxlength="20">
                    <span class="text-danger" style="display:none;"></span>
 								</div>
                         <div>
