@@ -213,6 +213,7 @@ class Request {
                 break;
             case 'userbyusername' :
                 $query =  "SELECT * FROM Users WHERE Username = '" . $targetId . "'";
+                echo $query;
                 $res = $this->mysqli->query($query);
                 if ($res->num_rows == 0) {
                     break;
@@ -229,6 +230,9 @@ class Request {
                       "dateJoined" => $row['Date_Joined'],
                       "approved" => $row['Approved'],
                       "badge" => $row['Badge'],
+                      "status" => $row['User_Status'],
+                      "auth_code" => $row['Is_Auntenticated'],
+                      "is_auth" => $row['Authentication_code']
                     ];
                 return $user;
                 }
@@ -539,8 +543,10 @@ class Request {
       $dateJoined = $data['dateJoined'];
       $approved = $data['approved'];
       $badge = $data['badge'];
-      $query =  "INSERT INTO Users (Username, Password, Email, First_Name, Last_Name, Last_Login, Date_Joined, Approved, Badge) VALUES ('$username', '$password', '$email','$firstName','$lastName', '$lastLogin', '$dateJoined', '$approved', '$badge')";
-      echo $query;
+      $is_auth = $dara['Is_Auntenticated'];
+      $Auth_code = $data['Authentication_code'];
+      $query =  "INSERT INTO Users (Username, Password, Email, First_Name, Last_Name, Last_Login, Date_Joined, Approved, Badge,Is_Auntenticated,Authentication_code) VALUES ('$username', '$password', '$email','$firstName','$lastName', '$lastLogin', '$dateJoined', '$approved', '$badge','$is_auth','$Auth_code')";
+      //echo $query;
       $res = $this->mysqli->query($query);
       if ($this->mysqli->affected_rows > 0) {
         return true;
@@ -611,12 +617,5 @@ class Request {
       $row = $res->fetch_assoc();
       return $row['Password'];
     }
-
-    public function getBadge($login) {
-        $query =  "SELECT Badge FROM Users WHERE Username = '" . $login . "' OR Email = '" . $login . "'";
-        $res = $this->mysqli->query($query);
-        $row = $res->fetch_assoc();
-        return $row['Password'];
-      }
 }
 ?>

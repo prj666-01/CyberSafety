@@ -2,6 +2,11 @@
    require('./Request.php');
    $error_message = "";
    $password_error = "";
+   $v_error = "";
+   $block_user ="";
+   if(isset($_GET['v'])) {
+      echo "Verified";
+   }
    if($_SERVER["REQUEST_METHOD"] == "POST"){
       $auth = false;
       $username = $_POST['usrname']; 
@@ -10,12 +15,23 @@
       if ($request->userExists($username) || $request->emailExists($username)) {
          $dbUserPassword = $request->getPassword($username);
          if(password_verify($password, $dbUserPassword)){
+            echo "Match";
             $signedinuser = $request->getOne("userbyusername", $username);
-            session_start();
-            $_SESSION["signedinuser"]["isapproved"] = $signedinuser["approved"];
-            $_SESSION["signedinuser"]["badgeid"] = $signedinuser["badge"];
-            $_SESSION["signedinuser"]["username"] = $signedinuser["username"];
-            header('Location: index.php');
+            echo '<script type="text/javascript">alert("matched"); </script>';
+            if ($signedinuser["status"]== 0){
+                  $block_user = "User is block";
+            }
+            if ($signedinuser["auth_code"] == $_GET['v']){
+               // echo '<script type="text/javascript"> alert("matched"); <script>';
+               echo "Auth match";
+               // $addAuth = $request->updateAuth($signedinuser["username"],$_GET['v']);
+               // $removeAuthCode =  $request->DeleteAuthCode($signedinuser["username"],$_GET['v']);
+            }
+            // session_start();
+            // $_SESSION["signedinuser"]["isapproved"] = $signedinuser["approved"];
+            // $_SESSION["signedinuser"]["badgeid"] = $signedinuser["badge"];
+            // $_SESSION["signedinuser"]["username"] = $signedinuser["username"];
+            // header('Location: index.php');
          }else {
             $error_message = "Invalid username/password ";
          }

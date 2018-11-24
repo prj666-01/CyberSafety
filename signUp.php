@@ -1,11 +1,6 @@
 <?php
    require('./Request.php');
-   use PHPMailer\PHPMailer\PHPMailer;
-   use PHPMailer\PHPMailer\Exception;
-   require 'includes/Exception.php';
-   require 'includes/PHPMailer.php';
-   require 'includes/SMTP.php'
-   
+   require_once('./phpmailer/PHPMailerAutoload.php');
    $username_error = "";
    $email_error = "";
    $pass_error = "";
@@ -18,7 +13,7 @@
       $firstname = $_POST['fname'];
       $lastname = $_POST['lname'];
       $cpass = $_POST['cpass'];
-      $param_verification = bin2hex(random_bytes(16));
+      $ver = bin2hex(random_bytes(16));
       $request = new Request();
       ($request->userExists($username)) ? $username_error = "User Already Exists" : $username_error = "";
       ($request->emailExists($email)) ? $email_error = "Email Already Exists" : $email_error = "";
@@ -33,60 +28,69 @@
         "dateJoined" => date("Y-m-d H:i:s"),
         "approved" => 0,
         "badge" => 0,
+        "Is_Auntenticated" =>0,
+        "Authentication_code" => $ver
       ];
-      $user = $request->addUser($data);
-      $txt = ' <div style = " background: #fff; border-radius: 2px;height: 70%;  width: 50%;   box-sizing: border-box;  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);  margin: 100px auto;">';
-      $txt .= '<nav class="navbar navbar-inverse">
-      <div class="container-fluid">
-         <h2 class="text-center" style="color:#f5f5f5;"> KnowledgeFLow </h2>
-      </div>
-      </nav><div style="padding: 20px;">';
-      $txt .= '<p style="text-align: left;  font-size: 14px;">Hi Manali,</p> ';
-      $txt .= ' <p style="text-align: left; font-size: 14px;">
-               Thank You for Signing in up.
-            </p>';
-      $txt .= '<p style="text-align: left; font-size: 14px;">In order to complete your sign up process please verify your account by clicking on the button below.
-      </p>';
+     
+      $txt ='<a href="http://localhost:8081/CyberSafety/signIn.php?v=' . $ver.'"><button>Verify Account</button></a></center>';
+      if (empty($username_error) && empty( $email_error) && empty($pass_error)) {
+         sendMail( $email,$firstname,$ver,$txt);
+         $login_success = 'An email will be sent to you shortly with a verification link. Simply click on the link to verify your email. Should you not see the 
+         verification email in your Inbox, please check your email “Junk” folder.';
+         $user = $request->addUser($data);
+         session_start();
+         $_SESSION['signup_success']= $login_success;
+         header('Location: index.php');
+      }
+      
+   }
  
-      //Email Link
-      $txt .='<div><a href="https://drive.google.com/drive/u/1/folders/13WMl4RdXE1kY_nzvtYFewJgH0zLwnH7a" target="_blank"><button class="btn btn-default btn-success center-block">Verify Account</button></a></div>';
-      $txt .= ' </div>  </div>';
-      sendMail( $email,$firstname,$param_verification,$txt)
-      // header('Location: signIn.php');
-   }
-   function sendMail ( $email,$firstname,$param_verification,$email_msg){
-      $mail = new PHPMailer(true);                              // Passing `true` enables exceptions
-try {
-    //Server settings
-    $mail->SMTPDebug = 2;                                 // Enable verbose debug output
-    $mail->isSMTP();                                      // Set mailer to use SMTP
-    $mail->Host = 'smtp.gmail.com';  // Specify main and backup SMTP servers
-    $mail->SMTPAuth = true;                               // Enable SMTP authentication
-    $mail->Username = 'knowledgeflowmail@gmail.com';                 // SMTP username
-    $mail->Password = 'xvLO7429op';                           // SMTP password
-    $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
-    $mail->Port = 587;                                    // TCP port to connect to
-    //Recipients
-    $mail->setFrom('noreply@cybersafetyfoundation.org', 'CyberSafety');
-    $mail->addAddress($email);     // Add a recipient          // Name is optional
-    $mail->isHTML(true);                                  // Set email format to HTML
-    $mail->Subject = 'KnowledgeFlow - Account Verification';
-    $mail->Body    = $email_msg;
-    //$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
-    $mail->send();
-    echo 'Message has been sent';
-} catch (Exception $e) {
-    echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
-}
+      
+      
+  function sendMail($email,$firstname,$param_verification,$email_msg) {
+   //PHPMailer Object
+   $mail = new PHPMailer();
+   $mail->IsSMTP();
 
-   }
+   // optional
+   // used only when SMTP requires authentication
+   $mail->Host = "smtp.gmail.com";
+//Set this to true if SMTP host requires authentication to send email
+$mail->SMTPAuth = true;
+//Provide username and password
+$mail->Username = 'knowledgeflowmail@gmail.com';                 // SMTP username
+$mail->Password = 'xvLO7429op';  
+//If SMTP requires TLS encryption then set it
+$mail->SMTPSecure = "tls";
+//Set TCP port to connect to
+$mail->Port = 587;
+   //To address and name
+   $mail->addAddress($email); //Recipient name is optional
+   $mail->FromName = "KnowledgeFLow";
+
+   $mail->Subject = 'Account Verification';
+  
+   $mail->addCustomHeader('MIME-Version: 1.0');
+   $mail->addCustomHeader('Content-Type: text/html; charset=ISO-8859-1');
+   $mail->Body = $email_msg;
+   $mail->isHTML(true);
+   if(!$mail->send())
+           {
+               echo "Something went wrong";
+           }
+}
  require("includes/header.php");
 ?>
 </head>
 <body>
 <?php
 require("includes/nav.php");
- ?>
+ 
+
+
+  
+?>
+
 <div class="row">
    <div class="col-md-6 col-md-offset-3">
       <div class="panel panel-login">

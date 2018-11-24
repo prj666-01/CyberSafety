@@ -1,9 +1,15 @@
 <?php
  require("includes/header.php");
  $isLoggedIn = false;
+ $signSucess = false;
  session_start();
  $badge = "";
  $approve = "";
+ $sucessMsg = "";
+ if (!empty($_SESSION['signup_success'])){
+     $sucessMsg = $_SESSION['signup_success'];
+     $signSucess = true;
+ }
  if(!empty($_SESSION["signedinuser"]["username"])) {
   $badge = $_SESSION["signedinuser"]["badgeid"];
   $approve =  $_SESSION["signedinuser"]["isapproved"];
@@ -71,7 +77,13 @@
 </head>
 <body>
 <?php
+
 require("includes/nav.php");
+if ($signSucess) {
+  echo '<div class="alert alert-success alert-dismissible">
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+  <strong>Success!</strong> '. $sucessMsg . '</div>';
+}
  ?>
     <div class="jumbotron">
       <div class="container">
