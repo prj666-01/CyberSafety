@@ -32,41 +32,57 @@
         "Authentication_code" => $ver
       ];
      
-      $txt ='<a href="http://localhost:8081/CyberSafety/signIn.php?v=' . $ver.'"><button>Verify Account</button></a></center>';
+      $txt = ' <div style = " background: #fff; border-radius: 2px;height: 70%;  width: 50%;   box-sizing: border-box;  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);  margin: 100px auto;">';
+      $txt .= '<nav style="margin: 0; padding: 0;overflow: hidden;background-color: #333;">
+               <div class="container-fluid">
+                    <h2 class="text-center" style="color:#f5f5f5;"> KnowledgeFLow </h2>
+               </div>
+               </nav><div style="padding: 20px;">';
+      $txt .= '<p style="text-align: left;  font-size: 14px;">Hi'.  $firstname  .',</p> ';
+      $txt .= ' <p style="text-align: left; font-size: 14px;">
+                   Thank You for Signing in up.
+                </p>';
+       $txt .= '<p style="text-align: left; font-size: 14px;">In order to complete your sign up process please verify your account by clicking on the button below.
+                        </p>';
+
+  //Email Link
+  $txt .='<div><a href="http://localhost:8081/CyberSafety/signIn.php?v=' . $ver.'" target="_blank"><button class="btn btn-default btn-success center-block">Verify Account</button></a></div>';
+  $txt .= ' </div>  </div>';
+      // $txt ='<a href="http://localhost:8081/CyberSafety/signIn.php?v=' . $ver.'"><button>Verify Account</button></a></center>';
       if (empty($username_error) && empty( $email_error) && empty($pass_error)) {
          $user = $request->addUser($data);
-         sendMail( $email,$firstname,$ver,$txt);
-         $login_success = 'An email will be sent to you shortly with a verification link. Simply click on the link to verify your email. Should you not see the 
-         verification email in your Inbox, please check your email “Junk” folder.';    
-         session_start();
-         $_SESSION['signup_success']= $login_success;
-         header('Location: index.php');
+         if($user){
+            sendMail( $email,$firstname,$ver,$txt);
+            $login_success = 'An email will be sent to you shortly with a verification link. Simply click on the link to verify your email. Should you not see the 
+            verification email in your Inbox, please check your email “Junk” folder.';    
+            session_start();
+            $_SESSION['signup_success']= $login_success;
+            header('Location: signIn.php');
+    
+         }
       }
       
    }
- 
-      
-      
+   
   function sendMail($email,$firstname,$param_verification,$email_msg) {
    //PHPMailer Object
    $mail = new PHPMailer();
    $mail->IsSMTP();
-
    // optional
    // used only when SMTP requires authentication
    $mail->Host = "smtp.gmail.com";
-//Set this to true if SMTP host requires authentication to send email
-$mail->SMTPAuth = true;
-//Provide username and password
-$mail->Username = 'knowledgeflowmail@gmail.com';                 // SMTP username
-$mail->Password = 'xvLO7429op';  
-//If SMTP requires TLS encryption then set it
-$mail->SMTPSecure = "tls";
-//Set TCP port to connect to
-$mail->Port = 587;
-   //To address and name
-   $mail->addAddress($email); //Recipient name is optional
-   $mail->FromName = "KnowledgeFLow";
+   //Set this to true if SMTP host requires authentication to send email
+   $mail->SMTPAuth = true;
+   //Provide username and password
+   $mail->Username = 'knowledgeflowmail@gmail.com';                 // SMTP username
+   $mail->Password = 'xvLO7429op';  
+   //If SMTP requires TLS encryption then set it
+   $mail->SMTPSecure = "tls";
+   //Set TCP port to connect to
+   $mail->Port = 587;
+      //To address and name
+      $mail->addAddress($email); //Recipient name is optional
+      $mail->FromName = "KnowledgeFLow";
 
    $mail->Subject = 'Account Verification';
   
@@ -84,13 +100,20 @@ $mail->Port = 587;
 </head>
 <body>
 <?php
-require("includes/nav.php");
- 
-
-
-  
+require("includes/nav.php");  
 ?>
-
+<div class="jumbotron">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-2">
+            <img src="includes/images/rsz_ed-logo.png" alt="KnowledgeFlow Education" title="KnowledgeFlow Education" />
+          </div>
+          <div class="col-sm-8 text-center" style="color:#486048">
+            <h2>Welcome to Cybersafety Education Platform</h2>
+          </div>
+        </div>
+      </div>
+ </div>
 <div class="row">
    <div class="col-md-6 col-md-offset-3">
       <div class="panel panel-login">

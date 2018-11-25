@@ -5,8 +5,6 @@
         $isLoggedIn = true;
     }
 ?>
-  
-
 <noscript>
   <div class="container text-center">
     <h2>Canada's trusted source for cybersafety education</h2>

@@ -213,7 +213,7 @@ class Request {
                 break;
             case 'userbyusername' :
                 $query =  "SELECT * FROM Users WHERE Username = '" . $targetId . "'";
-                echo $query;
+              //  echo $query;
                 $res = $this->mysqli->query($query);
                 if ($res->num_rows == 0) {
                     break;
@@ -623,7 +623,7 @@ class Request {
     public function updateAuth($username,$fieldname,$data){
         $auth = $data['value'];
         $query =  "UPDATE Users set $fieldname = $auth  WHERE Username = '$username'";
-        echo $query;
+       // echo $query;
         $res = $this->mysqli->query($query);
         if ($this->mysqli->affected_rows > 0) {
            return true;
