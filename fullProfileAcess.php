@@ -1,5 +1,6 @@
 <?php
  require("includes/header.php");
+ session_start();
 ?>
 </head>
 <body>
@@ -51,8 +52,6 @@ require("includes/nav.php");
                 </div>
            </div>
   </div>
-        
-
       <!-- YOUR CODE FINISHES HERE -->
     </div>
   <?php

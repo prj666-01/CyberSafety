@@ -26,7 +26,7 @@ class Request {
                     $module = [
                         "courseId" => $row['Course_ID'],
                         "courseTitle" => $row['Course_Title'],
-                        "courseAuthor"=> $row['Author'],
+                        // "courseAuthor"=> $row['Author'],
                         "courseDescription" => $row['Description'],
                         "courseTeachingLevel" => $row['Teaching_Level'],
                         "dateCreated" => $row['Date_Created'],
@@ -207,6 +207,7 @@ class Request {
                       "dateJoined" => $row['Date_Joined'],
                       "approved" => $row['Approved'],
                       "badge" => $row['Badge'],
+                      "admin" => $row['Is_Admin']
                     ];
                 return $user;
                 }
@@ -232,7 +233,9 @@ class Request {
                       "badge" => $row['Badge'],
                       "status" => $row['User_Status'],
                       "is_auth" => $row['Is_Authenticated'],
-                      "auth_code" => $row['Authentication_code']
+                      "auth_code" => $row['Authentication_code'],
+                      "admin" => $row['Is_Admin'],
+                      "profile" =>$row['User_Profiles']
                     ];
                 return $user;
                 }
@@ -508,6 +511,7 @@ class Request {
                     "Last_Login" => $row['Last_Login'],
                     "Badge_Id" => $row['Badge_Id'],
                     "Is_Administrator" => $row['Is_Administrator'],
+                    
                 ];
                 echo json_encode($user, JSON_PRETTY_PRINT);
                 break;
@@ -547,7 +551,9 @@ class Request {
       $badge = $data['badge'];
       $is_auth = $dara['Is_Authenticated'];
       $Auth_code = $data['Authentication_code'];
-      $query =  "INSERT INTO Users (Username, Password, Email, First_Name, Last_Name, Last_Login, Date_Joined, Approved, Badge,Is_Authenticated,Authentication_code) VALUES ('$username', '$password', '$email','$firstName','$lastName', '$lastLogin', '$dateJoined', '$approved', '$badge','$is_auth','$Auth_code')";
+      $admin = $data['Is_Admin'];
+      $profile = $data['User_Profiles'];
+      $query =  "INSERT INTO Users (Username, Password, Email, First_Name, Last_Name, Last_Login, Date_Joined, Approved, Badge,Is_Authenticated,Authentication_code,Is_Admin,User_Profiles) VALUES ('$username', '$password', '$email','$firstName','$lastName', '$lastLogin', '$dateJoined', '$approved', '$badge','$is_auth','$Auth_code','$admin','$profile')";
       //echo $query;
       $res = $this->mysqli->query($query);
       if ($this->mysqli->affected_rows > 0) {
@@ -623,9 +629,8 @@ class Request {
     public function updateAuth($username,$fieldname,$data){
         $auth = $data['value'];
         $query =  "UPDATE Users set $fieldname = $auth  WHERE Username = '$username'";
-       // echo $query;
         $res = $this->mysqli->query($query);
-        if ($this->mysqli->affected_rows > 0) {
+        if ($res > 0) {
            return true;
         } else {
            return false;

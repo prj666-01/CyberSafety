@@ -29,7 +29,9 @@
         "approved" => 0,
         "badge" => 0,
         "Is_Authenticated" =>0,
-        "Authentication_code" => $ver
+        "Authentication_code" => $ver,
+        "Is_Admin" => 0,
+        "User_Profiles" => 0
       ];
      
       $txt = ' <div style = " background: #fff; border-radius: 2px;height: 70%;  width: 50%;   box-sizing: border-box;  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);  margin: 100px auto;">';
@@ -48,7 +50,6 @@
   //Email Link
   $txt .='<div><a href="http://localhost:8081/CyberSafety/signIn.php?v=' . $ver.'" target="_blank"><button class="btn btn-default btn-success center-block">Verify Account</button></a></div>';
   $txt .= ' </div>  </div>';
-      // $txt ='<a href="http://localhost:8081/CyberSafety/signIn.php?v=' . $ver.'"><button>Verify Account</button></a></center>';
       if (empty($username_error) && empty( $email_error) && empty($pass_error)) {
          $user = $request->addUser($data);
          if($user){
@@ -132,7 +133,7 @@ require("includes/nav.php");
                         <div class="row">
                            <div class="form-group col-xs-6">
                               <label for="fname">Fist Name</label>
-                              <input type="text" class="form-control" id="fname" name="fname" placeholder="Enter First Name" 	required autofocus
+                              <input type="text" class="form-control" id="fname" name="fname" placeholder="Enter First Name" pattern="\s*(\S\s*)"	required autofocus
                         oninvalid="this.setCustomValidity('Please enter a first name')"
                         oninput="this.setCustomValidity('')"  maxlength="30">
                            </div>

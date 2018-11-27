@@ -74,6 +74,10 @@
                   $_SESSION["signedinuser"]["isapproved"] = $signedinuser["approved"];
                   $_SESSION["signedinuser"]["badgeid"] = $signedinuser["badge"];
                   $_SESSION["signedinuser"]["username"] = $signedinuser["username"];
+                  $_SESSION["signedinuser"]["admin"] = $signedinuser["admin"]; //	
+                  $_SESSION["signedinuser"]["user_profile"] = $signedinuser["profile"];
+                  $_SESSION["signedinuser"]["firstname"] = $signedinuser["firstName"];
+                  $_SESSION["signedinuser"]["lastname"] = $signedinuser["lastName"];
                   header('Location: index.php');
                }
            

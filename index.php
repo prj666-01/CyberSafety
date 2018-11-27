@@ -6,84 +6,135 @@
  $badge = "";
  $approve = "";
  $sucessMsg = "";
-//  if (!empty($_SESSION['signup_success'])){
-//      $sucessMsg = $_SESSION['signup_success'];
-//      $signSucess = true;
-//  }
+ 
  if(!empty($_SESSION["signedinuser"]["username"])) {
   $badge = $_SESSION["signedinuser"]["badgeid"];
   $approve =  $_SESSION["signedinuser"]["isapproved"];
-     $isLoggedIn = true;
+  $isLoggedIn = true;
  }
-  if($isLoggedIn) {
-  ?>
-     <script type="text/javascript">
-      $('document').ready(function(){
-        $('#welcometag').hide();
-        $('#infoTag').show();
-      });
-     </script>
-  <?php
-  if ($badge == 1 && $approve == 0){
-  ?>
-        <script type="text/javascript">
-          $('document').ready(function(){
-            if($('#infoTag').is(':visible') ){
-              $("#fullCourseTag").hide();
-              $("#basicCourseTag").hide();
-            }
-          
-          });
-     </script>
-    <?php
+	if($isLoggedIn) {
+	if($_SESSION["signedinuser"]["user_profile"] == '1'){
+		?>
+			<script type="text/javascript">
+				$('document').ready(function(){
+					$('#welcometag').hide();
+					$('#infoTag').show();
+				});
+			</script>
+		<?php
+		if ($badge == 1 && $approve == 0){
+      echo "user profile is 1 with badge 1";
+		?>
+			<script type="text/javascript">
+				$('document').ready(function(){
+					if($('#infoTag').is(':visible') ){
+						$("#fullCourseTag").hide();
+						$("#basicCourseTag").hide();
+					}
+				});
+			</script>
+		<?php
+		}
+		if ($badge == 0 && $approve == 1){
+      echo "user profile is 1 with approve 1";
+		?>
+			<script type="text/javascript">
+				$('document').ready(function(){
+					if($('#infoTag').is(':visible') ){
+						$("#fullapprovalTag").hide();
+						$("#basicapprovalTag").hide();
+						if ($("#fullCourseTag").is(':hidden')){
+							$("#fullCourseTag").show();
+						}
+						if ($("#basicCourseTag").is(':hidden')){
+							$("#basicCourseTag").show();
+						}
+					}
+				});
+			</script>
+		<?php
+		 }
+		 if ($badge == 1 && $approve == 1){
+			header('Location: basicProfileCourse.php');
+		  }
   }
-  if ($badge == 0 && $approve == 1){
-    ?>
-    <script type="text/javascript">
-      $('document').ready(function(){
-        if($('#infoTag').is(':visible') ){
-          $("#fullapprovalTag").hide();
-          $("#basicapprovalTag").hide();
-          if ($("#fullCourseTag").is(':hidden')){
-            $("#fullCourseTag").show();
-          }
-          if ($("#basicCourseTag").is(':hidden')){
-            $("#basicCourseTag").show();
-          }
-        }
-      
-      });
- </script>
+  if($_SESSION["signedinuser"]["user_profile"] == 2){	
+		?>
+			<script type="text/javascript">
+				$('document').ready(function(){
+					$('#welcometag').hide();
+					$('#infoTag').show();
+				});
+			</script>
+		<?php
+		if ($badge == 1 && $approve == 0){
+		?>
+			<script type="text/javascript">
+				$('document').ready(function(){
+					if($('#infoTag').is(':visible') ){
+						$("#fullCourseTag").hide();
+						$("#basicCourseTag").hide();
+					}
+				});
+			</script>
+		<?php
+		}
+		if ($badge == 0 && $approve == 1){
+		?>
+			<script type="text/javascript">
+				$('document').ready(function(){
+					if($('#infoTag').is(':visible') ){
+						$("#fullapprovalTag").hide();
+						$("#basicapprovalTag").hide();
+						if ($("#fullCourseTag").is(':hidden')){
+							$("#fullCourseTag").show();
+						}
+						if ($("#basicCourseTag").is(':hidden')){
+							$("#basicCourseTag").show();
+						}
+					}
+				});
+			</script>
+		<?php
+		 }
+		 if ($badge == 1 && $approve == 1){
+			header('Location: fullProfileAcess.php');
+		  }
+  }
+  else	?>
+  <script type="text/javascript">
+    $('document').ready(function(){
+      $('#welcometag').hide();
+      $('#infoTag').show();
+    });
+  </script>
 <?php
-}
   }
   
- else
- {
-   ?>
-    <script type="text/javascript">
-      $('document').ready(function(){
-        if ($('#welcometag').is(':hidden')){
-           $('#welcometag').show();
-         
-        }  
-        $('#infoTag').hide();
-       });
-     </script>
-    <?php
- }
- 
+  
+  
+else
+{
+?>
+<script type="text/javascript">
+$('document').ready(function(){
+if ($('#welcometag').is(':hidden')){
+$('#welcometag').show();
+
+}  
+$('#infoTag').hide();
+});
+</script>
+<?php
+}
+
 ?>
 </head>
 <body>
 <?php
 
 require("includes/nav.php");
-// if ($signSucess) {
-//   echo '<div class="alert alert-success alert-dismissible">
-//   <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-//   <strong>Success!</strong> '. $sucessMsg . '</div>';
-// }
+
  ?>
     <div class="jumbotron">
       <div class="container">
@@ -167,7 +218,7 @@ require("includes/nav.php");
                           </div>
                           <div id="fullCourseTag">
                           <li>You will be either granted full access or additional information maybe requested.</li>
-                          <li>View &amp; complete the <a href="basiProfileAccess.php">basic Certificate Course</a>.</li>
+                          <li>View &amp; complete the <a href="basicProfileCourse.php">basic Certificate Course</a>.</li>
                           </div>
                           </ol>
                       </li></ul>
@@ -186,7 +237,7 @@ require("includes/nav.php");
                           </div>
                           <div id="basicCourseTag">
                           <li>You will be either granted access to view public courses or additional information maybe requested.</li>
-                          <li>View &amp; complete the <a href="basiProfileAccess.php">basic Certificate Course</a>.</li>
+                          <li>View &amp; complete the <a href="basicProfileCourse.php">basic Certificate Course</a>.</li>
                           </div>
                           </ol>
                       </li></ul>

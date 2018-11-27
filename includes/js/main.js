@@ -380,74 +380,6 @@ $(document).on("click","#forgetPwd",function(){
     });
 })
  
-
-// Wait for the DOM to be ready
-// $(document).ready(function() {
-// $(document).on("click","#signin-submit",function(){
-//     alert("testT");
-//      var userName = $('#usrname').val();
-//     //  var email = $('#email').val();
-//      var password = $('#pass').val();
-//      $('form[id="signInForm"]').validate({
-//         rules: {
-//           usrname: 'required',
-//           pass : 'required'
-          
-//         },
-//         messages: {
-//           usrname: 'Please enter a username',
-//           pass : 'Please enter a password'
-//         },
-//         submitHandler: function(form) {
-//           form.submit();
-//           form.reset();
-            
-//             sendData(userName,password);
-//         }
-
-//       });
-   
-//     //  $("#beginPart").hide();
-// });
-
-
-
-//})
-// $(document).on("click","#signup-submit",function(){
-
-//     alert("Sign up");
-//     $('form[id="signUpForm"]').validate({
-//         rules: {
-//           signupfname:{required :true},
-//           signuplname:{required :true},
-//           signupusrname:{required :true},
-//           signupemail :{required :true},
-//           signuppass :{required :true, pwcheck: true, minlength: 8},
-//           signupcpass : {required :true, equalTo: "#signuppass"}
-          
-//         },
-//         messages: {
-//             signupfname:{required : "Please enter first name"},
-//             signuplname:{required : "Please enter last name"},
-//             signupusrname: {required :'Please enter a username'},
-//             signupemail : {required :'Please enter a valid email'},
-//             signuppass : {required :'Please enter a password',
-//                             pwcheck: "Password  should contain one uppercase and symbols $ @ ! % * # ? - _'",
-//                             minlength: "Password must be at least 8 characters long"
-//                         },
-//             signupcpass:{required :'please confirm your password',
-//                          equalTo : 'Password you entered do not match'
-//                         }
-//         },
-//         submitHandler: function(form) {
-//             form.submit();
-//         }
-//       });
-//       $.validator.addMethod("pwcheck",
-//       function(value, element) {
-//           return /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?-_])[A-Za-z\d$@$!%*#?-_]{8,}$/.test(value);
-//   });
-//     });
 function sendData(name,pwd){
    
     //.preventDefault();
@@ -469,22 +401,6 @@ $(function() {
         // $("#lgnPage").show();
     }
 })
-// $(document).on("click","#signup-submit",function(){
-//      var password = $('#password').val();
-//      var confirmPass = $('#confirmPass').val();
-//      var check = validatePassword(password, confirmPass);
-//      if (!check){
-//         alert(check);
-//         var message = $('#confirmPass').attr("data-ErrorMessage");
-//         alert(message);
-//         // $('#confirmPass').get(0).setCustomValidity(message);
-//         document.getElementById("confirmPass")
-//         .setCustomValidity('At least, enter 6 characters; Don\'t use any symbols');
-//      }
-//      else{
-//          alert(check);
-//         $('#confirmPass').setCustomValidity('');
-//      }
-// })
+
 
 
