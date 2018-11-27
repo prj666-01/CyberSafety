@@ -11,6 +11,18 @@
 <?php
 require("includes/nav.php");
  ?>
+   <div class="jumbotron">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-2">
+            <img src="includes/images/rsz_ed-logo.png" alt="KnowledgeFlow Education" title="KnowledgeFlow Education" />
+          </div>
+          <div class="col-sm-8 text-center" style="color:#486048">
+            <h2>Welcome to Cybersafety Education Platform</h2>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="container" id="vieCourse-container">
      
             <div class="container">
