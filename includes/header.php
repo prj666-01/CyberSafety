@@ -11,3 +11,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="includes/js/main.js"></script>
   <link href="includes/css/main.css" rel="stylesheet" type="text/css" />
+<?php
+  session_start();
+?>
+

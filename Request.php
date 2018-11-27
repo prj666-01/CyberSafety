@@ -211,6 +211,34 @@ class Request {
                 return $user;
                 }
                 break;
+		case 'userbyusername' :
+                $query =  "SELECT * FROM Users WHERE Username = '" . $targetId . "'";
+                $res = $this->mysqli->query($query);
+                if ($res->num_rows == 0) {
+                    break;
+                } else {
+                    $row = $res->fetch_assoc();
+                    $user = [
+                      "userId"   => $row['User_ID'],
+                      "username"=> $row['Username'],
+                      "password"=> $row['Password'],
+                      "email" => $row['Email'],
+                      "firstName" => $row['First_Name'],
+                      "lastName" => $row['Last_Name'],
+                      "lastLogin" => $row['Last_Login'],
+                      "dateJoined" => $row['Date_Joined'],
+                      "approved" => $row['Approved'],
+                      "badge" => $row['Badge'],
+                      "status" => $row['User_Status'],
+                      "is_auth" => $row['Is_Authenticated'],
+                      "auth_code" => $row['Authentication_code'],
+		      "admin" => $row['Is_Admin'],
+		      "profile" =>$row['User_Profiles']
+                    ];
+                return $user;
+                }
+                break;
+
         }
     }
     // This function gets objects from database using a target and a target id and a specifier
@@ -517,8 +545,11 @@ class Request {
       $dateJoined = $data['dateJoined'];
       $approved = $data['approved'];
       $badge = $data['badge'];
-      $query =  "INSERT INTO Users (Username, Password, Email, First_Name, Last_Name, Last_Login, Date_Joined, Approved, Badge) VALUES ('$username', '$password', '$email','$firstName','$lastName', '$lastLogin', '$dateJoined', '$approved', '$badge')";
-      echo $query;
+      $is_auth = $dara['Is_Authenticated'];
+      $Auth_code = $data['Authentication_code'];
+      $admin = $data['Is_Admin'];
+      $profile = $data['User_Profiles'];
+       $query =  "INSERT INTO Users (Username, Password, Email, First_Name, Last_Name, Last_Login, Date_Joined, Approved, Badge,Is_Authenticated,Authentication_code,Is_Admin,User_Profiles) VALUES ('$username', '$password', '$email','$firstName','$lastName', '$lastLogin', '$dateJoined', '$approved', '$badge','$is_auth','$Auth_code','$admin','$profile')";      //echo $query;
       $res = $this->mysqli->query($query);
       if ($this->mysqli->affected_rows > 0) {
         return true;
@@ -534,8 +565,8 @@ class Request {
       $occupation = $data['occupation'];
       $birthday = $data['birthday'];
       $gender = $data['gender'];
-      $query =  "INSERT INTO Basic_Profiles (User_ID, City , Province, Country, Occupation, Birth_Date, Gender) VALUES ('$userId', '$city', '$province','$country','$occupation', '$birthday', '$gender')";
-      //echo $query;
+      $query =  "INSERT INTO Basic_Profiles (User_ID, City, Province, Country, Occupation, Birth_Date, Gender) VALUES ('$userId', '$city', '$province','$country','$occupation', '$birthday', '$gender')";
+      echo $query;
       $res = $this->mysqli->query($query);
       if ($this->mysqli->affected_rows > 0) {
         return true;
@@ -543,6 +574,24 @@ class Request {
         return false;
       }
     }
+    public function addModule($data) {
+        $moduleTitle = $data['moduleTitle'];
+        $contentType = $data['contentType'];
+        $content = $data['content'];
+        $quiz = $data['quiz'];
+        $courseID = $data['courseID'];
+        $sequenceID = $data['sequenceID'];
+        $query =  "INSERT INTO Modules (Module_Title, Content_Type, Content, Quiz, Course_ID, Sequence_ID) VALUES ('$moduleTitle', '$contentType','$content','$quiz','$courseID', '$sequenceID')";
+        //echo $query;
+        $res = $this->mysqli->query($query);
+        if ($this->mysqli->affected_rows > 0) {
+          return true;
+        } else {
+            echo $this->mysqli->error;
+          return false;
+        }
+      }
+
     public function addFullProfile($data) {
       $userId = $data['userId'];
       $educationLevel = $data['educationLevel'];
@@ -589,5 +638,15 @@ class Request {
       $row = $res->fetch_assoc();
       return $row['Password'];
     }
+public function updateAuth($username,$fieldname,$data){
+        $auth = $data['value'];
+        $query =  "UPDATE Users set $fieldname = $auth  WHERE Username = '$username'";
+        $res = $this->mysqli->query($query);
+        if ($res > 0) {
+           return true;
+        } else {
+           return false;
+        }
+    }    
 }
 ?>

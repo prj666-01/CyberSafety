@@ -1,3 +1,11 @@
+<?php
+    $isLoggedIn = false;
+    // session_start();
+    if(!empty($_SESSION["signedinuser"]["username"])) {
+        $isLoggedIn = true;
+    }
+?>
+
 <noscript>
   <div class="container text-center">
     <h2>Canada's trusted source for cybersafety education</h2>
@@ -21,13 +29,54 @@
         <ul class="nav navbar-nav">
           <li><a href="./index.php">Home</a></li>
           <li><a href="./project.html" target="_parent">Project structure</a></li>
-
           <li><a href="./contact_us.php">Contact Us</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="sign_up.php"><span class="fa fa-user" style="font-size:18px"></span> Sign Up</a></li>
-          <li><a href="sign_in.php"><span class="fa fa-sign-in" style="font-size:18px"></span> Sign In</a></li>
+          <?php
+              if($isLoggedIn) {
+                  echo '
+                  <li>
+                    <a href="basicProfile.php">
+                      <span class="fa fa-user" style="font-size:18px">
+                      </span> Basic Profile
+                    </a>
+                  </li>
+                  <li>
+                    <a href="fullProfile.php">
+                      <span class="fa fa-user" style="font-size:18px">
+                      </span> Full Profile
+                    </a>
+                  </li>
+                  <li>
+                    <a href="signOut.php">
+                      <span class="fa fa-sign-out" style="font-size:18px">
+                      </span> Signout
+                    </a>
+                  </li>
+                  <li>
+                    <a href="adminIndex.php">
+                      <span class="fa fa-unlock" style="font-size:18px">
+                      </span> Admin Tools
+                    </a>
+                  </li>';
+              } else {
+                  echo '
+                  <li>
+                    <a href="signUp.php">
+                      <span class="fa fa-user" style="font-size:18px" id="nav-signup">
+                      </span> Sign Up
+                    </a>
+                  </li>
+                  <li>
+                    <a href="signIn.php">
+                      <span class="fa fa-sign-in" style="font-size:18px" id="nav-signin">
+                      </span> Sign In
+                    </a>
+                  </li>';
+              }
+          ?>
         </ul>
       </div>
     </div>
   </nav>
+</div>

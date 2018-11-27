@@ -16,6 +16,7 @@ if (!empty($_POST['basicprofile'])) {
   ($request->addBasicProfile($array)) ? $result = "Profile added successfully." : $result = "Profile couldn't be added successfully.";
   echo $result;
 }
+
 ?>
 <?php
  require("includes/header.php");
@@ -83,8 +84,10 @@ require("includes/nav.php");
                       <div class="col-lg-12">
                         <form id="basicprofile" name="basicprofile" method="POST" action="#">
                           <div class="form-group">
-                            <input type="text" name="username" id="username"  class="form-control" placeholder="Jane Doe" readonly/>
+                            <label for="username">User:</label>
+                            <input type="text" name="username" id="username"  class="form-control" placeholder="Jane Doe" value="<?php echo $_SESSION["signedinuser"]["username"];?>" readonly/>
                             <input type="hidden" name="userID" id="userID"  class="form-control" value="1"/>
+                            <!-- <input type="hidden" name="userID" id="userID"  class="form-control" value="?php echo $_SESSION["signedinuser"]["userID"];?>"/> -->
                           </div>
                           <div class="form-group">
                             <label for="city">City:</label>

@@ -40,5 +40,3 @@
 <script>
  document.getElementById("panel").style.display = "block";
 </script>
-</body>
-</html>

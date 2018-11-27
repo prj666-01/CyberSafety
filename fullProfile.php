@@ -1,5 +1,6 @@
 <?php
 require('./Request.php');
+session_start();
 // Check if the user submitted the username form
 if (!empty($_POST['fullprofile'])) {
   $array = [
@@ -23,9 +24,18 @@ if (!empty($_POST['fullprofile'])) {
     "newsletter" => $_POST['newsletter']
   ];
   //Instantiate new Request class
-  $request = new Request();
-  ($request->addFullProfile($array)) ? $result = "Profile added successfully." : $result = "Profile couldn't be added successfully.";
-  echo $result;
+ $request = new Request();
+  $result = $request->addFullProfile($array);
+  if ($result){
+    $data = [
+      "value" => 2
+    ];
+    $fieldname = 'User_Profiles';
+    $userProfile = $request->updateAuth($username,$fieldname,$data);
+    if($userProfile){
+      $_SESSION["signedinuser"]["user_profile"] = $data["value"];
+    }
+}
 }
 ?>
 <?php
