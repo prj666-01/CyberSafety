@@ -1,19 +1,48 @@
 <?php
   session_start();
   $_SESSION['isLoggedIn'] = true;
+  $_SESSION["signedinuser"]["user_profile"] = 0;
+  $_SESSION["prof"] = 2;
   if (isset($_SESSION['isLoggedIn']) && $_SESSION['isLoggedIn'] == true) {
   require './includes/Request.php';
+  
+  if(!empty($_POST["basicProfile"]) && $_SESSION["signedinuser"]["user_profile"] == 0 || !empty($_POST["fullProfile"]) && $_SESSION["signedinuser"]["user_profile"] == 0){
+    
+    $basicArray = [
+      $userID = $_POST["userID"],
+      $city = $_POST["city"],
+      $province = $_POST["province"],
+      $country = $_POST["country"],
+      $occupation = $_POST["occupation"],
+      $gender = $_POST["gender"]
+    ];
 
-  $myArray = [
-    82,
-    "Joes City",
-    "Joes Province",
-    "Joes Country",
-    "Plumber",
-    "Other"
-  ];
+    addBasicProfile($basicArray);
 
-  addBasicProfile($myArray);
+    if($_SESSION["prof"] == 2){
+      $fullArray = [
+        $userId = $_POST['userID'],
+        $educationLevel = $_POST['eduLevel'],
+        $interest = $_POST['interest'],
+        $newsletter = $_POST['newsletter'],
+        $postalCode = $_POST['pCode'],
+        $specialization = $_POST['specialization'],
+        $experience = $_POST['experience'],
+        $district = $_POST['district'],
+        $eduBoard = $_POST['eduBoard'],
+        $profEmail = $_POST['pEmail'],
+        $phone = $_POST['pNum'],
+        $accreditations = $_POST['accreditations'],
+        $linkedin = $_POST['linkIN'],
+        $audLocation = $_POST['audLoc'],
+        $targetAge = $_POST['targetAge'],
+        $audSize = $_POST['audSize'],
+        $currEduLevel = $_POST['aware'],
+        $importantAreas = $_POST['impAreas']
+      ];
+      addFullProfile($fullArray);
+    }
+  }
 ?>
     <?php
      require("includes/header.php");
@@ -126,13 +155,13 @@
                       <div class="panel-body">
                         <div class="row">
                           <div class="col-lg-12">
-                            <form id="fullprofile" action="#" method="post">
+                            <form id="profile" action="#" method="post">
                             <fieldset class="msf_hide">
                               <h2>Basic Profile</h2>
                               <div class="form-group">
                                 <label for="username">User:</label>
                                 <input type="text" name="username" id="username"  class="form-control" placeholder="Jane Doe" value="Joe" readonly/>
-                                <input type="hidden" name="userID" id="userID"  class="form-control" value="1"/>
+                                <input type="hidden" name="userID" id="userID"  class="form-control" value="82"/>
                                 <!-- <input type="hidden" name="userID" id="userID"  class="form-control" value="?php echo $_SESSION["signedinuser"]["userID"];?>"/> -->
                               </div>
                               <div class="form-group">
@@ -163,13 +192,13 @@
                               <?php
                             $profile = 2;
                             $profileStatus = 1;
-                            if($profile == 1){
-                              echo '<button type="submit" name="fullprofile" id="fullprofile" onsubmit="subBasic()" tabindex="5" class="form-control btn btn-register" value="Submit"> Submit </button>'; 
-                            }else if ($profileStatus == 1){
+                            if($_SESSION["prof"] == 1 && $_SESSION["signedinuser"]["user_profile"] == 0){
+                              echo '<button type="submit" name="basicProfile" id="basicProfile" value="basicProfile" tabindex="5" class="form-control btn btn-register" value="Submit"> Submit </button>'; 
+                            }else if ($_SESSION["prof"] == 1 && $_SESSION["signedinuser"]["user_profile"] == 1){
                               echo '<a href="#" id="eduLink" onclick="showFull()">Become an Educator</a>';
                               echo '<input type="button" name="next" value="Next" id="becomeEd"  onclick="msf_btn_next()" style="display: none;">';
-                              echo '<button type="submit" name="basicProfile" id="basicProfile" tabindex="5" class="form-control btn btn-register" value="Submit"> Submit </button>';
-                            }else if ($profile == 2 || $profileStatus ==2) {
+                              echo '<button type="submit" name="basicProfile" id="basicProfile" value="basicProfile" tabindex="5" class="form-control btn btn-register" value="Submit"> Submit </button>';
+                            }else if ($_SESSION["prof"] == 2 || $_SESSION["signedinuser"]["user_profile"] ==2) {
                               echo '<input type="button" name="next" value="Next"  onclick="msf_btn_next()">';
                             }
                           ?>
@@ -256,14 +285,14 @@
                               </div>
                               <div class="form-group">
                                 <label for="newsletter">KnowledgeFlow Newsletter:</label>
-                                <input type="checkbox" name="newsletter" id="newsletter" class="form-check-input">
+                                <input type="checkbox" name="newsletter" id="newsletter" value=1 class="form-check-input">
                                 <label class="form-check-label" for="newsletter">Check here to sign up to be sent the KnowledgeFlow Newsletter</label>
                               </div>
                               <div class="form-group">
                                 <div class="row">
                                   <div class="col-sm-6 col-sm-offset-3">
                                   <input type="button" name="back" value="Back"  onclick="msf_btn_back()">
-                                  <button type="submit" name="fullprofile" id="fullprofile" tabindex="5" class="form-control btn btn-register" value="Submit">Submit Full Profile</button>
+                                  <button type="submit" name="fullProfile" id="fullProfile" value="fullProfile" tabindex="5" class="form-control btn btn-register" value="Submit">Submit Full Profile</button>
                                   </div>
                                 </div>
                               </div>

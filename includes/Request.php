@@ -5,6 +5,7 @@ require("includes/config.php");
 
 // TODO
 function addBasicProfile($profileInfoArray) {
+  echo "Made it";
   $mysqli = openConnection();
   $query =  "INSERT INTO Basic_Profiles
   (User_ID,
@@ -41,6 +42,54 @@ function openConnection() {
 
 //Created By ColinM
 
+//Take the established array from profile.php and create a new record in Full_Profile
+function addFullProfile($profileInfoArray) {
+  $mysqli = openConnection();
+  $query =  "INSERT INTO Full_Profile(
+    User_ID, 
+    Education_Level , 
+    Interest, 
+    Newsletter, 
+    Postal_Code, 
+    Specialization, 
+    Experience, 
+    District, 
+    Edu_Board, 
+    Prof_Email, 
+    Phone, 
+    Accreditations, 
+    LinkedIN, 
+    Aud_Location, 
+    Target_Age, 
+    Aud_Size, 
+    Curr_Edu_Level, 
+    Important_Areas) 
+  VALUES 
+    ($profileInfoArray[0],
+    '$profileInfoArray[1]',
+    '$profileInfoArray[2]',
+    '$profileInfoArray[3]',
+    '$profileInfoArray[4]',
+    '$profileInfoArray[5]',
+    '$profileInfoArray[6]',
+    '$profileInfoArray[7]',
+    '$profileInfoArray[8]',
+    '$profileInfoArray[9]',
+    '$profileInfoArray[10]',
+    '$profileInfoArray[11]',
+    '$profileInfoArray[12]',
+    '$profileInfoArray[13]',
+    '$profileInfoArray[14]',
+    '$profileInfoArray[15]',
+    '$profileInfoArray[16]',
+    '$profileInfoArray[17]'
+     )";
+    if ($mysqli->query($query) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $query . "<br>" . $mysqli->error;
+    }
+}
 //Created By Yan
 function closeConnection() {
   mysqli_close($mysqli);
@@ -210,17 +259,17 @@ function getAnswerById($id) {
 }
 
 // TODO
-function addFullProfile() {
-  $mysqli = openConnection();
+//function addFullProfile() {
+ // $mysqli = openConnection();
   //$query =  "INSERT INTO User(User_ID, Education_Level , Interest, Newsletter, Postal_Code, Specialization, Experience, District, Edu_Board, Prof_Email, Phone, Accreditations, LinkedIN, Aud_Location, Target_Age, Aud_Size, Curr_Edu_Level, Important_Areas) VALUES ('$userId', '$educationLevel', '$interest','$newsletter','$postalCode', '$specialization', '$experience', '$district', '$eduBoard', '$profEmail', '$phone', '$accreditations', '$linkedin', '$audLocation', '$targetAge', '$audSize', '$currEduLevel','$importantAreas')";
-  $query = "";
-  $res = $mysqli->query($query);
-  if ($mysqli->affected_rows > 0) {
-    return true;
-  } else {
-    return false;
-  }
-}
+  //$query = "";
+  //$res = $mysqli->query($query);
+  //if ($mysqli->affected_rows > 0) {
+   // return true;
+  //} else {
+  //  return false;
+  //}
+//}
 
 //Created By Manali\
 function addUser($data) {
