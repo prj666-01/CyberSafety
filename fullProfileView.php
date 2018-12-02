@@ -8,8 +8,8 @@
   if (isset($_SESSION['isLoggedIn']) && $_SESSION['isLoggedIn'] == true) {
   require './includes/Request.php';
 
-  $result = getBasicProfile();
-  $resultTwo = getFullProfile();
+  $result = getBasicProfile($userID);
+  $resultTwo = getFullProfile($userID);
 ?>
 <?php
 require("includes/header.php");

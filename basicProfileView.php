@@ -8,7 +8,7 @@
   if (isset($_SESSION['isLoggedIn']) && $_SESSION['isLoggedIn'] == true) {
   require './includes/Request.php';
 
-  $result = getBasicProfile();
+  $result = getBasicProfile($userID);
 ?>
 <?php
 require("includes/header.php");

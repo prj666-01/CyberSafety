@@ -27,9 +27,9 @@ function addBasicProfile($profileInfoArray) {
     }
 }
 
-function getBasicProfile() {
+function getBasicProfile($userID) {
   $mysqli = openConnection();
-  $query =  "SELECT * FROM Basic_Profiles WHERE User_ID = 82";
+  $query =  "SELECT * FROM Basic_Profiles WHERE User_ID = $userID";
   $res = $mysqli->query($query);
   $array = array();
     while ($row = $res->fetch_assoc()){
@@ -45,9 +45,9 @@ function getBasicProfile() {
     return $array;
 }
 
-function getFullProfile() {
+function getFullProfile($userID) {
   $mysqli = openConnection();
-  $query =  "SELECT * FROM Full_Profile WHERE User_ID = 82";
+  $query =  "SELECT * FROM Full_Profile WHERE User_ID = $userID";
   $res = $mysqli->query($query);
   $array = array();
     while ($row = $res->fetch_assoc()){
