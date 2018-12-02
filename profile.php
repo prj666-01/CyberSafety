@@ -1,13 +1,52 @@
 <?php
   session_start();
   $_SESSION['isLoggedIn'] = true;
-  $_SESSION["signedinuser"]["user_profile"] = 0;
-  $_SESSION["prof"] = 2;
+  $_SESSION["signedinuser"]["user_profile"] = 1;
+  $_SESSION["prof"] = 1;
   if (isset($_SESSION['isLoggedIn']) && $_SESSION['isLoggedIn'] == true) {
   require './includes/Request.php';
+
+  $result = getBasicProfile();
   
   if(!empty($_POST["basicProfile"]) && $_SESSION["signedinuser"]["user_profile"] == 0 || !empty($_POST["fullProfile"]) && $_SESSION["signedinuser"]["user_profile"] == 0){
     
+    $basicArray = [
+      $userID = $_POST["userID"],
+      $city = $_POST["city"],
+      $province = $_POST["province"],
+      $country = $_POST["country"],
+      $occupation = $_POST["occupation"],
+      $gender = $_POST["gender"]
+    ];
+
+    addBasicProfile($basicArray);
+
+    if($_SESSION["prof"] == 2){
+      $fullArray = [
+        $userId = $_POST['userID'],
+        $educationLevel = $_POST['eduLevel'],
+        $interest = $_POST['interest'],
+        $newsletter = $_POST['newsletter'],
+        $postalCode = $_POST['pCode'],
+        $specialization = $_POST['specialization'],
+        $experience = $_POST['experience'],
+        $district = $_POST['district'],
+        $eduBoard = $_POST['eduBoard'],
+        $profEmail = $_POST['pEmail'],
+        $phone = $_POST['pNum'],
+        $accreditations = $_POST['accreditations'],
+        $linkedin = $_POST['linkIN'],
+        $audLocation = $_POST['audLoc'],
+        $targetAge = $_POST['targetAge'],
+        $audSize = $_POST['audSize'],
+        $currEduLevel = $_POST['aware'],
+        $importantAreas = $_POST['impAreas']
+      ];
+      addFullProfile($fullArray);
+    }
+  }
+
+  if(!empty($_POST["basicProfile"]) && $_SESSION["signedinuser"]["user_profile"] == 1 || !empty($_POST["fullProfile"]) && $_SESSION["signedinuser"]["user_profile"] == 1){
     $basicArray = [
       $userID = $_POST["userID"],
       $city = $_POST["city"],
@@ -141,7 +180,7 @@
     <?php
     require("includes/nav.php");
      ?>
-        <div class="container">
+       <div class="container">
                   <div class="row">
                   <div class="col-md-6 col-md-offset-3">
                     <div class="panel panel-login">
@@ -155,43 +194,94 @@
                       <div class="panel-body">
                         <div class="row">
                           <div class="col-lg-12">
-                            <form id="profile" action="#" method="post">
+                            <form id="fullprofile" action="./basicProfileView.php" method="post">
                             <fieldset class="msf_hide">
                               <h2>Basic Profile</h2>
                               <div class="form-group">
                                 <label for="username">User:</label>
                                 <input type="text" name="username" id="username"  class="form-control" placeholder="Jane Doe" value="Joe" readonly/>
-                                <input type="hidden" name="userID" id="userID"  class="form-control" value="82"/>
+                                <input type="hidden" name="userID" id="userID"  class="form-control" value="1"/>
                                 <!-- <input type="hidden" name="userID" id="userID"  class="form-control" value="?php echo $_SESSION["signedinuser"]["userID"];?>"/> -->
                               </div>
                               <div class="form-group">
                                 <label for="city">City:</label>
-                                <input type="text" name="city" id="city" tabindex="1" class="form-control" placeholder="City" maxlength="25" required/>
+                                <input type="text" name="city" id="city" tabindex="1" class="form-control" placeholder="City" maxlength="25" required
+                                <?php
+                                  if($_SESSION["signedinuser"]["user_profile"] != 0){
+                                    echo "value=\"";
+                                    print_r($result[0]['city']);
+                                    echo "\"";
+                                  }
+                                ?>
+                                />
                               </div>
                               <div class="form-group">
                                 <label for="province">Province:</label>
-                                <input type="text" name="province" id="province" tabindex="2" class="form-control" placeholder="Province" maxlength="30" required/>
+                                <input type="text" name="province" id="province" tabindex="2" class="form-control" placeholder="Province" maxlength="30" required
+                                <?php
+                                  if($_SESSION["signedinuser"]["user_profile"] !== 0){
+                                    echo "value=\"";
+                                    print_r($result[0]['province']);
+                                    echo "\"";
+                                  }
+                                ?>
+                                />
                               </div>
                               <div class="form-group">
                                 <label for="country">Country:</label>
-                                <input type="text" name="country" id="country" tabindex="3" class="form-control" placeholder="Country" maxlength="25" required/>
+                                <input type="text" name="country" id="country" tabindex="3" class="form-control" placeholder="Country" maxlength="25" required
+                                <?php
+                                  if($_SESSION["signedinuser"]["user_profile"] !== 0){
+                                    echo "value=\"";
+                                    print_r($result[0]['country']);
+                                    echo "\"";
+                                  }
+                                ?>
+                                />
                               </div>
                               <div class="form-group">
                                 <label for="occupation">Occupation:</label>
-                                <input type="text" name="occupation" id="occupation" tabindex="2" class="form-control" placeholder="Occupation" maxlength="25" required/>
+                                <input type="text" name="occupation" id="occupation" tabindex="2" class="form-control" placeholder="Occupation" maxlength="25" required
+                                <?php
+                                  if($_SESSION["signedinuser"]["user_profile"] !== 0){
+                                    echo "value=\"";
+                                    print_r($result[0]['occupation']);
+                                    echo "\"";
+                                  }
+                                ?>
+                                />
                               </div>
                               <div class="form-group">
                                 <label for="gender">Gender:</label>
                                 <select name="gender" id="gender" required>
-                                    <option value="M">Male</option>
-                                    <option value="F">Female</option>
-                                    <option value="O">Other</option>
+                                    <option
+                                    <?php
+                                      if($_SESSION["signedinuser"]["user_profile"] !== 0){
+                                        if($result[0]['gender'] == 'M')
+                                        echo "selected=\"selected\"";
+                                      }
+                                    ?>
+                                    value="M">Male</option>
+                                    <option
+                                    <?php
+                                      if($_SESSION["signedinuser"]["user_profile"] !== 0){
+                                        if($result[0]['gender'] == 'F')
+                                        echo "selected=\"selected\"";
+                                      }
+                                    ?>
+                                    value="F">Female</option>
+                                    <option
+                                    <?php
+                                      if($_SESSION["signedinuser"]["user_profile"] !== 0){
+                                        if($result[0]['gender'] == 'O')
+                                        echo "selected=\"selected\"";
+                                      }
+                                    ?>
+                                    value="O">Other</option>
                                 </select>
                               </div>
                               <input type="button" name="back" value="Back"  onclick="msf_btn_back()">
                               <?php
-                            $profile = 2;
-                            $profileStatus = 1;
                             if($_SESSION["prof"] == 1 && $_SESSION["signedinuser"]["user_profile"] == 0){
                               echo '<button type="submit" name="basicProfile" id="basicProfile" value="basicProfile" tabindex="5" class="form-control btn btn-register" value="Submit"> Submit </button>'; 
                             }else if ($_SESSION["prof"] == 1 && $_SESSION["signedinuser"]["user_profile"] == 1){
@@ -207,23 +297,63 @@
                             <h2>Full Profile</h2>
                               <div class="form-group">
                                 <label for="eduLevel">Education Level:</label>
-                                <input type="text" name="eduLevel" id="eduLevel" class="form-control" placeholder="Education Level" maxlength="13">
+                                <input type="text" name="eduLevel" id="eduLevel" class="form-control" placeholder="Education Level" maxlength="13"
+                                <?php
+                                  if($_SESSION["signedinuser"]["user_profile"] !== 0){
+                                    echo "value=\"";
+                                    print_r($resultTwo[0]['educationLevel']);
+                                    echo "\"";
+                                  }
+                                ?>
+                                />
                                 </div>
                                 <div class="form-group">
                                 <label for="specialization">Specialization:</label>
-                                <input type="text" name="specialization" id="specialization" class="form-control" placeholder="Specialization" maxlength="30">
+                                <input type="text" name="specialization" id="specialization" class="form-control" placeholder="Specialization" maxlength="30"
+                                <?php
+                                  if($_SESSION["signedinuser"]["user_profile"] !== 0){
+                                    echo "value=\"";
+                                    print_r($resultTwo[0]['specialization']);
+                                    echo "\"";
+                                  }
+                                ?>
+                                >
                               </div>
                               <div class="form-group">
                                 <label for="interest">Interest:</label>
-                                <input type="text" name="interest" id="interest" class="form-control" placeholder="Interest" maxlength="1">
+                                <input type="text" name="interest" id="interest" class="form-control" placeholder="Interest" maxlength="1"
+                                <?php
+                                  if($_SESSION["signedinuser"]["user_profile"] !== 0){
+                                    echo "value=\"";
+                                    print_r($resultTwo[0]['interest']);
+                                    echo "\"";
+                                  }
+                                ?>
+                                >
                               </div>
                               <div class="form-group">
                                 <label for="experience">Years of Experience:</label>
-                                <input type="text" name="experience" id="experience" class="form-control" placeholder="Years of Experience" maxlength="2">
+                                <input type="text" name="experience" id="experience" class="form-control" placeholder="Years of Experience" maxlength="2"
+                                <?php
+                                  if($_SESSION["signedinuser"]["user_profile"] !== 0){
+                                    echo "value=\"";
+                                    print_r($resultTwo[0]['experience']);
+                                    echo "\"";
+                                  }
+                                ?>
+                                >
                                 </div>
                                 <div class="form-group">
                                 <label for="accreditations">Accreditations:</label>
-                                <input type="text" name="accreditations" id="accrediations" class="form-control" placeholder="Accreditations" maxlength="300">
+                                <input type="text" name="accreditations" id="accrediations" class="form-control" placeholder="Accreditations" maxlength="300"
+                                <?php
+                                  if($_SESSION["signedinuser"]["user_profile"] !== 0){
+                                    echo "value=\"";
+                                    print_r($resultTwo[0]['accrediations']);
+                                    echo "\"";
+                                  }
+                                ?>
+                                >
                               </div>
                               <input type="button" name="back" value="Back"  onclick="msf_btn_back()">
     	                        <input type="button" name="next" value="Next"  onclick="msf_btn_next()">
@@ -233,30 +363,91 @@
                               <div class="form-group">
                                 <label for="aware">Cybersafety Awareness Level:</label>
                                 <select name="aware" id="aware">
-                                    <option value="L">Low</option>
-                                    <option value="M">Medium</option>
-                                    <option value="H">High</option>
+                                  <option
+                                  <?php
+                                    if($_SESSION["signedinuser"]["user_profile"] !== 0){
+                                      if($resultTwo[0]['currEduLevel'] == 'L')
+                                      echo "selected=\"selected\"";
+                                    }
+                                  ?>
+                                  value="L">Low</option>
+                                  <option
+                                  <?php
+                                    if($_SESSION["signedinuser"]["user_profile"] !== 0){
+                                      if($resultTwo[0]['currEduLevel'] == 'M')
+                                      echo "selected=\"selected\"";
+                                    }
+                                  ?>
+                                  value="M">Medium</option>
+                                  <option
+                                  <?php
+                                    if($_SESSION["signedinuser"]["user_profile"] !== 0){
+                                      if($resultTwo[0]['currEduLevel'] == 'H')
+                                      echo "selected=\"selected\"";
+                                    }
+                                  ?>
+                                  value="H">High</option>
                                 </select>
                                 </div>
                                 <div class="form-group">
                                 <label for="audLoc">Audience Location:</label>
-                                <input type="text" name="audLoc" id="audLoc" class="form-control" placeholder="Audience Location" maxlength="100">
+                                <input type="text" name="audLoc" id="audLoc" class="form-control" placeholder="Audience Location" maxlength="100"
+                                <?php
+                                  if($_SESSION["signedinuser"]["user_profile"] !== 0){
+                                    echo "value=\"";
+                                    print_r($resultTwo[0]['audLocation']);
+                                    echo "\"";
+                                  }
+                                ?>
+                                >
                                 </div>
                                 <div class="form-group">
                                 <label for="audSize">Average Audience Size:</label>
-                                <input type="text" name="audSize" id="audSize" class="form-control" placeholder="Audience Size" maxlength="3">
+                                <input type="text" name="audSize" id="audSize" class="form-control" placeholder="Audience Size" maxlength="3"
+                                <?php
+                                  if($_SESSION["signedinuser"]["user_profile"] !== 0){
+                                    echo "value=\"";
+                                    print_r($resultTwo[0]['audSize']);
+                                    echo "\"";
+                                  }
+                                ?>
+                                >
                               </div>
                               <div class="form-group">
                                 <label for="targetAge">Target Age:</label>
-                                <input type="text" name="targetAge" id="targetAge" class="form-control" placeholder="Target Age" maxlength="2">
+                                <input type="text" name="targetAge" id="targetAge" class="form-control" placeholder="Target Age" maxlength="2"
+                                <?php
+                                  if($_SESSION["signedinuser"]["user_profile"] !== 0){
+                                    echo "value=\"";
+                                    print_r($resultTwo[0]['targetAge']);
+                                    echo "\"";
+                                  }
+                                ?>
+                                >
                               </div>
                               <div class="form-group">
                                 <label for="district">District:</label>
-                                <input type="text" name="district" id="district" tabindex="2" class="form-control" placeholder="District" maxlength="100"/>
+                                <input type="text" name="district" id="district" tabindex="2" class="form-control" placeholder="District" maxlength="100"
+                                <?php
+                                  if($_SESSION["signedinuser"]["user_profile"] !== 0){
+                                    echo "value=\"";
+                                    print_r($resultTwo[0]['district']);
+                                    echo "\"";
+                                  }
+                                ?>
+                                />
                                 </div>
                                 <div class="form-group">
                                 <label for="eduBoard">Board of Education:</label>
-                                <input type="text" name="eduBoard" id="eduBoard" tabindex="2" class="form-control" placeholder="Board of Education" maxlength="100"/>
+                                <input type="text" name="eduBoard" id="eduBoard" tabindex="2" class="form-control" placeholder="Board of Education" maxlength="100"
+                                <?php
+                                  if($_SESSION["signedinuser"]["user_profile"] !== 0){
+                                    echo "value=\"";
+                                    print_r($resultTwo[0]['eduBoard']);
+                                    echo "\"";
+                                  }
+                                ?>
+                                />
                               </div>
                               <input type="button" name="back" value="Back"  onclick="msf_btn_back()">
     	                        <input type="button" name="next" value="Next"  onclick="msf_btn_next()">
@@ -265,27 +456,67 @@
                             <h2>Full Profile Cont.</h2>
                               <div class="form-group">
                                 <label for="pNum">Phone Number:</label>
-                                <input type="text" name="pNum" id="pNum" tabindex="2" class="form-control" placeholder="6471234567" maxlength="25"/>
+                                <input type="text" name="pNum" id="pNum" tabindex="2" class="form-control" placeholder="6471234567" maxlength="25"
+                                <?php
+                                  if($_SESSION["signedinuser"]["user_profile"] !== 0){
+                                    echo "value=\"";
+                                    print_r($resultTwo[0]['phone']);
+                                    echo "\"";
+                                  }
+                                ?>
+                                />
                                 </div>
                                 <div class="form-group">
                                 <label for="pCode">Postal Code:</label>
-                                <input type="text" name="pCode" id="pCode" tabindex="2" class="form-control" placeholder="A1B 2C3" maxlength="7"/>
+                                <input type="text" name="pCode" id="pCode" tabindex="2" class="form-control" placeholder="A1B 2C3" maxlength="7"
+                                <?php
+                                  if($_SESSION["signedinuser"]["user_profile"] !== 0){
+                                    echo "value=\"";
+                                    print_r($resultTwo[0]['postalCode']);
+                                    echo "\"";
+                                  }
+                                ?>
+                                />
                               </div>
                               <div class="form-group">
                                 <label for="pEmail">Professional Email:</label>
-                                <input type="email" name="pEmail" id="pEmail" tabindex="2" class="form-control" placeholder="j.doe@tdsb.ca" maxlength="254"/>
+                                <input type="email" name="pEmail" id="pEmail" tabindex="2" class="form-control" placeholder="j.doe@tdsb.ca" maxlength="254"
+                                <?php
+                                  if($_SESSION["signedinuser"]["user_profile"] !== 0){
+                                    echo "value=\"";
+                                    print_r($resultTwo[0]['profEmail']);
+                                    echo "\"";
+                                  }
+                                ?>
+                                />
                                 </div>
                                 <div class="form-group">
                                 <label for="linkIN">LinkedIN Account:</label>
-                                <input type="text" name="linkIN" id="linkIN" tabindex="2" class="form-control" placeholder="linkedin.com/help/linkedin/answer/49315/finding-your-linkedin-public-profile-url?lang=en"  maxlength="150"/>
+                                <input type="text" name="linkIN" id="linkIN" tabindex="2" class="form-control" placeholder="linkedin.com/help/linkedin/answer/49315/finding-your-linkedin-public-profile-url?lang=en"  maxlength="150"
+                                <?php
+                                  if($_SESSION["signedinuser"]["user_profile"] !== 0){
+                                    echo "value=\"";
+                                    print_r($resultTwo[0]['linkedIN']);
+                                    echo "\"";
+                                  }
+                                ?>
+                                />
                               </div>
                               <div class="form-group">
                                 <label for="impAreas">Important Areas to Cover:</label>
-                                <input type="textarea" name="impAreas" id="impAreas" tabindex="2" class="form-control" rows="3" maxlength="100"/>
+                                <input type="textarea" name="impAreas" id="impAreas" tabindex="2" class="form-control" rows="3" maxlength="100"
+                                <?php
+                                  if($_SESSION["signedinuser"]["user_profile"] !== 0){
+                                    echo "value=\"";
+                                    print_r($resultTwo[0]['importantAreas']);
+                                    echo "\"";
+                                  }
+                                ?>
+                                />
                               </div>
                               <div class="form-group">
                                 <label for="newsletter">KnowledgeFlow Newsletter:</label>
-                                <input type="checkbox" name="newsletter" id="newsletter" value=1 class="form-check-input">
+                                <input type="checkbox" name="newsletter" id="newsletter" class="form-check-input">
                                 <label class="form-check-label" for="newsletter">Check here to sign up to be sent the KnowledgeFlow Newsletter</label>
                               </div>
                               <div class="form-group">
@@ -372,6 +603,7 @@
       document.getElementById("basicProfile").style.display = "none";
       document.getElementById("eduLink").style.display = "none";
       document.getElementById("becomeEd").style.display = "block";
+      <?php $_SESSION["prof"] = 2;?>
     }
 
     console.log("loaded");

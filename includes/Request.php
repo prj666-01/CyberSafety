@@ -29,6 +29,53 @@ function addBasicProfile($profileInfoArray) {
     }
 }
 
+function getBasicProfile() {
+  $mysqli = openConnection();
+  $query =  "SELECT * FROM Basic_Profiles WHERE User_ID = 82";
+  $res = $mysqli->query($query);
+  $array = array();
+    while ($row = $res->fetch_assoc()){
+        $profile = [
+            "city" => $row['City'],
+            "province" => $row['Province'],
+            "country" => $row['Country'],
+            "occupation" => $row['Occupation'],
+            "gender" => $row['Gender']
+        ];
+        array_push($array, $profile);
+    }
+    return $array;
+}
+
+function getFullProfile() {
+  $mysqli = openConnection();
+  $query =  "SELECT * FROM Full_Profile WHERE User_ID = 82";
+  $res = $mysqli->query($query);
+  $array = array();
+    while ($row = $res->fetch_assoc()){
+        $profile = [
+            "educationLevel" => $row['Education_Level'],
+            "interest" => $row['Interest'],
+            "newsLetter" => $row['Newsletter'],
+            "postalCode" => $row['Postal_Code'],
+            "specialization" => $row['Specialization'],
+            "experience" => $row['Experience'],
+            "district" => $row['District'],
+            "eduBoard" => $row['Edu_Board'],
+            "profEmail" => $row['Prof_Email'],
+            "phone" => $row['Phone'],
+            "accreditations" => $row['Accreditations'],
+            "linkedIN" => $row['LinkedIN'],
+            "audLocation" => $row['Aud_Location'],
+            "targetAge" => $row['Target_Age'],
+            "audSize" => $row['Aud_Size'],
+            "currEduLevel" => $row['Curr_Edu_Level'],
+            "importantAreas" => $row['Important_Areas']
+        ];
+        array_push($array, $profile);
+    }
+    return $array;
+}
 
 function openConnection() {
   $mysqli = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
@@ -84,6 +131,52 @@ function addFullProfile($profileInfoArray) {
     '$profileInfoArray[16]',
     '$profileInfoArray[17]'
      )";
+    if ($mysqli->query($query) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $query . "<br>" . $mysqli->error;
+    }
+}
+
+function updateFullProfile($userID, $profileInfoArray) {
+  $mysqli = openConnection();
+  $query =  "UPDATE TABLE Full_Profile SET
+    User_ID = $profileInfoArray[0],
+    Education_Level = '$profileInfoArray[1]',
+    Interest = '$profileInfoArray[2]',
+    Newsletter = '$profileInfoArray[3]',
+    Postal_Code = '$profileInfoArray[4]',
+    Specialization = '$profileInfoArray[5]',
+    Experience = '$profileInfoArray[6]',
+    District = '$profileInfoArray[7]',
+    Edu_Board = '$profileInfoArray[8]',
+    Prof_Email = '$profileInfoArray[9]',
+    Phone = '$profileInfoArray[10]',
+    Accreditations = '$profileInfoArray[11]',
+    LinkedIN = '$profileInfoArray[12]',
+    Aud_Location = '$profileInfoArray[13]',
+    Target_Age = '$profileInfoArray[14]',
+    Aud_Size = '$profileInfoArray[15]',
+    Curr_Edu_Level = '$profileInfoArray[16]',
+    Important_Areas = '$profileInfoArray[17]'
+    where User_ID = $userID";
+    if ($mysqli->query($query) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $query . "<br>" . $mysqli->error;
+    }
+}
+
+function updateBasicProfile($userID, $profileInfoArray) {
+  $mysqli = openConnection();
+  $query =  "UPDATE TABLE Basic_Profiles SET
+  (User_ID = $profileInfoArray[0],
+   City = '$profileInfoArray[1]',
+   Province = '$profileInfoArray[2]',
+   Country = '$profileInfoArray[3]',
+   Occupation = '$profileInfoArray[4]',
+   Gender = '$profileInfoArray[5]'
+   WHERE User_ID = $userID";
     if ($mysqli->query($query) === TRUE) {
         echo "New record created successfully";
     } else {

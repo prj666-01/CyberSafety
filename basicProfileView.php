@@ -1,11 +1,23 @@
 <?php
+  session_start();
+  $_SESSION['isLoggedIn'] = true;
+  $_SESSION['profile'] = true;
+  $_SESSION['userID'] = 82;
+  $userID = $_SESSION['userID'];
+
+  if (isset($_SESSION['isLoggedIn']) && $_SESSION['isLoggedIn'] == true) {
+  require './includes/Request.php';
+
+  $result = getBasicProfile();
+?>
+<?php
 require("includes/header.php");
 ?>
 <div class="row user-infos cyruxx">
             <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-xs-offset-0 col-sm-offset-0 col-md-offset-1 col-lg-offset-1">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h3 class="panel-title">User information - Basic Profile</h3>
+                        <h3 class="panel-title">User information - Basic Profile - USERNAME UP HERE?</h3>
                     </div>
                     <div class="panel-body">
                         <div class="row">
@@ -24,27 +36,39 @@ require("includes/header.php");
                                   <tbody>
                                   <tr>
                                       <td>User</td>
-                                      <td>DATA</td>
+                                      <td>
+                                        <p>NEED TO ECHO USERNAME FROM SESSION</p>
+                                      </td>
                                   </tr>
                                   <tr>
                                       <td>City</td>
-                                      <td>DATA</td>
+                                      <td>
+                                        <?php print_r($result[0]['city']); ?>
+                                      </td>
                                   </tr>
                                   <tr>
                                       <td>Province</td>
-                                      <td>DATA</td>
+                                      <td>
+                                        <?php print_r($result[0]['province']); ?>
+                                      </td>
                                   </tr>
                                   <tr>
                                       <td>Country</td>
-                                      <td>DATA</td>
+                                      <td>
+                                        <?php print_r($result[0]['country']); ?>
+                                      </td>
                                   </tr>
                                   <tr>
                                       <td>Occupation</td>
-                                      <td>DATA</td>
+                                      <td>
+                                        <?php print_r($result[0]['occupation']); ?>
+                                      </td>
                                   </tr>
                                   <tr>
                                       <td>Gender</td>
-                                      <td>DATA</td>
+                                      <td>
+                                        <?php print_r($result[0]['gender']); ?>
+                                      </td>
                                   </tr>
                                   </tbody>
                               </table>
@@ -54,27 +78,39 @@ require("includes/header.php");
                                   <tbody>
                                   <tr>
                                       <td>User</td>
-                                      <td>DATA</td>
+                                      <td>
+                                        <p>NEED TO ECHO USERNAME FROM SESSION</p>
+                                      </td>
                                   </tr>
                                   <tr>
                                       <td>City</td>
-                                      <td>DATA</td>
+                                      <td>
+                                        <?php print_r($result[0]['city']); ?>
+                                      </td>
                                   </tr>
                                   <tr>
                                       <td>Province</td>
-                                      <td>DATA</td>
+                                      <td>
+                                        <?php print_r($result[0]['province']); ?>
+                                      </td>
                                   </tr>
                                   <tr>
                                       <td>Country</td>
-                                      <td>DATA</td>
+                                      <td>
+                                        <?php print_r($result[0]['country']); ?>
+                                      </td>
                                   </tr>
                                   <tr>
                                       <td>Occupation</td>
-                                      <td>DATA</td>
+                                      <td>
+                                        <?php print_r($result[0]['occupation']); ?>
+                                      </td>
                                   </tr>
                                   <tr>
                                       <td>Gender</td>
-                                      <td>DATA</td>
+                                      <td>
+                                        <?php print_r($result[0]['gender']); ?>
+                                      </td>
                                   </tr>
                                   </tbody>
                               </table>
@@ -89,4 +125,9 @@ require("includes/header.php");
         </div>
         <?php
            require("includes/footer.php");
+          ?>
+          <?php
+            } else {
+              echo "Please log in to see this page.";
+            }
           ?>
