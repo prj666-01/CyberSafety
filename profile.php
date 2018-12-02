@@ -3,13 +3,16 @@
   $_SESSION['isLoggedIn'] = true;
   $_SESSION["signedinuser"]["user_profile"] = 1;
   $_SESSION["prof"] = 1;
+  $_SESSION["signedinuser"]["userID"] = 82;
   if (isset($_SESSION['isLoggedIn']) && $_SESSION['isLoggedIn'] == true) {
   require './includes/Request.php';
 
   $result = getBasicProfile();
+  $resultTwo = getFullProfile();
   
   if(!empty($_POST["basicProfile"]) && $_SESSION["signedinuser"]["user_profile"] == 0 || !empty($_POST["fullProfile"]) && $_SESSION["signedinuser"]["user_profile"] == 0){
     
+    echo "In Insert";
     $basicArray = [
       $userID = $_POST["userID"],
       $city = $_POST["city"],
@@ -47,6 +50,7 @@
   }
 
   if(!empty($_POST["basicProfile"]) && $_SESSION["signedinuser"]["user_profile"] == 1 || !empty($_POST["fullProfile"]) && $_SESSION["signedinuser"]["user_profile"] == 1){
+    echo "In Update 1";
     $basicArray = [
       $userID = $_POST["userID"],
       $city = $_POST["city"],
@@ -56,7 +60,7 @@
       $gender = $_POST["gender"]
     ];
 
-    addBasicProfile($basicArray);
+    updateBasicProfile($_SESSION["signedinuser"]["userID"], $basicArray);
 
     if($_SESSION["prof"] == 2){
       $fullArray = [
@@ -79,8 +83,46 @@
         $currEduLevel = $_POST['aware'],
         $importantAreas = $_POST['impAreas']
       ];
-      addFullProfile($fullArray);
+      updateFullProfile($_SESSION["signedinuser"]["userID"], $fullArray);
     }
+  }
+
+  if(!empty($_POST["fullProfile"]) && $_SESSION["signedinuser"]["user_profile"] == 2){
+    
+    echo "In Update 2";
+    
+    $basicArray = [
+      $userID = $_POST["userID"],
+      $city = $_POST["city"],
+      $province = $_POST["province"],
+      $country = $_POST["country"],
+      $occupation = $_POST["occupation"],
+      $gender = $_POST["gender"]
+    ];
+
+    updateBasicProfile($_SESSION["signedinuser"]["userID"], $basicArray);
+
+    $fullArray = [
+      $userId = $_POST['userID'],
+      $educationLevel = $_POST['eduLevel'],
+      $interest = $_POST['interest'],
+      $newsletter = $_POST['newsletter'],
+      $postalCode = $_POST['pCode'],
+      $specialization = $_POST['specialization'],
+      $experience = $_POST['experience'],
+      $district = $_POST['district'],
+      $eduBoard = $_POST['eduBoard'],
+      $profEmail = $_POST['pEmail'],
+      $phone = $_POST['pNum'],
+      $accreditations = $_POST['accreditations'],
+      $linkedin = $_POST['linkIN'],
+      $audLocation = $_POST['audLoc'],
+      $targetAge = $_POST['targetAge'],
+      $audSize = $_POST['audSize'],
+      $currEduLevel = $_POST['aware'],
+      $importantAreas = $_POST['impAreas']
+    ];
+    updateFullProfile($_SESSION["signedinuser"]["userID"], $fullArray);
   }
 ?>
     <?php
@@ -194,13 +236,13 @@
                       <div class="panel-body">
                         <div class="row">
                           <div class="col-lg-12">
-                            <form id="fullprofile" action="./basicProfileView.php" method="post">
+                            <form id="fullprofile" action="#" method="post">
                             <fieldset class="msf_hide">
                               <h2>Basic Profile</h2>
                               <div class="form-group">
                                 <label for="username">User:</label>
                                 <input type="text" name="username" id="username"  class="form-control" placeholder="Jane Doe" value="Joe" readonly/>
-                                <input type="hidden" name="userID" id="userID"  class="form-control" value="1"/>
+                                <input type="hidden" name="userID" id="userID"  class="form-control" value="<?php echo $_SESSION["signedinuser"]["userID"];?>"/>
                                 <!-- <input type="hidden" name="userID" id="userID"  class="form-control" value="?php echo $_SESSION["signedinuser"]["userID"];?>"/> -->
                               </div>
                               <div class="form-group">
@@ -349,7 +391,7 @@
                                 <?php
                                   if($_SESSION["signedinuser"]["user_profile"] !== 0){
                                     echo "value=\"";
-                                    print_r($resultTwo[0]['accrediations']);
+                                    print_r($resultTwo[0]['accreditations']);
                                     echo "\"";
                                   }
                                 ?>

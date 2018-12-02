@@ -140,7 +140,7 @@ function addFullProfile($profileInfoArray) {
 
 function updateFullProfile($userID, $profileInfoArray) {
   $mysqli = openConnection();
-  $query =  "UPDATE TABLE Full_Profile SET
+  $query =  "UPDATE Full_Profile SET
     User_ID = $profileInfoArray[0],
     Education_Level = '$profileInfoArray[1]',
     Interest = '$profileInfoArray[2]',
@@ -169,8 +169,8 @@ function updateFullProfile($userID, $profileInfoArray) {
 
 function updateBasicProfile($userID, $profileInfoArray) {
   $mysqli = openConnection();
-  $query =  "UPDATE TABLE Basic_Profiles SET
-  (User_ID = $profileInfoArray[0],
+  $query =  "UPDATE Basic_Profiles SET
+  User_ID = $profileInfoArray[0],
    City = '$profileInfoArray[1]',
    Province = '$profileInfoArray[2]',
    Country = '$profileInfoArray[3]',
