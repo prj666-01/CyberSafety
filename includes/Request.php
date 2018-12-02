@@ -29,9 +29,9 @@ function addBasicProfile($profileInfoArray) {
     }
 }
 
-function getBasicProfile() {
+function getBasicProfile($userID) {
   $mysqli = openConnection();
-  $query =  "SELECT * FROM Basic_Profiles WHERE User_ID = 82";
+  $query =  "SELECT * FROM Basic_Profiles WHERE User_ID = $userID";
   $res = $mysqli->query($query);
   $array = array();
     while ($row = $res->fetch_assoc()){
@@ -46,10 +46,9 @@ function getBasicProfile() {
     }
     return $array;
 }
-
-function getFullProfile() {
+function getFullProfile($userID) {
   $mysqli = openConnection();
-  $query =  "SELECT * FROM Full_Profile WHERE User_ID = 82";
+  $query =  "SELECT * FROM Full_Profile WHERE User_ID = $userID";
   $res = $mysqli->query($query);
   $array = array();
     while ($row = $res->fetch_assoc()){
@@ -141,7 +140,6 @@ function addFullProfile($profileInfoArray) {
 function updateFullProfile($userID, $profileInfoArray) {
   $mysqli = openConnection();
   $query =  "UPDATE Full_Profile SET
-    User_ID = $profileInfoArray[0],
     Education_Level = '$profileInfoArray[1]',
     Interest = '$profileInfoArray[2]',
     Newsletter = '$profileInfoArray[3]',
@@ -161,16 +159,16 @@ function updateFullProfile($userID, $profileInfoArray) {
     Important_Areas = '$profileInfoArray[17]'
     where User_ID = $userID";
     if ($mysqli->query($query) === TRUE) {
-        echo "New record created successfully";
+        echo "Record updated successfully";
     } else {
         echo "Error: " . $query . "<br>" . $mysqli->error;
     }
 }
 
 function updateBasicProfile($userID, $profileInfoArray) {
+  echo "In function $userID";
   $mysqli = openConnection();
   $query =  "UPDATE Basic_Profiles SET
-  User_ID = $profileInfoArray[0],
    City = '$profileInfoArray[1]',
    Province = '$profileInfoArray[2]',
    Country = '$profileInfoArray[3]',
@@ -178,7 +176,7 @@ function updateBasicProfile($userID, $profileInfoArray) {
    Gender = '$profileInfoArray[5]'
    WHERE User_ID = $userID";
     if ($mysqli->query($query) === TRUE) {
-        echo "New record created successfully";
+        echo "Record updated successfully";
     } else {
         echo "Error: " . $query . "<br>" . $mysqli->error;
     }

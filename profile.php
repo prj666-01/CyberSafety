@@ -1,14 +1,15 @@
 <?php
   session_start();
   $_SESSION['isLoggedIn'] = true;
-  $_SESSION["signedinuser"]["user_profile"] = 1;
-  $_SESSION["prof"] = 1;
-  $_SESSION["signedinuser"]["userID"] = 82;
+  $_SESSION["signedinuser"]["user_profile"] = 2;
+  $_SESSION["prof"] = 2;
+  $_SESSION["signedinuser"]["userid"] = 85;
+  $_SESSION["signedinuser"]["username"] = 'User04';
   if (isset($_SESSION['isLoggedIn']) && $_SESSION['isLoggedIn'] == true) {
   require './includes/Request.php';
 
-  $result = getBasicProfile();
-  $resultTwo = getFullProfile();
+  $result = getBasicProfile($_SESSION["signedinuser"]["userid"]);
+  $resultTwo = getFullProfile($_SESSION["signedinuser"]["userid"]);
   
   if(!empty($_POST["basicProfile"]) && $_SESSION["signedinuser"]["user_profile"] == 0 || !empty($_POST["fullProfile"]) && $_SESSION["signedinuser"]["user_profile"] == 0){
     
@@ -50,7 +51,6 @@
   }
 
   if(!empty($_POST["basicProfile"]) && $_SESSION["signedinuser"]["user_profile"] == 1 || !empty($_POST["fullProfile"]) && $_SESSION["signedinuser"]["user_profile"] == 1){
-    echo "In Update 1";
     $basicArray = [
       $userID = $_POST["userID"],
       $city = $_POST["city"],
@@ -60,9 +60,9 @@
       $gender = $_POST["gender"]
     ];
 
-    updateBasicProfile($_SESSION["signedinuser"]["userID"], $basicArray);
+    updateBasicProfile($_SESSION["signedinuser"]["userid"], $basicArray);
 
-    if($_SESSION["prof"] == 2){
+    if(!empty($_POST['eduLevel'])){
       $fullArray = [
         $userId = $_POST['userID'],
         $educationLevel = $_POST['eduLevel'],
@@ -83,7 +83,8 @@
         $currEduLevel = $_POST['aware'],
         $importantAreas = $_POST['impAreas']
       ];
-      updateFullProfile($_SESSION["signedinuser"]["userID"], $fullArray);
+      echo "Made it";
+      addFullProfile($fullArray);
     }
   }
 
@@ -100,7 +101,7 @@
       $gender = $_POST["gender"]
     ];
 
-    updateBasicProfile($_SESSION["signedinuser"]["userID"], $basicArray);
+    updateBasicProfile($_SESSION["signedinuser"]["userid"], $basicArray);
 
     $fullArray = [
       $userId = $_POST['userID'],
@@ -122,7 +123,7 @@
       $currEduLevel = $_POST['aware'],
       $importantAreas = $_POST['impAreas']
     ];
-    updateFullProfile($_SESSION["signedinuser"]["userID"], $fullArray);
+    updateFullProfile($_SESSION["signedinuser"]["userid"], $fullArray);
   }
 ?>
     <?php
@@ -241,8 +242,8 @@
                               <h2>Basic Profile</h2>
                               <div class="form-group">
                                 <label for="username">User:</label>
-                                <input type="text" name="username" id="username"  class="form-control" placeholder="Jane Doe" value="Joe" readonly/>
-                                <input type="hidden" name="userID" id="userID"  class="form-control" value="<?php echo $_SESSION["signedinuser"]["userID"];?>"/>
+                                <input type="text" name="username" id="username"  class="form-control" placeholder="Username" value="<?php echo $_SESSION["signedinuser"]["username"];?>" readonly/>
+                                <input type="hidden" name="userID" id="userID"  class="form-control" value="<?php echo $_SESSION["signedinuser"]["userid"];?>"/>
                                 <!-- <input type="hidden" name="userID" id="userID"  class="form-control" value="?php echo $_SESSION["signedinuser"]["userID"];?>"/> -->
                               </div>
                               <div class="form-group">
@@ -341,7 +342,7 @@
                                 <label for="eduLevel">Education Level:</label>
                                 <input type="text" name="eduLevel" id="eduLevel" class="form-control" placeholder="Education Level" maxlength="13"
                                 <?php
-                                  if($_SESSION["signedinuser"]["user_profile"] !== 0){
+                                  if($_SESSION["signedinuser"]["user_profile"] == 2){
                                     echo "value=\"";
                                     print_r($resultTwo[0]['educationLevel']);
                                     echo "\"";
@@ -353,7 +354,7 @@
                                 <label for="specialization">Specialization:</label>
                                 <input type="text" name="specialization" id="specialization" class="form-control" placeholder="Specialization" maxlength="30"
                                 <?php
-                                  if($_SESSION["signedinuser"]["user_profile"] !== 0){
+                                  if($_SESSION["signedinuser"]["user_profile"] == 2){
                                     echo "value=\"";
                                     print_r($resultTwo[0]['specialization']);
                                     echo "\"";
@@ -365,7 +366,7 @@
                                 <label for="interest">Interest:</label>
                                 <input type="text" name="interest" id="interest" class="form-control" placeholder="Interest" maxlength="1"
                                 <?php
-                                  if($_SESSION["signedinuser"]["user_profile"] !== 0){
+                                  if($_SESSION["signedinuser"]["user_profile"] == 2){
                                     echo "value=\"";
                                     print_r($resultTwo[0]['interest']);
                                     echo "\"";
@@ -377,7 +378,7 @@
                                 <label for="experience">Years of Experience:</label>
                                 <input type="text" name="experience" id="experience" class="form-control" placeholder="Years of Experience" maxlength="2"
                                 <?php
-                                  if($_SESSION["signedinuser"]["user_profile"] !== 0){
+                                  if($_SESSION["signedinuser"]["user_profile"] == 2){
                                     echo "value=\"";
                                     print_r($resultTwo[0]['experience']);
                                     echo "\"";
@@ -389,7 +390,7 @@
                                 <label for="accreditations">Accreditations:</label>
                                 <input type="text" name="accreditations" id="accrediations" class="form-control" placeholder="Accreditations" maxlength="300"
                                 <?php
-                                  if($_SESSION["signedinuser"]["user_profile"] !== 0){
+                                  if($_SESSION["signedinuser"]["user_profile"] == 2){
                                     echo "value=\"";
                                     print_r($resultTwo[0]['accreditations']);
                                     echo "\"";
@@ -407,7 +408,7 @@
                                 <select name="aware" id="aware">
                                   <option
                                   <?php
-                                    if($_SESSION["signedinuser"]["user_profile"] !== 0){
+                                    if($_SESSION["signedinuser"]["user_profile"] == 2){
                                       if($resultTwo[0]['currEduLevel'] == 'L')
                                       echo "selected=\"selected\"";
                                     }
@@ -415,7 +416,7 @@
                                   value="L">Low</option>
                                   <option
                                   <?php
-                                    if($_SESSION["signedinuser"]["user_profile"] !== 0){
+                                    if($_SESSION["signedinuser"]["user_profile"] == 2){
                                       if($resultTwo[0]['currEduLevel'] == 'M')
                                       echo "selected=\"selected\"";
                                     }
@@ -423,7 +424,7 @@
                                   value="M">Medium</option>
                                   <option
                                   <?php
-                                    if($_SESSION["signedinuser"]["user_profile"] !== 0){
+                                    if($_SESSION["signedinuser"]["user_profile"] == 2){
                                       if($resultTwo[0]['currEduLevel'] == 'H')
                                       echo "selected=\"selected\"";
                                     }
@@ -435,7 +436,7 @@
                                 <label for="audLoc">Audience Location:</label>
                                 <input type="text" name="audLoc" id="audLoc" class="form-control" placeholder="Audience Location" maxlength="100"
                                 <?php
-                                  if($_SESSION["signedinuser"]["user_profile"] !== 0){
+                                  if($_SESSION["signedinuser"]["user_profile"] == 2){
                                     echo "value=\"";
                                     print_r($resultTwo[0]['audLocation']);
                                     echo "\"";
@@ -447,7 +448,7 @@
                                 <label for="audSize">Average Audience Size:</label>
                                 <input type="text" name="audSize" id="audSize" class="form-control" placeholder="Audience Size" maxlength="3"
                                 <?php
-                                  if($_SESSION["signedinuser"]["user_profile"] !== 0){
+                                  if($_SESSION["signedinuser"]["user_profile"] == 2){
                                     echo "value=\"";
                                     print_r($resultTwo[0]['audSize']);
                                     echo "\"";
@@ -459,7 +460,7 @@
                                 <label for="targetAge">Target Age:</label>
                                 <input type="text" name="targetAge" id="targetAge" class="form-control" placeholder="Target Age" maxlength="2"
                                 <?php
-                                  if($_SESSION["signedinuser"]["user_profile"] !== 0){
+                                  if($_SESSION["signedinuser"]["user_profile"] == 2){
                                     echo "value=\"";
                                     print_r($resultTwo[0]['targetAge']);
                                     echo "\"";
@@ -471,7 +472,7 @@
                                 <label for="district">District:</label>
                                 <input type="text" name="district" id="district" tabindex="2" class="form-control" placeholder="District" maxlength="100"
                                 <?php
-                                  if($_SESSION["signedinuser"]["user_profile"] !== 0){
+                                  if($_SESSION["signedinuser"]["user_profile"] == 2){
                                     echo "value=\"";
                                     print_r($resultTwo[0]['district']);
                                     echo "\"";
@@ -483,7 +484,7 @@
                                 <label for="eduBoard">Board of Education:</label>
                                 <input type="text" name="eduBoard" id="eduBoard" tabindex="2" class="form-control" placeholder="Board of Education" maxlength="100"
                                 <?php
-                                  if($_SESSION["signedinuser"]["user_profile"] !== 0){
+                                  if($_SESSION["signedinuser"]["user_profile"] == 2){
                                     echo "value=\"";
                                     print_r($resultTwo[0]['eduBoard']);
                                     echo "\"";
@@ -500,7 +501,7 @@
                                 <label for="pNum">Phone Number:</label>
                                 <input type="text" name="pNum" id="pNum" tabindex="2" class="form-control" placeholder="6471234567" maxlength="25"
                                 <?php
-                                  if($_SESSION["signedinuser"]["user_profile"] !== 0){
+                                  if($_SESSION["signedinuser"]["user_profile"] == 2){
                                     echo "value=\"";
                                     print_r($resultTwo[0]['phone']);
                                     echo "\"";
@@ -512,7 +513,7 @@
                                 <label for="pCode">Postal Code:</label>
                                 <input type="text" name="pCode" id="pCode" tabindex="2" class="form-control" placeholder="A1B 2C3" maxlength="7"
                                 <?php
-                                  if($_SESSION["signedinuser"]["user_profile"] !== 0){
+                                  if($_SESSION["signedinuser"]["user_profile"] == 2){
                                     echo "value=\"";
                                     print_r($resultTwo[0]['postalCode']);
                                     echo "\"";
@@ -524,7 +525,7 @@
                                 <label for="pEmail">Professional Email:</label>
                                 <input type="email" name="pEmail" id="pEmail" tabindex="2" class="form-control" placeholder="j.doe@tdsb.ca" maxlength="254"
                                 <?php
-                                  if($_SESSION["signedinuser"]["user_profile"] !== 0){
+                                  if($_SESSION["signedinuser"]["user_profile"] == 2){
                                     echo "value=\"";
                                     print_r($resultTwo[0]['profEmail']);
                                     echo "\"";
@@ -536,7 +537,7 @@
                                 <label for="linkIN">LinkedIN Account:</label>
                                 <input type="text" name="linkIN" id="linkIN" tabindex="2" class="form-control" placeholder="linkedin.com/help/linkedin/answer/49315/finding-your-linkedin-public-profile-url?lang=en"  maxlength="150"
                                 <?php
-                                  if($_SESSION["signedinuser"]["user_profile"] !== 0){
+                                  if($_SESSION["signedinuser"]["user_profile"] == 2){
                                     echo "value=\"";
                                     print_r($resultTwo[0]['linkedIN']);
                                     echo "\"";
@@ -548,7 +549,7 @@
                                 <label for="impAreas">Important Areas to Cover:</label>
                                 <input type="textarea" name="impAreas" id="impAreas" tabindex="2" class="form-control" rows="3" maxlength="100"
                                 <?php
-                                  if($_SESSION["signedinuser"]["user_profile"] !== 0){
+                                  if($_SESSION["signedinuser"]["user_profile"] == 2){
                                     echo "value=\"";
                                     print_r($resultTwo[0]['importantAreas']);
                                     echo "\"";
@@ -558,7 +559,7 @@
                               </div>
                               <div class="form-group">
                                 <label for="newsletter">KnowledgeFlow Newsletter:</label>
-                                <input type="checkbox" name="newsletter" id="newsletter" class="form-check-input">
+                                <input type="checkbox" name="newsletter" id="newsletter" value=1 class="form-check-input" <?php if($_SESSION["signedinuser"]["user_profile"] == 2){echo 'checked';}?>>
                                 <label class="form-check-label" for="newsletter">Check here to sign up to be sent the KnowledgeFlow Newsletter</label>
                               </div>
                               <div class="form-group">
@@ -641,11 +642,10 @@
         msf_getFsTag[msf_form_nr].className = "msf_showhide";
     };
 
-    function showFull(){
+    function showFull(){    
       document.getElementById("basicProfile").style.display = "none";
       document.getElementById("eduLink").style.display = "none";
       document.getElementById("becomeEd").style.display = "block";
-      <?php $_SESSION["prof"] = 2;?>
     }
 
     console.log("loaded");
